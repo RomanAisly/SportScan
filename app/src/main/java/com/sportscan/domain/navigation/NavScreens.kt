@@ -12,4 +12,13 @@ sealed class NavScreens {
 
     @Serializable
     data object SettingsScreen : NavScreens()
+
+    @Serializable
+    data object LoginScreen : NavScreens()
+
+    @Serializable
+    data object RegisterScreen : NavScreens()
+
+    @Serializable
+    data object ProfileScreen : NavScreens()
 }

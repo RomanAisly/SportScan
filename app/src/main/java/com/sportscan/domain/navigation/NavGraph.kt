@@ -7,11 +7,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sportscan.ui.screens.DetailScreen
 import com.sportscan.ui.screens.HomeScreen
+import com.sportscan.ui.screens.LoginScreen
+import com.sportscan.ui.screens.ProfileScreen
+import com.sportscan.ui.screens.RegisterScreen
 import com.sportscan.ui.screens.SettingsScreen
 
 @Composable
 fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController) {
-    NavHost(navController = navHostController, startDestination = NavScreens.HomeScreen) {
+    NavHost(navController = navHostController, startDestination = NavScreens.LoginScreen) {
         composable<NavScreens.HomeScreen> {
             HomeScreen {
                 navHostController.navigate(it)
@@ -27,5 +30,21 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
                 navHostController.navigate(it)
             }
         }
+        composable<NavScreens.LoginScreen> {
+            LoginScreen {
+                navHostController.navigate(it)
+            }
+        }
+        composable<NavScreens.RegisterScreen> {
+            RegisterScreen {
+                navHostController.navigate(it)
+            }
+        }
+        composable<NavScreens.ProfileScreen> {
+            ProfileScreen {
+                navHostController.navigate(it)
+            }
+        }
+
     }
 }
