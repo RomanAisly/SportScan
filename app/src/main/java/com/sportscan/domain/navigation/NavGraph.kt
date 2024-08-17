@@ -31,14 +31,15 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
             }
         }
         composable<NavScreens.LoginScreen> {
-            LoginScreen {
+            LoginScreen(navigateTo = {
                 navHostController.navigate(it)
-            }
+            })
+
         }
         composable<NavScreens.RegisterScreen> {
-            RegisterScreen {
+            RegisterScreen(navigateTo = {
                 navHostController.navigate(it)
-            }
+            })
         }
         composable<NavScreens.ProfileScreen> {
             ProfileScreen {
