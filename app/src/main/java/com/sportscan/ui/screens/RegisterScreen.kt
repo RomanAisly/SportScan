@@ -3,11 +3,17 @@ package com.sportscan.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
@@ -60,16 +66,28 @@ fun RegisterScreen(
     Column(
         modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(MaterialTheme.colorScheme.background)
+            .statusBarsPadding(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        )
+
         Image(
             painter = painterResource(id = R.drawable.logo), contentDescription = "",
             modifier = Modifier
-                .size(290.dp)
-                .padding(top = 40.dp),
-            contentScale = ContentScale.Fit,
-            alignment = Alignment.TopCenter
+                .size(270.dp),
+            contentScale = ContentScale.FillBounds
+        )
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(25.dp)
         )
         OutlinedTextField(
             value = login,
@@ -77,8 +95,7 @@ fun RegisterScreen(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             textStyle = TextStyle(fontSize = 18.sp, fontStyle = FontStyle.Normal),
             leadingIcon = { Icon(imageVector = Icons.Outlined.Email, contentDescription = "") },
-            placeholder = { Text(text = "Enter login/email") },
-            modifier = Modifier.padding(top = 28.dp)
+            placeholder = { Text(text = "Enter login/email") }
         )
 
         OutlinedTextField(
@@ -135,40 +152,57 @@ fun RegisterScreen(
             modifier = Modifier.padding(top = 12.dp)
         )
 
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(20.dp)
+        )
+
         Button(
-            onClick = { navigateTo.invoke(NavScreens.RegisterScreen) },
-            modifier = Modifier.padding(top = 16.dp)
+            onClick = { navigateTo.invoke(NavScreens.ProfileScreen) }
         ) {
             Text(text = "Register")
         }
 
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(20.dp)
+        )
+
         Text(
             text = "Continue with...",
             fontSize = 18.sp,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(top = 36.dp)
+            color = MaterialTheme.colorScheme.onSurface
         )
 
-        Row {
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(20.dp)
+        )
+
+        Row(
+            modifier.wrapContentWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Icon(
                 imageVector = Icons.Outlined.Facebook, contentDescription = "",
                 modifier = Modifier
-                    .size(60.dp)
-                    .padding(top = 18.dp),
+                    .size(60.dp),
                 tint = Color.Blue
             )
             Icon(
                 imageVector = Icons.Outlined.AccountCircle, contentDescription = "",
                 modifier = Modifier
-                    .size(60.dp)
-                    .padding(top = 18.dp),
+                    .size(60.dp),
                 tint = Color.Green
             )
             Icon(
                 imageVector = Icons.Outlined.Email, contentDescription = "",
                 modifier = Modifier
-                    .size(60.dp)
-                    .padding(top = 18.dp),
+                    .size(60.dp),
                 tint = Color.Red
             )
         }

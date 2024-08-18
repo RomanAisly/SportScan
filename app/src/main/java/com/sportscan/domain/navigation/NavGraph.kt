@@ -34,7 +34,6 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
             LoginScreen(navigateTo = {
                 navHostController.navigate(it)
             })
-
         }
         composable<NavScreens.RegisterScreen> {
             RegisterScreen(navigateTo = {

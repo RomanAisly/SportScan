@@ -33,20 +33,22 @@ import com.sportscan.domain.navigation.NavScreens
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, navigateTo: (NavScreens) -> Unit) {
     Column(
-        modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+        modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .statusBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
             modifier
                 .fillMaxWidth()
-                .padding(6.dp).
-            statusBarsPadding(),
+                .padding(6.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             FloatingActionButton(
-                onClick = {},
+                onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
                 modifier
                     .wrapContentSize()
                     .size(40.dp),
@@ -92,8 +94,6 @@ fun HomeScreen(modifier: Modifier = Modifier, navigateTo: (NavScreens) -> Unit) 
         }
     }
 }
-
-
 
 
 @Preview(showBackground = true)

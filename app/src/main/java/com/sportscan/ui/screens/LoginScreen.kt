@@ -3,12 +3,15 @@ package com.sportscan.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
@@ -32,7 +35,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -57,33 +59,45 @@ fun LoginScreen(
     Column(
         modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(MaterialTheme.colorScheme.background)
+            .statusBarsPadding(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        )
 
         Image(
             painter = painterResource(id = R.drawable.logo), contentDescription = "",
             modifier = Modifier
-                .size(290.dp),
-            contentScale = ContentScale.Fit,
-            alignment = Alignment.TopCenter
+                .size(270.dp),
+            contentScale = ContentScale.FillBounds
         )
 
-        Spacer(modifier = Modifier.height(26.dp))
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(26.dp)
+        )
 
         OutlinedTextField(
             value = login,
             onValueChange = login.let { loginViewModel::updateLogin },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            textStyle = TextStyle(fontSize = 18.sp, fontStyle = FontStyle.Normal),
+            textStyle = TextStyle(fontSize = 18.sp),
             leadingIcon = { Icon(imageVector = Icons.Outlined.Email, contentDescription = "") },
-            placeholder = { Text(text = "Enter login/email") },
-            modifier = Modifier.padding(top = 28.dp)
+            placeholder = { Text(text = "Enter login/email") }
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(10.dp)
+        )
 
         OutlinedTextField(
             value = password,
@@ -104,7 +118,7 @@ fun LoginScreen(
                 )
             },
             modifier = Modifier
-                .padding(top = 16.dp),
+                .padding(top = 10.dp),
             visualTransformation = if (passwordVisible) {
                 VisualTransformation.None
             } else {
