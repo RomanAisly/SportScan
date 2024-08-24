@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
@@ -19,10 +21,12 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -44,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sportscan.R
 import com.sportscan.domain.navigation.NavScreens
+import com.sportscan.ui.theme.ButtAuth
 import com.sportscan.ui.viewmodels.LoginScreeViewModel
 
 @Composable
@@ -61,8 +66,7 @@ fun LoginScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .statusBarsPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Spacer(
@@ -85,25 +89,42 @@ fun LoginScreen(
         )
 
         OutlinedTextField(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(start = 12.dp, end = 12.dp),
             value = login,
             onValueChange = login.let { loginViewModel::updateLogin },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            textStyle = TextStyle(fontSize = 18.sp),
+            textStyle = TextStyle(
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.onSurface
+            ),
             leadingIcon = { Icon(imageVector = Icons.Outlined.Email, contentDescription = "") },
-            placeholder = { Text(text = "Enter login/email") }
+            placeholder = { Text(text = "Enter email") },
+            shape = RoundedCornerShape(28.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.background,
+                unfocusedContainerColor = MaterialTheme.colorScheme.background
+            )
         )
 
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(10.dp)
+                .height(20.dp)
         )
 
         OutlinedTextField(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(start = 12.dp, end = 12.dp),
             value = password,
             onValueChange = password.let { loginViewModel::updatePassword },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            textStyle = TextStyle(fontSize = 18.sp),
+            textStyle = TextStyle(
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.onSurface
+            ),
             leadingIcon = { Icon(imageVector = Icons.Outlined.Lock, contentDescription = "") },
             trailingIcon = {
                 val iconVisibilityPassword = if (passwordVisible) {
@@ -117,45 +138,80 @@ fun LoginScreen(
                     modifier = Modifier.clickable { passwordVisible = !passwordVisible }
                 )
             },
-            modifier = Modifier
-                .padding(top = 10.dp),
             visualTransformation = if (passwordVisible) {
                 VisualTransformation.None
             } else {
                 PasswordVisualTransformation()
             },
-            placeholder = { Text(text = "Enter password") }
+            placeholder = { Text(text = "Enter password") },
+            shape = RoundedCornerShape(28.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.background,
+                unfocusedContainerColor = MaterialTheme.colorScheme.background
+            )
+        )
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(12.dp)
         )
 
         Text(
             text = "Forgot password?",
+            fontSize = 16.sp,
+            color = Color.Blue,
             modifier = Modifier
-                .padding(top = 16.dp, end = 16.dp)
+                .padding(end = 16.dp)
                 .align(Alignment.End)
                 .clickable { },
-            fontSize = 14.sp,
-            color = Color.Blue
+        )
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
         )
 
         Button(
             onClick = { navigateTo.invoke(NavScreens.HomeScreen) },
-            modifier = Modifier.padding(top = 10.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 12.dp, end = 12.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = ButtAuth
+            )
         ) {
-            Text(text = "Enter")
+            Text(
+                text = "Enter",
+                fontSize = 17.sp
+            )
         }
 
-        Text(
-            text = "Don't have an account?",
-            modifier = Modifier.padding(top = 26.dp),
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onSurface
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(20.dp)
         )
 
-        Button(
-            onClick = { navigateTo.invoke(NavScreens.RegisterScreen) },
-            modifier = Modifier.padding(top = 16.dp)
+        Row(
+            modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Register")
+
+            Text(
+                text = "Don't have an account?",
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            Text(
+                text = "Register",
+                fontSize = 16.sp,
+                color = Color.Blue,
+                modifier = Modifier.clickable { navigateTo.invoke(NavScreens.RegisterScreen) }
+            )
         }
     }
 }
