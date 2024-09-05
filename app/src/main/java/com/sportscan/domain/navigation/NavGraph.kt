@@ -9,7 +9,7 @@ import com.sportscan.ui.screens.DetailScreen
 import com.sportscan.ui.screens.HomeScreen
 import com.sportscan.ui.screens.LoginScreen
 import com.sportscan.ui.screens.ProfileScreen
-import com.sportscan.ui.screens.RegisterScreen
+import com.sportscan.ui.screens.SignUpScreen
 import com.sportscan.ui.screens.SettingsScreen
 
 @Composable
@@ -36,7 +36,7 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
             })
         }
         composable<NavScreens.RegisterScreen> {
-            RegisterScreen(navigateTo = {
+            SignUpScreen(navigateTo = {
                 navHostController.navigate(it)
             })
         }

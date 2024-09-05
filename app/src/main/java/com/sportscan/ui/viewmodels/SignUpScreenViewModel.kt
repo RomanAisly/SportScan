@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class RegisterScreenViewModel : ViewModel() {
+class SignUpScreenViewModel : ViewModel() {
 
     private val _login = MutableStateFlow("")
     val login = _login.asStateFlow()
