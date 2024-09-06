@@ -1,8 +1,10 @@
 package com.sportscan.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class SignUpScreenViewModel : ViewModel() {
 
@@ -15,16 +17,22 @@ class SignUpScreenViewModel : ViewModel() {
     private val _repeatPassword = MutableStateFlow("")
     val repeatPassword = _repeatPassword.asStateFlow()
 
+
     fun updateLogin(login: String) {
-        _login.value = login
+        viewModelScope.launch {
+            _login.value = login
+        }
     }
 
     fun updatePassword(password: String) {
-        _password.value = password
+        viewModelScope.launch {
+            _password.value = password
+        }
     }
 
     fun updateRepeatPassword(repeatPassword: String) {
-        _repeatPassword.value = repeatPassword
+        viewModelScope.launch {
+            _repeatPassword.value = repeatPassword
+        }
     }
-
 }

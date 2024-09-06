@@ -1,10 +1,9 @@
 package com.sportscan.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Icon
@@ -14,12 +13,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.sportscan.ui.screens.LoginScreen
+import com.sportscan.ui.theme.authElements
+import com.sportscan.ui.theme.borderOutlinedTextField
 
 @Composable
 fun LoginTextField(
@@ -33,17 +36,19 @@ fun LoginTextField(
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        textStyle = TextStyle(
-            fontSize = 18.sp,
-            color = MaterialTheme.colorScheme.onSurface
-        ),
-        leadingIcon = { Icon(imageVector = Icons.Outlined.Email, contentDescription = "Email") },
+        textStyle = TextStyle(fontSize = 18.sp),
         placeholder = { Text(text = placeholder) },
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.background,
-            unfocusedContainerColor = MaterialTheme.colorScheme.background
-        )
+            focusedTextColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = borderOutlinedTextField,
+            errorContainerColor = Color.Red,
+        ),
     )
 }
 
@@ -61,8 +66,7 @@ fun PasswordTextField(
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        textStyle = TextStyle(fontSize = 18.sp, fontStyle = FontStyle.Normal),
-        leadingIcon = { Icon(imageVector = Icons.Outlined.Lock, contentDescription = "") },
+        textStyle = TextStyle(fontSize = 18.sp),
         trailingIcon = {
             val iconVisibilityPassword = if (passwordVisible) {
                 Icons.Outlined.Visibility
@@ -83,8 +87,28 @@ fun PasswordTextField(
         placeholder = { Text(text = placeholder) },
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.background,
-            unfocusedContainerColor = MaterialTheme.colorScheme.background
+            focusedTextColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = borderOutlinedTextField,
+            errorContainerColor = Color.Red,
+            errorTextColor = Color.Red,
+            errorIndicatorColor = Color.Red,
+            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedTrailingIconColor = Color.Transparent
         )
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    LoginScreen(navigateTo = {})
 }

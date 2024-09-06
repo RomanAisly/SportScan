@@ -1,17 +1,14 @@
 package com.sportscan.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.CheckboxDefaults
@@ -27,24 +24,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sportscan.R
 import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.GradientButton
 import com.sportscan.ui.components.LoginTextField
 import com.sportscan.ui.components.PasswordTextField
+import com.sportscan.ui.theme.authElements
+import com.sportscan.ui.theme.gradButtAutDisabled
+import com.sportscan.ui.theme.gradButtAutEnable
+import com.sportscan.ui.theme.gradLogoText
 import com.sportscan.ui.viewmodels.SignUpScreenViewModel
 
 @Composable
@@ -65,22 +65,35 @@ fun SignUpScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .systemBarsPadding()
-            .padding(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(14.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
 
-        Image(
-            painter = painterResource(id = R.drawable.logo), contentDescription = "",
-            modifier = Modifier
-                .size(260.dp)
-                .padding(top = 15.dp),
-            contentScale = ContentScale.FillBounds
-        )
+        Column(
+            modifier = modifier.padding(bottom = 160.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "ActivityScan",
+                fontSize = 30.sp,
+                style = TextStyle(
+                    brush = gradLogoText
+                ),
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = "sports",
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+        }
 
         LoginTextField(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 40.dp),
+                .padding(),
             value = login,
             onValueChange = signUpViewModel::updateLogin,
             placeholder = "Enter email"
@@ -89,7 +102,7 @@ fun SignUpScreen(
         PasswordTextField(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp),
+                .padding(top = 12.dp),
             value = password,
             onValueChange = signUpViewModel::updatePassword,
             placeholder = "Enter password",
@@ -102,7 +115,7 @@ fun SignUpScreen(
         PasswordTextField(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp),
+                .padding(top = 12.dp),
             value = repeatPassword,
             onValueChange = signUpViewModel::updateRepeatPassword,
             placeholder = "Repeat password",
@@ -116,9 +129,8 @@ fun SignUpScreen(
         Row(
             modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+                .padding(top = 74.dp, bottom = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             TriStateCheckbox(
                 state = checked,
@@ -130,9 +142,17 @@ fun SignUpScreen(
                     }
                 },
                 colors = CheckboxDefaults.colors(
-                    checkmarkColor = Color.Green,
-                    checkedColor = MaterialTheme.colorScheme.onPrimary,
-                    uncheckedColor = Color.Green,
+                    checkmarkColor = if (isSystemInDarkTheme()) {
+                        authElements
+                    } else {
+                        Color.White
+                    },
+                    checkedColor = if (isSystemInDarkTheme()) {
+                        Color.White
+                    } else {
+                        authElements
+                    },
+                    uncheckedColor = authElements,
                 )
             )
             BasicText(
@@ -141,7 +161,16 @@ fun SignUpScreen(
                     withLink(
                         LinkAnnotation.Url(
                             "",
-                            TextLinkStyles(style = SpanStyle(color = Color.Blue))
+                            TextLinkStyles(
+                                style = SpanStyle(
+                                    color = if (isSystemInDarkTheme()) {
+                                        Color.Blue
+                                    } else {
+                                        authElements
+                                    },
+                                    textDecoration = TextDecoration.Underline
+                                )
+                            )
                         )
                     ) {
                         append(" User Agreement")
@@ -151,38 +180,21 @@ fun SignUpScreen(
             )
         }
 
-        Spacer(
-            modifier
-                .fillMaxWidth()
-                .height(28.dp)
-        )
-
         GradientButton(
             onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
-            text = "Register"
+            text = "Register",
+            gradient = if (login.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty()) {
+                gradButtAutEnable
+            } else {
+                gradButtAutDisabled
+            },
+            enabled = login.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty(),
         )
-
-//        Button(
-//            onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(top = 16.dp),
-//            colors = ButtonDefaults.buttonColors(
-//                containerColor = ButtAuth
-//            )
-//        ) {
-//            Text(
-//                text = "Register",
-//                fontSize = 16.sp,
-//                color = Color.White
-//            )
-//        }
 
         Row(
             modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+                .padding(top = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
@@ -195,10 +207,16 @@ fun SignUpScreen(
             Text(
                 text = "Enter",
                 fontSize = 16.sp,
-                color = Color.Blue,
-                modifier = modifier.clickable {
-                    navigateTo.invoke(NavScreens.LoginScreen)
-                }
+                color = if (isSystemInDarkTheme()) {
+                    Color.Blue
+                } else {
+                    authElements
+                },
+                modifier = modifier
+                    .clickable {
+                        navigateTo.invoke(NavScreens.LoginScreen)
+                    }
+                    .padding(start = 25.dp)
             )
         }
     }

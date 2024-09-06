@@ -13,38 +13,43 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sportscan.ui.theme.gradButtAuth
+import com.sportscan.ui.theme.authElements
 
 @Composable
 fun GradientButton(
     onClick: () -> Unit,
-    text: String
+    text: String,
+    enabled: Boolean,
+    gradient: Brush,
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier
+        enabled = enabled,
+        modifier = modifier
             .fillMaxWidth()
-            .heightIn(40.dp),
+            .heightIn(48.dp),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(40.dp)
-                .background(gradButtAuth, shape = MaterialTheme.shapes.extraLarge),
+                .heightIn(48.dp)
+                .background(gradient, shape = MaterialTheme.shapes.extraLarge),
             contentAlignment = Alignment.TopCenter,
         ) {
             Text(
                 text = text,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.padding(top = 8.dp),
+                fontWeight = FontWeight.SemiBold,
+                color = authElements,
+                modifier = Modifier.padding(top = 12.dp),
             )
         }
     }
