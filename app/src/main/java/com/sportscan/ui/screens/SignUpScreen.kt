@@ -30,23 +30,23 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.GradientButton
 import com.sportscan.ui.components.LoginTextField
+import com.sportscan.ui.components.Logo
 import com.sportscan.ui.components.PasswordTextField
-import com.sportscan.ui.components.authColor
-import com.sportscan.ui.components.linkColor
+import com.sportscan.ui.components.authTextColor
+import com.sportscan.ui.components.gradButtDisable
+import com.sportscan.ui.components.gradLogo
+import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.authElements
-import com.sportscan.ui.theme.gradButtAutDisabled
 import com.sportscan.ui.theme.gradButtAutEnable
-import com.sportscan.ui.theme.gradLogoText
 import com.sportscan.ui.viewmodels.SignUpScreenViewModel
 
 @Composable
@@ -65,37 +65,21 @@ fun SignUpScreen(
             checked == ToggleableState.On
 
     var passwordVisible by remember { mutableStateOf(false) }
-//    var checked by remember { mutableStateOf(ToggleableState.Off) }
 
     Column(
         modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(screenBackground())
             .systemBarsPadding()
             .padding(14.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
-        Column(
-            modifier = modifier.padding(bottom = 140.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "ActivityScan",
-                fontSize = 30.sp,
-                style = TextStyle(
-                    brush = gradLogoText
-                ),
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = "sports",
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-        }
+        Logo(
+            modifier = modifier.padding(bottom = 80.dp),
+            gradient = gradLogo()
+        )
 
         LoginTextField(
             modifier = modifier
@@ -150,8 +134,8 @@ fun SignUpScreen(
                     )
                 },
                 colors = CheckboxDefaults.colors(
-                    checkmarkColor = authColor(),
-                    checkedColor = authColor(),
+                    checkmarkColor = if (isSystemInDarkTheme()) authElements else Color.White,
+                    checkedColor = if (isSystemInDarkTheme()) Color.White else authElements,
                     uncheckedColor = authElements,
                 )
             )
@@ -164,7 +148,7 @@ fun SignUpScreen(
                             "",
                             TextLinkStyles(
                                 style = SpanStyle(
-                                    color = linkColor(),
+                                    color = authTextColor(),
                                     textDecoration = TextDecoration.Underline
                                 )
                             )
@@ -183,9 +167,7 @@ fun SignUpScreen(
         GradientButton(
             onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
             text = "Register",
-            gradient = if (isButtonEnabled)
-                gradButtAutEnable else
-                gradButtAutDisabled,
+            gradient = if (isButtonEnabled) gradButtAutEnable else gradButtDisable(),
             enabled = isButtonEnabled,
         )
 
@@ -205,11 +187,7 @@ fun SignUpScreen(
             Text(
                 text = "Enter",
                 fontSize = 16.sp,
-                color = if (isSystemInDarkTheme()) {
-                    Color.Blue
-                } else {
-                    authElements
-                },
+                color = authTextColor(),
                 modifier = modifier
                     .clickable {
                         navigateTo.invoke(NavScreens.LoginScreen)
@@ -221,7 +199,7 @@ fun SignUpScreen(
 }
 
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview() {
     SignUpScreen(navigateTo = {})

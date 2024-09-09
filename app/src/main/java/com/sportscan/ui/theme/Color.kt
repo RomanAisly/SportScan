@@ -14,11 +14,21 @@ val Pink40 = Color(0xFF7D5260)
 
 val borderOutlinedTextField = Color(0xFF7D9AAF)
 val authElements = Color(0xFF023D67)
+val darkBlue = Color(0xFF041129)
+val lightBlue = Color(0xFFADCDE5)
+val lightWhite = Color(0xFFF7F7F7)
 
-val gradLogoText = Brush.horizontalGradient(
+val gradLogoLight = Brush.horizontalGradient(
     colors = listOf(
         Color(0xFFDC0808),
         Color(0xFFFCCC6A)
+    )
+)
+
+val gradLogoDark = Brush.horizontalGradient(
+    colors = listOf(
+        Color(0xFFFDF89D),
+        Color(0xFFF97304)
     )
 )
 
@@ -33,5 +43,11 @@ val gradButtAutDisabled = Brush.horizontalGradient(
     colors = listOf(
         Color(0xFFAAA9A9),
         Color(0xFFD5D5D5)
+    )
+)
+val gradButtAutDisabled2 = Brush.horizontalGradient(
+    colors = listOf(
+        Color(0xFF253043),
+        Color(0xFF2E394C)
     )
 )

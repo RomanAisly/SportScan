@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sportscan.ui.theme.authElements
 
 @Composable
 fun GradientButton(
@@ -48,7 +47,7 @@ fun GradientButton(
                 text = text,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = authElements,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(top = 12.dp),
             )
         }

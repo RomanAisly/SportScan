@@ -2,6 +2,8 @@ package com.sportscan.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Visibility
@@ -12,17 +14,49 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.sportscan.ui.screens.LoginScreen
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.borderOutlinedTextField
+import com.sportscan.ui.theme.darkBlue
+import com.sportscan.ui.theme.gradButtAutDisabled
+import com.sportscan.ui.theme.gradButtAutDisabled2
+import com.sportscan.ui.theme.gradLogoDark
+import com.sportscan.ui.theme.gradLogoLight
+import com.sportscan.ui.theme.lightBlue
+import com.sportscan.ui.theme.lightWhite
+
+@Composable
+fun Logo(modifier: Modifier = Modifier, gradient: Brush) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "ActivityScan",
+            fontSize = 30.sp,
+            style = TextStyle(
+                brush = gradient
+            ),
+            fontWeight = FontWeight.SemiBold
+        )
+        Text(
+            text = "sports",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
 
 @Composable
 fun LoginTextField(
@@ -48,6 +82,8 @@ fun LoginTextField(
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = borderOutlinedTextField,
             errorContainerColor = Color.Red,
+            unfocusedContainerColor = authInputField(),
+            focusedContainerColor = authInputField()
         ),
     )
 }
@@ -102,20 +138,27 @@ fun PasswordTextField(
             } else {
                 authElements
             },
-            unfocusedTrailingIconColor = Color.Transparent
+            unfocusedTrailingIconColor = Color.Transparent,
+            unfocusedContainerColor = authInputField(),
+            focusedContainerColor = authInputField()
         )
     )
 }
 
 @Composable
-fun authColor() = if (isSystemInDarkTheme()) Color.White else authElements
+fun authInputField() = if (isSystemInDarkTheme()) Color.Black else lightWhite
 
 @Composable
-fun linkColor() = if (isSystemInDarkTheme()) Color.Blue else authElements
+fun screenBackground() = if (isSystemInDarkTheme()) darkBlue else Color.White
 
-
-@Preview(showBackground = true)
 @Composable
-private fun Preview() {
-    LoginScreen(navigateTo = {})
-}
+fun authTextColor() = if (isSystemInDarkTheme()) lightBlue else Color.Blue
+
+@Composable
+fun forgPassTextColor() = if (isSystemInDarkTheme()) lightBlue else Color.LightGray
+
+@Composable
+fun gradLogo() = if (isSystemInDarkTheme()) gradLogoDark else gradLogoLight
+
+@Composable
+fun gradButtDisable() = if (isSystemInDarkTheme()) gradButtAutDisabled2 else gradButtAutDisabled
