@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,7 +57,7 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Column(
-            modifier = modifier.padding(bottom = 160.dp),
+            modifier = modifier.padding(bottom = 140.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -109,7 +108,6 @@ fun LoginScreen(
             } else {
                 authElements
             },
-            textDecoration = TextDecoration.Underline,
             modifier = Modifier
                 .padding(top = 18.dp)
                 .align(Alignment.End)
@@ -117,7 +115,7 @@ fun LoginScreen(
         )
 
         GradientButton(
-            onClick = { navigateTo.invoke(NavScreens.HomeScreen) },
+            onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
             text = "Enter",
             enabled = login.isNotEmpty() && password.isNotEmpty(),
             gradient = if (login.isNotEmpty() && password.isNotEmpty()) {
@@ -150,7 +148,7 @@ fun LoginScreen(
                 } else {
                     authElements
                 },
-                modifier = Modifier.clickable { navigateTo.invoke(NavScreens.RegisterScreen) }
+                modifier = Modifier.clickable { navigateTo.invoke(NavScreens.SignUpScreen) }
             )
         }
     }

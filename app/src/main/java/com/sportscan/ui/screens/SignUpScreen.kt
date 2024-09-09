@@ -41,6 +41,8 @@ import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.GradientButton
 import com.sportscan.ui.components.LoginTextField
 import com.sportscan.ui.components.PasswordTextField
+import com.sportscan.ui.components.authColor
+import com.sportscan.ui.components.linkColor
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.gradButtAutDisabled
 import com.sportscan.ui.theme.gradButtAutEnable
@@ -56,9 +58,14 @@ fun SignUpScreen(
     val login by signUpViewModel.login.collectAsState()
     val password by signUpViewModel.password.collectAsState()
     val repeatPassword by signUpViewModel.repeatPassword.collectAsState()
+    val checked by signUpViewModel.checked.collectAsState()
+    val isButtonEnabled = login.isNotEmpty() &&
+            password.isNotEmpty() &&
+            repeatPassword.isNotEmpty() &&
+            checked == ToggleableState.On
 
     var passwordVisible by remember { mutableStateOf(false) }
-    var checked by remember { mutableStateOf(ToggleableState.Off) }
+//    var checked by remember { mutableStateOf(ToggleableState.Off) }
 
     Column(
         modifier
@@ -71,7 +78,7 @@ fun SignUpScreen(
     ) {
 
         Column(
-            modifier = modifier.padding(bottom = 160.dp),
+            modifier = modifier.padding(bottom = 140.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -135,26 +142,20 @@ fun SignUpScreen(
             TriStateCheckbox(
                 state = checked,
                 onClick = {
-                    checked = if (checked == ToggleableState.Off) {
-                        ToggleableState.On
-                    } else {
-                        ToggleableState.Off
-                    }
+                    signUpViewModel.updateChecked(
+                        when (checked) {
+                            ToggleableState.On -> ToggleableState.Off
+                            else -> ToggleableState.On
+                        }
+                    )
                 },
                 colors = CheckboxDefaults.colors(
-                    checkmarkColor = if (isSystemInDarkTheme()) {
-                        authElements
-                    } else {
-                        Color.White
-                    },
-                    checkedColor = if (isSystemInDarkTheme()) {
-                        Color.White
-                    } else {
-                        authElements
-                    },
+                    checkmarkColor = authColor(),
+                    checkedColor = authColor(),
                     uncheckedColor = authElements,
                 )
             )
+
             BasicText(
                 text = buildAnnotatedString {
                     append("I accept the terms of the ")
@@ -163,11 +164,7 @@ fun SignUpScreen(
                             "",
                             TextLinkStyles(
                                 style = SpanStyle(
-                                    color = if (isSystemInDarkTheme()) {
-                                        Color.Blue
-                                    } else {
-                                        authElements
-                                    },
+                                    color = linkColor(),
                                     textDecoration = TextDecoration.Underline
                                 )
                             )
@@ -176,25 +173,26 @@ fun SignUpScreen(
                         append(" User Agreement")
                     }
                 },
-                style = TextStyle(color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp)
+                style = TextStyle(
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontSize = 14.sp
+                )
             )
         }
 
         GradientButton(
             onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
             text = "Register",
-            gradient = if (login.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty()) {
-                gradButtAutEnable
-            } else {
-                gradButtAutDisabled
-            },
-            enabled = login.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty(),
+            gradient = if (isButtonEnabled)
+                gradButtAutEnable else
+                gradButtAutDisabled,
+            enabled = isButtonEnabled,
         )
 
         Row(
             modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp),
+                .padding(top = 20.dp, start = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
 

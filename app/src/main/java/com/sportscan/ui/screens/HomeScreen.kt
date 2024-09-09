@@ -63,7 +63,7 @@ fun HomeScreen(modifier: Modifier = Modifier, navigateTo: (NavScreens) -> Unit) 
                 )
             }
             FloatingActionButton(
-                onClick = { navigateTo.invoke(NavScreens.SettingsScreen) },
+                onClick = { },
                 modifier
                     .wrapContentSize()
                     .size(40.dp),

@@ -107,6 +107,13 @@ fun PasswordTextField(
     )
 }
 
+@Composable
+fun authColor() = if (isSystemInDarkTheme()) Color.White else authElements
+
+@Composable
+fun linkColor() = if (isSystemInDarkTheme()) Color.Blue else authElements
+
+
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
