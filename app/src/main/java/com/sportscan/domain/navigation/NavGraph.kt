@@ -10,16 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.sportscan.ui.screens.LoginScreen
-import com.sportscan.ui.screens.ProfileScreen
-import com.sportscan.ui.screens.SignUpScreen
+import com.sportscan.ui.screens.Login
+import com.sportscan.ui.screens.PersonalAccount
+import com.sportscan.ui.screens.SignUp
 
 @Composable
 fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController) {
     NavHost(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
         navController = navHostController,
-        startDestination = NavScreens.LoginScreen,
+        startDestination = NavScreens.PersonalAccountScreen,
         enterTransition = {
             slideInHorizontally(tween(durationMillis = 1150),
                 initialOffsetX = { it })
@@ -39,36 +39,20 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
                 targetOffsetX = { it })
         }
     ) {
-//        composable<NavScreens.HomeScreen> {
-//            HomeScreen {
-//                navHostController.navigate(it)
-//            }
-//        }
-//        composable<NavScreens.DetailsScreen> {
-//            DetailScreen {
-//                navHostController.navigate(it)
-//            }
-//        }
-//        composable<NavScreens.SettingsScreen> {
-//            SettingsScreen {
-//                navHostController.navigate(it)
-//            }
-//        }
         composable<NavScreens.LoginScreen> {
-            LoginScreen(navigateTo = {
+            Login(navigateTo = {
                 navHostController.navigate(it)
             })
         }
         composable<NavScreens.SignUpScreen> {
-            SignUpScreen(navigateTo = {
+            SignUp(navigateTo = {
                 navHostController.navigate(it)
             })
         }
-        composable<NavScreens.ProfileScreen> {
-            ProfileScreen {
+        composable<NavScreens.PersonalAccountScreen> {
+            PersonalAccount(navigateTo = {
                 navHostController.navigate(it)
-            }
+            })
         }
-
     }
 }

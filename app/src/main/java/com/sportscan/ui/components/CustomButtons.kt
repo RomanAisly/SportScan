@@ -32,15 +32,16 @@ fun GradientButton(
         enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(48.dp),
+            .heightIn(46.dp),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(48.dp)
-                .background(gradient, shape = MaterialTheme.shapes.extraLarge),
+                .heightIn(46.dp)
+                .background(gradient, shape = MaterialTheme.shapes.extraLarge)
+                .padding(vertical = 12.dp),
             contentAlignment = Alignment.TopCenter,
         ) {
             Text(
@@ -48,7 +49,6 @@ fun GradientButton(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(top = 12.dp),
             )
         }
     }

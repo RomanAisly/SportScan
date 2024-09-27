@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -41,6 +42,7 @@ fun Logo(modifier: Modifier = Modifier, gradient: Brush) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Text(
             text = "ActivityScan",
             fontSize = 30.sp,
@@ -69,7 +71,10 @@ fun LoginTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Done
+        ),
         textStyle = TextStyle(fontSize = 18.sp),
         placeholder = { Text(text = placeholder) },
         shape = MaterialTheme.shapes.extraLarge,
@@ -101,7 +106,10 @@ fun PasswordTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done
+        ),
         textStyle = TextStyle(fontSize = 18.sp),
         trailingIcon = {
             val iconVisibilityPassword = if (passwordVisible) {
@@ -155,7 +163,7 @@ fun screenBackground() = if (isSystemInDarkTheme()) darkBlue else Color.White
 fun authTextColor() = if (isSystemInDarkTheme()) lightBlue else Color.Blue
 
 @Composable
-fun forgPassTextColor() = if (isSystemInDarkTheme()) lightBlue else Color.LightGray
+fun foregPassTextColor() = if (isSystemInDarkTheme()) lightBlue else Color.LightGray
 
 @Composable
 fun gradLogo() = if (isSystemInDarkTheme()) gradLogoDark else gradLogoLight

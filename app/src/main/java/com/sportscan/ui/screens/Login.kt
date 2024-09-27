@@ -20,7 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -30,19 +30,21 @@ import com.sportscan.ui.components.LoginTextField
 import com.sportscan.ui.components.Logo
 import com.sportscan.ui.components.PasswordTextField
 import com.sportscan.ui.components.authTextColor
-import com.sportscan.ui.components.forgPassTextColor
+import com.sportscan.ui.components.foregPassTextColor
 import com.sportscan.ui.components.gradButtDisable
+import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.gradButtAutEnable
 import com.sportscan.ui.theme.gradLogoDark
 import com.sportscan.ui.theme.gradLogoLight
-import com.sportscan.ui.viewmodels.LoginScreeViewModel
+import com.sportscan.ui.viewmodels.LoginViewModel
 
 @Composable
-fun LoginScreen(
+fun Login(
     modifier: Modifier = Modifier,
     navigateTo: (NavScreens) -> Unit,
-    loginViewModel: LoginScreeViewModel = viewModel()
+    loginViewModel: LoginViewModel = viewModel()
 ) {
+
     val login by loginViewModel.login.collectAsState()
     val password by loginViewModel.password.collectAsState()
 
@@ -51,22 +53,21 @@ fun LoginScreen(
     Column(
         modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .padding(14.dp)
             .systemBarsPadding()
-            .padding(12.dp),
+            .background(screenBackground()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterVertically)
     ) {
 
         Logo(
-            modifier = modifier.padding(bottom = 120.dp),
+            modifier = modifier.padding(bottom = 90.dp),
             gradient = if (isSystemInDarkTheme()) gradLogoDark else gradLogoLight
         )
 
         LoginTextField(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(),
+                .fillMaxWidth(),
             value = login,
             onValueChange = loginViewModel::updateLogin,
             placeholder = "Enter email"
@@ -74,8 +75,7 @@ fun LoginScreen(
 
         PasswordTextField(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp),
+                .fillMaxWidth(),
             value = password,
             onValueChange = loginViewModel::updatePassword,
             placeholder = "Enter password",
@@ -89,27 +89,25 @@ fun LoginScreen(
         Text(
             text = "Forgot password?",
             fontSize = 16.sp,
-            color = forgPassTextColor(),
+            color = foregPassTextColor(),
             modifier = Modifier
-                .padding(top = 18.dp)
                 .align(Alignment.End)
                 .clickable { },
         )
 
         GradientButton(
-            onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
+            onClick = { navigateTo.invoke(NavScreens.PersonalAccountScreen) },
             text = "Enter",
             enabled = login.isNotEmpty() && password.isNotEmpty(),
             gradient = if (login.isNotEmpty() && password.isNotEmpty())
                 gradButtAutEnable
             else gradButtDisable(),
-            modifier = modifier.padding(top = 62.dp),
+            modifier = modifier.padding(top = 35.dp)
         )
 
         Row(
             modifier
-                .fillMaxWidth()
-                .padding(top = 18.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -130,9 +128,8 @@ fun LoginScreen(
     }
 }
 
-
-@PreviewLightDark
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun Preview() {
-    LoginScreen(navigateTo = {})
+    Login(navigateTo = {})
 }
