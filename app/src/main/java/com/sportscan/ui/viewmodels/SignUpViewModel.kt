@@ -2,10 +2,8 @@ package com.sportscan.ui.viewmodels
 
 import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 class SignUpViewModel : ViewModel() {
 
@@ -23,27 +21,19 @@ class SignUpViewModel : ViewModel() {
 
 
     fun updateLogin(login: String) {
-        viewModelScope.launch {
-            _login.value = login
-        }
+        _login.value = login
     }
 
     fun updatePassword(password: String) {
-        viewModelScope.launch {
-            _password.value = password
-        }
+        _password.value = password
     }
 
     fun updateRepeatPassword(repeatPassword: String) {
-        viewModelScope.launch {
-            _repeatPassword.value = repeatPassword
-        }
+        _repeatPassword.value = repeatPassword
     }
 
     fun updateChecked(checked: ToggleableState) {
-        viewModelScope.launch {
-            _checked.value = checked
-        }
+        _checked.value = checked
     }
 
 

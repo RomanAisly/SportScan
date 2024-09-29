@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sportscan.ui.screens.Login
-import com.sportscan.ui.screens.PersonalAccount
+import com.sportscan.ui.screens.Profile
 import com.sportscan.ui.screens.SignUp
 
 @Composable
@@ -50,7 +50,7 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
             })
         }
         composable<NavScreens.PersonalAccountScreen> {
-            PersonalAccount(navigateTo = {
+            Profile(navigateTo = {
                 navHostController.navigate(it)
             })
         }

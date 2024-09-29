@@ -1,10 +1,8 @@
 package com.sportscan.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 
 class LoginViewModel : ViewModel() {
@@ -16,16 +14,11 @@ class LoginViewModel : ViewModel() {
     val password = _password.asStateFlow()
 
 
-
     fun updateLogin(login: String) {
-        viewModelScope.launch {
-            _login.value = login
-        }
+        _login.value = login
     }
 
     fun updatePassword(password: String) {
-        viewModelScope.launch {
-            _password.value = password
-        }
+        _password.value = password
     }
 }
