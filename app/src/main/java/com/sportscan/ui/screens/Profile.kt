@@ -3,12 +3,15 @@ package com.sportscan.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Sports
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,8 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sportscan.domain.navigation.NavScreens
-import com.sportscan.ui.components.CostOfLessonField
-import com.sportscan.ui.components.SelectionField
+import com.sportscan.ui.components.CostOfLesson
+import com.sportscan.ui.components.InputProfileField
+import com.sportscan.ui.components.SelectionExposedDropField
 import com.sportscan.ui.components.WorkGraphic
 import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.viewmodels.ProfileViewModel
@@ -36,13 +40,14 @@ fun Profile(
     profileViewModel: ProfileViewModel = viewModel()
 ) {
 
-    val isExpanded by profileViewModel.isExpanded.collectAsState()
+    val isExpandedSportType by profileViewModel.isExpandedSportType.collectAsState()
+    val isExpandedAgeOfClient by profileViewModel.isExpandedAgeOfClient.collectAsState()
+    val isExpandedWorkGraphic by profileViewModel.isExpandedWorkGraphic.collectAsState()
 
+    val sectionName by profileViewModel.sectionName.collectAsState()
     val selectedSport by profileViewModel.selectedSport.collectAsState()
     val ageClient by profileViewModel.ageOfClient.collectAsState()
     val costOfLesson by profileViewModel.costOfLesson.collectAsState()
-    val fromHour by profileViewModel.from.collectAsState()
-    val toHour by profileViewModel.to.collectAsState()
     val day by profileViewModel.day.collectAsState()
 
 
@@ -64,9 +69,16 @@ fun Profile(
             modifier = modifier.padding(bottom = 50.dp)
         )
 
-        SelectionField(
-            isExpanded = isExpanded,
-            onExpansionChange = profileViewModel::updateIsExpanded,
+        InputProfileField(
+            value = sectionName,
+            onValueChange = profileViewModel::updateSectionName,
+            placeholder = "Enter the section's name",
+            label = "Section's name"
+        )
+
+        SelectionExposedDropField(
+            isExpanded = isExpandedSportType,
+            onExpansionChange = profileViewModel::updateExpandedSportType,
             options = listOf("Swimming", "Cycling", "Judo", "Football", "Tennis"),
             selectedOption = selectedSport,
             onSelectionChange = {
@@ -75,9 +87,9 @@ fun Profile(
             icon = Icons.Rounded.Sports
         )
 
-        SelectionField(
-            isExpanded = isExpanded,
-            onExpansionChange = profileViewModel::updateIsExpanded,
+        SelectionExposedDropField(
+            isExpanded = isExpandedAgeOfClient,
+            onExpansionChange = profileViewModel::updateExpandedAgeOfClient,
             options = listOf("0-6", "6-12", "12-16", "18+"),
             selectedOption = ageClient,
             onSelectionChange = {
@@ -86,36 +98,40 @@ fun Profile(
             icon = Icons.Rounded.Person
         )
 
-        CostOfLessonField(
-            modifier = modifier,
-            isExpanded = isExpanded,
-            onExpansionChange = profileViewModel::updateIsExpanded,
-            options = listOf("per/Day", "per/Week", "per/Month", "per/Year"),
+        CostOfLesson(
             value = costOfLesson,
             onValueChange = profileViewModel::updateCostOfLesson,
-            onMoneyChange = { profileViewModel.updateCostOfLesson(it) }
+            placeholder = "Enter the cost of lesson",
+            label = "Cost of lesson"
         )
 
         WorkGraphic(
-            modifier = modifier,
-            isExpanded = isExpanded,
-            onExpansionChange = profileViewModel::updateIsExpanded,
+            isExpanded = isExpandedWorkGraphic,
+            onExpansionChange = profileViewModel::updateExpandedWorkGraphic,
             options = listOf(
                 "Monday",
                 "Tuesday",
                 "Wednesday",
-                "Fourday",
+                "Thursday",
                 "Friday",
                 "Saturday",
                 "Sunday"
             ),
-            fromHour = fromHour,
-            toHour = toHour,
             value = day,
-            fromHourChange = profileViewModel::updateFrom,
-            toHourChange = profileViewModel::updateTo,
             onGraphicChange = { profileViewModel.updateDay(it) }
         )
+
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(onClick = {}) { Text(text = "Cancel") }
+            Button(onClick = {}) { Text(text = "Save") }
+        }
+
     }
 }
 
