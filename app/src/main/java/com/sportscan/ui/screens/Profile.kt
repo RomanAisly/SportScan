@@ -1,16 +1,15 @@
 package com.sportscan.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.Sports
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,17 +18,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sportscan.R
 import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.CostOfLesson
+import com.sportscan.ui.components.ExposedField
 import com.sportscan.ui.components.InputProfileField
-import com.sportscan.ui.components.SelectionExposedDropField
-import com.sportscan.ui.components.WorkGraphic
 import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.viewmodels.ProfileViewModel
 
@@ -40,22 +41,22 @@ fun Profile(
     profileViewModel: ProfileViewModel = viewModel()
 ) {
 
-    val isExpandedSportType by profileViewModel.isExpandedSportType.collectAsState()
-    val isExpandedAgeOfClient by profileViewModel.isExpandedAgeOfClient.collectAsState()
-    val isExpandedWorkGraphic by profileViewModel.isExpandedWorkGraphic.collectAsState()
-
     val sectionName by profileViewModel.sectionName.collectAsState()
     val selectedSport by profileViewModel.selectedSport.collectAsState()
+    val address by profileViewModel.address.collectAsState()
     val ageClient by profileViewModel.ageOfClient.collectAsState()
     val costOfLesson by profileViewModel.costOfLesson.collectAsState()
-    val day by profileViewModel.day.collectAsState()
+    val day by profileViewModel.workGraphic.collectAsState()
 
 
     Column(
         modifier
             .fillMaxSize()
-            .padding(14.dp)
-            .systemBarsPadding()
+            .scrollable(
+                state = rememberScrollState(),
+                orientation = Orientation.Horizontal,
+                enabled = true,
+            )
             .background(screenBackground()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(18.dp)
@@ -66,7 +67,7 @@ fun Profile(
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = modifier.padding(bottom = 50.dp)
+            modifier = modifier.padding(bottom = 50.dp, top = 25.dp)
         )
 
         InputProfileField(
@@ -76,26 +77,30 @@ fun Profile(
             label = "Section's name"
         )
 
-        SelectionExposedDropField(
-            isExpanded = isExpandedSportType,
-            onExpansionChange = profileViewModel::updateExpandedSportType,
+        ExposedField(
             options = listOf("Swimming", "Cycling", "Judo", "Football", "Tennis"),
             selectedOption = selectedSport,
             onSelectionChange = {
                 profileViewModel.updateSelectedSport(it)
             },
-            icon = Icons.Rounded.Sports
+            icon = painterResource(id = R.drawable.sport_type)
         )
 
-        SelectionExposedDropField(
-            isExpanded = isExpandedAgeOfClient,
-            onExpansionChange = profileViewModel::updateExpandedAgeOfClient,
+        InputProfileField(
+            value = address,
+            onValueChange = profileViewModel::updateAddress,
+            placeholder = "Enter the address",
+            label = "Address"
+        )
+
+        ExposedField(
             options = listOf("0-6", "6-12", "12-16", "18+"),
             selectedOption = ageClient,
             onSelectionChange = {
                 profileViewModel.updateAgeOfClient(it)
             },
-            icon = Icons.Rounded.Person
+            icon = painterResource(id = R.drawable.age_group),
+            tint = Color.Green
         )
 
         CostOfLesson(
@@ -105,20 +110,14 @@ fun Profile(
             label = "Cost of lesson"
         )
 
-        WorkGraphic(
-            isExpanded = isExpandedWorkGraphic,
-            onExpansionChange = profileViewModel::updateExpandedWorkGraphic,
-            options = listOf(
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday"
-            ),
-            value = day,
-            onGraphicChange = { profileViewModel.updateDay(it) }
+        ExposedField(
+            options = listOf("Monday - Friday", "Monday - Sunday", "24/7"),
+            selectedOption = day,
+            onSelectionChange = {
+                profileViewModel.updateWorkGraphic(it)
+            },
+            icon = painterResource(id = R.drawable.work_graphic),
+            tint = Color.Red
         )
 
         Row(
@@ -128,7 +127,9 @@ fun Profile(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Button(onClick = {}) { Text(text = "Cancel") }
+            Button(onClick = {
+                profileViewModel.updateAllFields()
+            }) { Text(text = "Cancel") }
             Button(onClick = {}) { Text(text = "Save") }
         }
 
