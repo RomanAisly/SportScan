@@ -46,6 +46,7 @@ fun Profile(
     val address by profileViewModel.address.collectAsState()
     val ageClient by profileViewModel.ageOfClient.collectAsState()
     val costOfLesson by profileViewModel.costOfLesson.collectAsState()
+    val costPeriod by profileViewModel.costPeriod.collectAsState()
     val day by profileViewModel.workGraphic.collectAsState()
 
 
@@ -107,7 +108,9 @@ fun Profile(
             value = costOfLesson,
             onValueChange = profileViewModel::updateCostOfLesson,
             placeholder = "Enter the cost of lesson",
-            label = "Cost of lesson"
+            label = "Cost of lesson",
+            costPeriod = costPeriod,
+            onCostPeriodChange = profileViewModel::updateCostPeriod
         )
 
         ExposedField(
@@ -127,9 +130,7 @@ fun Profile(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Button(onClick = {
-                profileViewModel.updateAllFields()
-            }) { Text(text = "Cancel") }
+            Button(onClick = { profileViewModel.updateAllFields() }) { Text(text = "Reset") }
             Button(onClick = {}) { Text(text = "Save") }
         }
 

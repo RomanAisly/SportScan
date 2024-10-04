@@ -116,10 +116,12 @@ fun CostOfLesson(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    label: String
+    label: String,
+    costPeriod: String,
+    onCostPeriodChange: (String) -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf("per/") }
+//    var costPeriod by remember { mutableStateOf("per/") }
 
     TextField(
         value = value,
@@ -141,7 +143,7 @@ fun CostOfLesson(
         trailingIcon = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = selectedOption,
+                    text = costPeriod,
                     fontSize = 13.sp,
                     textAlign = TextAlign.End,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -168,7 +170,7 @@ fun CostOfLesson(
 
         DropdownMenuItem(
             onClick = {
-                selectedOption = "Hour"
+                onCostPeriodChange("Hour")
                 isExpanded = false
             },
             text = { Text("Hour") }
@@ -176,7 +178,7 @@ fun CostOfLesson(
         HorizontalDivider()
         DropdownMenuItem(
             onClick = {
-                selectedOption = "Day"
+                onCostPeriodChange("Day")
                 isExpanded = false
             },
             text = { Text("Day") }
@@ -184,7 +186,7 @@ fun CostOfLesson(
         HorizontalDivider()
         DropdownMenuItem(
             onClick = {
-                selectedOption = "Week"
+                onCostPeriodChange("Week")
                 isExpanded = false
             },
             text = { Text("Week") }
@@ -192,7 +194,7 @@ fun CostOfLesson(
         HorizontalDivider()
         DropdownMenuItem(
             onClick = {
-                selectedOption = "Month"
+                onCostPeriodChange("Month")
                 isExpanded = false
             },
             text = { Text("Month") }
@@ -200,7 +202,7 @@ fun CostOfLesson(
         HorizontalDivider()
         DropdownMenuItem(
             onClick = {
-                selectedOption = "Year"
+                onCostPeriodChange("Year")
                 isExpanded = false
             },
             text = { Text("Year") }
