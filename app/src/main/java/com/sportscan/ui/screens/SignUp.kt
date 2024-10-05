@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
@@ -65,129 +66,135 @@ fun SignUp(
 
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
-    Column(
-        modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-            .background(screenBackground()),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(14.dp, Alignment.CenterVertically)
-    ) {
-
-        Logo(
-            modifier = modifier.padding(bottom = 90.dp),
-            gradient = gradLogo()
-        )
-
-        LoginTextField(
-            modifier = modifier
-                .fillMaxWidth(),
-            value = login,
-            onValueChange = signUpViewModel::updateLogin,
-            placeholder = "Enter email"
-        )
-
-        PasswordTextField(
-            modifier = modifier
-                .fillMaxWidth(),
-            value = password,
-            onValueChange = signUpViewModel::updatePassword,
-            placeholder = "Enter password",
-            passwordVisible = passwordVisible,
-            onPasswordVisibilityToggle = {
-                passwordVisible =
-                    !passwordVisible
-            }
-        )
-        PasswordTextField(
-            modifier = modifier
-                .fillMaxWidth(),
-            value = repeatPassword,
-            onValueChange = signUpViewModel::updateRepeatPassword,
-            placeholder = "Repeat password",
-            passwordVisible = passwordVisible,
-            onPasswordVisibilityToggle = {
-                passwordVisible =
-                    !passwordVisible
-            }
-        )
-
-        Row(
+    Scaffold { paddingValues ->
+        Column(
             modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TriStateCheckbox(
-                state = checked,
-                onClick = {
-                    signUpViewModel.updateChecked(
-                        when (checked) {
-                            ToggleableState.On -> ToggleableState.Off
-                            else -> ToggleableState.On
-                        }
-                    )
-                },
-                colors = CheckboxDefaults.colors(
-                    checkmarkColor = if (isSystemInDarkTheme()) authElements else Color.White,
-                    checkedColor = if (isSystemInDarkTheme()) Color.White else authElements,
-                    uncheckedColor = authElements,
+                .fillMaxSize()
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding(),
                 )
+                .padding(horizontal = 16.dp)
+                .background(screenBackground()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(14.dp, Alignment.CenterVertically)
+        ) {
+
+            Logo(
+                modifier = modifier.padding(bottom = 90.dp),
+                gradient = gradLogo()
             )
 
-            BasicText(
-                text = buildAnnotatedString {
-                    append("I accept the terms of the ")
-                    withLink(
-                        LinkAnnotation.Url(
-                            "",
-                            TextLinkStyles(
-                                style = SpanStyle(
-                                    color = authTextColor(),
-                                    textDecoration = TextDecoration.Underline
+            LoginTextField(
+                modifier = modifier
+                    .fillMaxWidth(),
+                value = login,
+                onValueChange = signUpViewModel::updateLogin,
+                placeholder = "Enter email"
+            )
+
+            PasswordTextField(
+                modifier = modifier
+                    .fillMaxWidth(),
+                value = password,
+                onValueChange = signUpViewModel::updatePassword,
+                placeholder = "Enter password",
+                passwordVisible = passwordVisible,
+                onPasswordVisibilityToggle = {
+                    passwordVisible =
+                        !passwordVisible
+                }
+            )
+            PasswordTextField(
+                modifier = modifier
+                    .fillMaxWidth(),
+                value = repeatPassword,
+                onValueChange = signUpViewModel::updateRepeatPassword,
+                placeholder = "Repeat password",
+                passwordVisible = passwordVisible,
+                onPasswordVisibilityToggle = {
+                    passwordVisible =
+                        !passwordVisible
+                }
+            )
+
+            Row(
+                modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TriStateCheckbox(
+                    state = checked,
+                    onClick = {
+                        signUpViewModel.updateChecked(
+                            when (checked) {
+                                ToggleableState.On -> ToggleableState.Off
+                                else -> ToggleableState.On
+                            }
+                        )
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkmarkColor = if (isSystemInDarkTheme()) authElements else Color.White,
+                        checkedColor = if (isSystemInDarkTheme()) Color.White else authElements,
+                        uncheckedColor = authElements,
+                    )
+                )
+
+                BasicText(
+                    text = buildAnnotatedString {
+                        append("I accept the terms of the ")
+                        withLink(
+                            LinkAnnotation.Url(
+                                "",
+                                TextLinkStyles(
+                                    style = SpanStyle(
+                                        color = authTextColor(),
+                                        textDecoration = TextDecoration.Underline
+                                    )
                                 )
                             )
-                        )
-                    ) {
-                        append(" User Agreement")
-                    }
-                },
-                style = TextStyle(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 14.sp
+                        ) {
+                            append(" User Agreement")
+                        }
+                    },
+                    style = TextStyle(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 14.sp
+                    )
                 )
-            )
-        }
+            }
 
-        GradientButton(
-            onClick = { navigateTo.invoke(NavScreens.PersonalAccountScreen) },
-            text = "Register",
-            gradient = if (isButtonEnabled) gradButtAutEnable else gradButtDisable(),
-            enabled = isButtonEnabled,
-        )
-
-        Row(
-            modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(
-                text = "Already have an account?",
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSurface
+            GradientButton(
+                onClick = { navigateTo.invoke(NavScreens.PersonalAccountScreen) },
+                text = "Register",
+                gradient = if (isButtonEnabled) gradButtAutEnable else gradButtDisable(),
+                enabled = isButtonEnabled,
             )
 
-            Text(
-                text = "Enter",
-                fontSize = 16.sp,
-                color = authTextColor(),
-                modifier = modifier
-                    .clickable {
-                        navigateTo.invoke(NavScreens.LoginScreen)
-                    }
-                    .padding(start = 25.dp)
-            )
+            Row(
+                modifier
+                    .fillMaxWidth()
+                    .padding(start = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = "Already have an account?",
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                Text(
+                    text = "Enter",
+                    fontSize = 16.sp,
+                    color = authTextColor(),
+                    modifier = modifier
+                        .clickable {
+                            navigateTo.invoke(NavScreens.LoginScreen)
+                        }
+                        .padding(start = 25.dp)
+                )
+            }
         }
     }
 }

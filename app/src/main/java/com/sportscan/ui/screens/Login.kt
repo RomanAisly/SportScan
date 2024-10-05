@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -48,80 +49,85 @@ fun Login(
     val password by loginViewModel.password.collectAsState()
 
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
-
-    Column(
-        modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-            .background(screenBackground()),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterVertically)
-    ) {
-
-        Logo(
-            modifier = modifier.padding(bottom = 90.dp),
-            gradient = if (isSystemInDarkTheme()) gradLogoDark else gradLogoLight
-        )
-
-        LoginTextField(
-            modifier = modifier
-                .fillMaxWidth(),
-            value = login,
-            onValueChange = loginViewModel::updateLogin,
-            placeholder = "Enter email"
-        )
-
-        PasswordTextField(
-            modifier = modifier
-                .fillMaxWidth(),
-            value = password,
-            onValueChange = loginViewModel::updatePassword,
-            placeholder = "Enter password",
-            passwordVisible = passwordVisible,
-            onPasswordVisibilityToggle = {
-                passwordVisible =
-                    !passwordVisible
-            }
-        )
-
-        Text(
-            text = "Forgot password?",
-            fontSize = 16.sp,
-            color = foregPassTextColor(),
-            modifier = Modifier
-                .align(Alignment.End)
-                .clickable { },
-        )
-
-        GradientButton(
-            onClick = { navigateTo.invoke(NavScreens.PersonalAccountScreen) },
-            text = "Enter",
-            enabled = login.isNotEmpty() && password.isNotEmpty(),
-            gradient = if (login.isNotEmpty() && password.isNotEmpty())
-                gradButtAutEnable
-            else gradButtDisable(),
-            modifier = modifier.padding(top = 35.dp)
-        )
-
-        Row(
+    Scaffold { paddingValues ->
+        Column(
             modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize()
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding(),
+                )
+                .padding(horizontal = 16.dp)
+                .background(screenBackground()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterVertically)
         ) {
 
-            Text(
-                text = "Don't have an account?",
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSurface
+            Logo(
+                modifier = modifier.padding(bottom = 90.dp),
+                gradient = if (isSystemInDarkTheme()) gradLogoDark else gradLogoLight
+            )
+
+            LoginTextField(
+                modifier = modifier
+                    .fillMaxWidth(),
+                value = login,
+                onValueChange = loginViewModel::updateLogin,
+                placeholder = "Enter email"
+            )
+
+            PasswordTextField(
+                modifier = modifier
+                    .fillMaxWidth(),
+                value = password,
+                onValueChange = loginViewModel::updatePassword,
+                placeholder = "Enter password",
+                passwordVisible = passwordVisible,
+                onPasswordVisibilityToggle = {
+                    passwordVisible =
+                        !passwordVisible
+                }
             )
 
             Text(
-                text = "Register",
+                text = "Forgot password?",
                 fontSize = 16.sp,
-                color = authTextColor(),
-                modifier = Modifier.clickable { navigateTo.invoke(NavScreens.SignUpScreen) }
+                color = foregPassTextColor(),
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .clickable { },
             )
+
+            GradientButton(
+                onClick = { navigateTo.invoke(NavScreens.PersonalAccountScreen) },
+                text = "Enter",
+                enabled = login.isNotEmpty() && password.isNotEmpty(),
+                gradient = if (login.isNotEmpty() && password.isNotEmpty())
+                    gradButtAutEnable
+                else gradButtDisable(),
+                modifier = modifier.padding(top = 35.dp)
+            )
+
+            Row(
+                modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = "Don't have an account?",
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                Text(
+                    text = "Register",
+                    fontSize = 16.sp,
+                    color = authTextColor(),
+                    modifier = Modifier.clickable { navigateTo.invoke(NavScreens.SignUpScreen) }
+                )
+            }
         }
     }
 }

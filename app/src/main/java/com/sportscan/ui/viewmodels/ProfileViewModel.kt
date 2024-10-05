@@ -39,8 +39,10 @@ class ProfileViewModel : ViewModel() {
     private val _costPeriod = MutableStateFlow("per/")
     val costPeriod = _costPeriod.asStateFlow()
     fun updateCostOfLesson(costOfLesson: String) {
-        _costOfLesson.value = costOfLesson
-    }
+        _costOfLesson.value = costOfLesson }
+    fun updateCostPeriod(selectedPeriod: String) {
+        _costPeriod.value = selectedPeriod }
+
 
 
     private val _workGraphic = MutableStateFlow("Work graphic")
@@ -48,8 +50,25 @@ class ProfileViewModel : ViewModel() {
     fun updateWorkGraphic(workGraphic: String) {
         _workGraphic.value = workGraphic
     }
-    fun updateCostPeriod(selectedPeriod: String) {
-        _costPeriod.value = selectedPeriod
+
+    private val _email = MutableStateFlow("")
+    val email = _email.asStateFlow()
+    fun updateEmail(email: String) {
+        _email.value = email
+    }
+
+
+    private val _phone = MutableStateFlow("")
+    val phone = _phone.asStateFlow()
+    fun updatePhone(phone: String) {
+        _phone.value = phone
+    }
+
+
+    private val _siteAddress = MutableStateFlow("")
+    val siteAddress = _siteAddress.asStateFlow()
+    fun updateSiteAddress(siteAddress: String) {
+        _siteAddress.value = siteAddress
     }
 
 
@@ -67,7 +86,9 @@ class ProfileViewModel : ViewModel() {
         _costOfLesson.value = allClear
         _costPeriod.value = costPeriod
         _workGraphic.value = workGraphic
+        _email.value = allClear
+        _phone.value = allClear
+        _siteAddress.value = allClear
+
     }
-
-
 }

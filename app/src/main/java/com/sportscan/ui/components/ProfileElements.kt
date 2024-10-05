@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sportscan.R
 import com.sportscan.ui.screens.Profile
+import com.sportscan.ui.theme.darkYellow
 
 @Composable
 fun InputProfileField(
@@ -46,14 +47,12 @@ fun InputProfileField(
     onValueChange: (String) -> Unit,
     placeholder: String,
     label: String,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done
-        ),
+        keyboardOptions = keyboardOptions,
         textStyle = TextStyle(fontSize = 18.sp),
         placeholder = { Text(text = placeholder, fontSize = 12.sp) },
         label = { Text(text = label, fontSize = 15.sp) }
@@ -121,7 +120,6 @@ fun CostOfLesson(
     onCostPeriodChange: (String) -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
-//    var costPeriod by remember { mutableStateOf("per/") }
 
     TextField(
         value = value,
@@ -137,7 +135,7 @@ fun CostOfLesson(
             Icon(
                 painter = painterResource(id = R.drawable.rubble_icon),
                 contentDescription = "",
-                tint = Color.Yellow
+                tint = darkYellow
             )
         },
         trailingIcon = {
