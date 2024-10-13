@@ -40,6 +40,7 @@ import com.sportscan.ui.components.CostOfLesson
 import com.sportscan.ui.components.ExposedField
 import com.sportscan.ui.components.InputProfileField
 import com.sportscan.ui.components.RadioButtonsSelection
+import com.sportscan.ui.components.SectionPhoto
 import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.darkGreen
 import com.sportscan.ui.viewmodels.ProfileViewModel
@@ -77,15 +78,17 @@ fun Profile(
                 .verticalScroll(state = rememberScrollState())
                 .background(screenBackground()),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            SectionPhoto()
+
             Text(
                 text = "Fill in all the fields below to register the section",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = modifier.padding(vertical = 18.dp)
+                modifier = modifier.padding(vertical = 10.dp)
             )
 
             InputProfileField(
