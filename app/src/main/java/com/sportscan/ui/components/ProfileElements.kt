@@ -1,7 +1,10 @@
 package com.sportscan.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
@@ -17,6 +20,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.MenuDefaults
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -28,13 +33,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sportscan.R
@@ -49,13 +54,21 @@ fun InputProfileField(
     label: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
+    val maxChar = 300
+    val focusManager = LocalFocusManager.current
+
     TextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { if (it.length <= maxChar) onValueChange(it) },
         keyboardOptions = keyboardOptions,
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+            }
+        ),
         textStyle = TextStyle(fontSize = 18.sp),
         placeholder = { Text(text = placeholder, fontSize = 12.sp) },
-        label = { Text(text = label, fontSize = 15.sp) }
+        label = { Text(text = label, fontSize = 15.sp, textAlign = TextAlign.Center) },
     )
 }
 
@@ -120,6 +133,7 @@ fun CostOfLesson(
     onCostPeriodChange: (String) -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
 
     TextField(
         value = value,
@@ -127,6 +141,11 @@ fun CostOfLesson(
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
             imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+            }
         ),
         textStyle = TextStyle(fontSize = 16.sp),
         placeholder = { Text(text = placeholder, fontSize = 12.sp) },
@@ -160,7 +179,6 @@ fun CostOfLesson(
     DropdownMenu(
         expanded = isExpanded,
         onDismissRequest = { isExpanded = false },
-        offset = DpOffset(260.dp, 0.dp),
         containerColor = MaterialTheme.colorScheme.background,
         tonalElevation = MenuDefaults.TonalElevation,
         border = BorderStroke(1.dp, Color.Yellow),
@@ -208,6 +226,58 @@ fun CostOfLesson(
     }
 }
 
+
+@Composable
+fun RadioButtonsSelection(
+    modifier: Modifier = Modifier,
+    isSelected: Boolean,
+    onSelectionChange: (Boolean) -> Unit,
+    text: String
+) {
+    Row(
+        modifier = modifier
+            .selectableGroup(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = text,
+            textAlign = TextAlign.Start,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        RadioButton(
+            selected = isSelected,
+            onClick = {
+                onSelectionChange(true)
+            },
+            colors = RadioButtonDefaults.colors(
+                selectedColor = Color.Green,
+                unselectedColor = Color.Green
+            )
+        )
+        Text(
+            text = "Yes",
+            textAlign = TextAlign.Start,
+            color = Color.Green
+        )
+
+        RadioButton(
+            selected = !isSelected,
+            onClick = {
+                onSelectionChange(false)
+            },
+            colors = RadioButtonDefaults.colors(
+                selectedColor = Color.Red,
+                unselectedColor = Color.Red
+            )
+        )
+        Text(
+            text = "No",
+            textAlign = TextAlign.Start,
+            color = Color.Red
+        )
+    }
+}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

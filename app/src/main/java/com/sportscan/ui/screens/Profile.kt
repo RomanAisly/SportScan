@@ -39,6 +39,7 @@ import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.CostOfLesson
 import com.sportscan.ui.components.ExposedField
 import com.sportscan.ui.components.InputProfileField
+import com.sportscan.ui.components.RadioButtonsSelection
 import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.darkGreen
 import com.sportscan.ui.viewmodels.ProfileViewModel
@@ -56,6 +57,11 @@ fun Profile(
     val costOfLesson by profileViewModel.costOfLesson.collectAsState()
     val costPeriod by profileViewModel.costPeriod.collectAsState()
     val workGraphic by profileViewModel.workGraphic.collectAsState()
+    val about by profileViewModel.about.collectAsState()
+    val isSelectedDoc by profileViewModel.isSelectedDoc.collectAsState()
+    val isSelectedDorCertReq by profileViewModel.isSelectedDorCertReq.collectAsState()
+    val isSelectedAbilityMedCert by profileViewModel.isSelectedAbilityMedCert.collectAsState()
+    val isSelectedCerfFromOtherDocs by profileViewModel.isSelectedCerfFromOtherDocs.collectAsState()
     val email by profileViewModel.email.collectAsState()
     val phone by profileViewModel.phone.collectAsState()
     val siteAddress by profileViewModel.siteAddress.collectAsState()
@@ -71,7 +77,7 @@ fun Profile(
                 .verticalScroll(state = rememberScrollState())
                 .background(screenBackground()),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(18.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             Text(
                 text = "Fill in all the fields below to register the section",
@@ -79,7 +85,7 @@ fun Profile(
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = modifier.padding(bottom = 50.dp, top = 25.dp)
+                modifier = modifier.padding(vertical = 18.dp)
             )
 
             InputProfileField(
@@ -142,10 +148,40 @@ fun Profile(
                 tint = Color.Red
             )
 
+            InputProfileField(
+                value = about,
+                onValueChange = profileViewModel::updateAbout,
+                placeholder = "Enter more information about the section",
+                label = "About"
+            )
+
+            RadioButtonsSelection(
+                isSelected = isSelectedDoc,
+                onSelectionChange = profileViewModel::updateSelectedDoc,
+                text = "Has a medical worker/rescuer?"
+            )
+
+            RadioButtonsSelection(
+                isSelected = isSelectedDorCertReq,
+                onSelectionChange = profileViewModel::updateSelectedDorCertReq,
+                text = "Is a doctor's certificate required?"
+            )
+
+            RadioButtonsSelection(
+                isSelected = isSelectedAbilityMedCert,
+                onSelectionChange = profileViewModel::updateSelectedAbilityMedCert,
+                text = "Is an ability to perform a medical certificate required?"
+            )
+
+            RadioButtonsSelection(
+                isSelected = isSelectedCerfFromOtherDocs,
+                onSelectionChange = profileViewModel::updateSelectedCerfFromOtherDocs,
+                text = "Is a certificate from another source required?"
+            )
+
             Column(
                 modifier = modifier
-                    .wrapContentSize()
-                    .padding(vertical = 16.dp),
+                    .wrapContentSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically)
             ) {

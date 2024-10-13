@@ -39,10 +39,12 @@ class ProfileViewModel : ViewModel() {
     private val _costPeriod = MutableStateFlow("per/")
     val costPeriod = _costPeriod.asStateFlow()
     fun updateCostOfLesson(costOfLesson: String) {
-        _costOfLesson.value = costOfLesson }
-    fun updateCostPeriod(selectedPeriod: String) {
-        _costPeriod.value = selectedPeriod }
+        _costOfLesson.value = costOfLesson
+    }
 
+    fun updateCostPeriod(selectedPeriod: String) {
+        _costPeriod.value = selectedPeriod
+    }
 
 
     private val _workGraphic = MutableStateFlow("Work graphic")
@@ -50,6 +52,42 @@ class ProfileViewModel : ViewModel() {
     fun updateWorkGraphic(workGraphic: String) {
         _workGraphic.value = workGraphic
     }
+
+
+    private val _about = MutableStateFlow("")
+    val about = _about.asStateFlow()
+    fun updateAbout(about: String) {
+        _about.value = about
+    }
+
+
+    private val _isSelectedDoc = MutableStateFlow(false)
+    val isSelectedDoc = _isSelectedDoc.asStateFlow()
+    fun updateSelectedDoc(isSelectedDoc: Boolean) {
+        _isSelectedDoc.value = isSelectedDoc
+    }
+
+
+    private val _isSelectedDorCertReq = MutableStateFlow(false)
+    val isSelectedDorCertReq = _isSelectedDorCertReq.asStateFlow()
+    fun updateSelectedDorCertReq(isSelectedDorCertReq: Boolean) {
+        _isSelectedDorCertReq.value = isSelectedDorCertReq
+    }
+
+
+    private val _isSelectedAbilityMedCert = MutableStateFlow(false)
+    val isSelectedAbilityMedCert = _isSelectedAbilityMedCert.asStateFlow()
+    fun updateSelectedAbilityMedCert(isSelectedAbilityMedCert: Boolean) {
+        _isSelectedAbilityMedCert.value = isSelectedAbilityMedCert
+    }
+
+
+    private val _isSelectedCerfFromOtherDocs = MutableStateFlow(false)
+    val isSelectedCerfFromOtherDocs = _isSelectedCerfFromOtherDocs.asStateFlow()
+    fun updateSelectedCerfFromOtherDocs(isSelectedCerfFromOtherDocs: Boolean) {
+        _isSelectedCerfFromOtherDocs.value = isSelectedCerfFromOtherDocs
+    }
+
 
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
@@ -77,7 +115,8 @@ class ProfileViewModel : ViewModel() {
         selectedSport: String = "Type of sport",
         ageOfClient: String = "Age of client",
         costPeriod: String = "per/",
-        workGraphic: String = "Work graphic"
+        workGraphic: String = "Work graphic",
+        isSelected: Boolean = false
     ) {
         _sectionName.value = allClear
         _selectedSport.value = selectedSport
@@ -86,9 +125,10 @@ class ProfileViewModel : ViewModel() {
         _costOfLesson.value = allClear
         _costPeriod.value = costPeriod
         _workGraphic.value = workGraphic
+        _about.value = allClear
         _email.value = allClear
         _phone.value = allClear
         _siteAddress.value = allClear
-
+        _isSelectedDoc.value = isSelected
     }
 }
