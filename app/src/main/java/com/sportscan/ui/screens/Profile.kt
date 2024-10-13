@@ -156,6 +156,7 @@ fun Profile(
             )
 
             RadioButtonsSelection(
+                modifier = modifier.padding(top = 10.dp),
                 isSelected = isSelectedDoc,
                 onSelectionChange = profileViewModel::updateSelectedDoc,
                 text = "Has a medical worker/rescuer?"
@@ -174,6 +175,7 @@ fun Profile(
             )
 
             RadioButtonsSelection(
+                modifier = modifier.padding(bottom = 8.dp),
                 isSelected = isSelectedCerfFromOtherDocs,
                 onSelectionChange = profileViewModel::updateSelectedCerfFromOtherDocs,
                 text = "Is a certificate from another source required?"

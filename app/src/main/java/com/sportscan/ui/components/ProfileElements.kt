@@ -2,7 +2,9 @@ package com.sportscan.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -234,48 +236,53 @@ fun RadioButtonsSelection(
     onSelectionChange: (Boolean) -> Unit,
     text: String
 ) {
-    Row(
+    Column(
         modifier = modifier
+            .padding(horizontal = 10.dp)
             .selectableGroup(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = text,
-            textAlign = TextAlign.Start,
+            textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface,
         )
-        RadioButton(
-            selected = isSelected,
-            onClick = {
-                onSelectionChange(true)
-            },
-            colors = RadioButtonDefaults.colors(
-                selectedColor = Color.Green,
-                unselectedColor = Color.Green
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            RadioButton(
+                selected = isSelected,
+                onClick = {
+                    onSelectionChange(true)
+                },
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = Color.Green,
+                    unselectedColor = Color.Green
+                )
             )
-        )
-        Text(
-            text = "Yes",
-            textAlign = TextAlign.Start,
-            color = Color.Green
-        )
+            Text(
+                text = "Yes",
+                color = Color.Green
+            )
 
-        RadioButton(
-            selected = !isSelected,
-            onClick = {
-                onSelectionChange(false)
-            },
-            colors = RadioButtonDefaults.colors(
-                selectedColor = Color.Red,
-                unselectedColor = Color.Red
+            RadioButton(
+                selected = !isSelected,
+                onClick = {
+                    onSelectionChange(false)
+                },
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = Color.Red,
+                    unselectedColor = Color.Red
+                )
             )
-        )
-        Text(
-            text = "No",
-            textAlign = TextAlign.Start,
-            color = Color.Red
-        )
+            Text(
+                text = "No",
+                color = Color.Red
+            )
+        }
+
     }
 }
 
