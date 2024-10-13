@@ -1,5 +1,6 @@
 package com.sportscan.ui.viewmodels
 
+import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -89,6 +90,13 @@ class ProfileViewModel : ViewModel() {
     }
 
 
+    private val _checked = MutableStateFlow(ToggleableState.Off)
+    val checked = _checked.asStateFlow()
+    fun updateChecked(checked: ToggleableState) {
+        _checked.value = checked
+    }
+
+
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
     fun updateEmail(email: String) {
@@ -116,7 +124,8 @@ class ProfileViewModel : ViewModel() {
         ageOfClient: String = "Age of client",
         costPeriod: String = "per/",
         workGraphic: String = "Work graphic",
-        isSelected: Boolean = false
+        isSelected: Boolean = false,
+        checked: ToggleableState = ToggleableState.Off
     ) {
         _sectionName.value = allClear
         _selectedSport.value = selectedSport
@@ -126,9 +135,14 @@ class ProfileViewModel : ViewModel() {
         _costPeriod.value = costPeriod
         _workGraphic.value = workGraphic
         _about.value = allClear
+        _isSelectedDoc.value = isSelected
+        _isSelectedDorCertReq.value = isSelected
+        _isSelectedAbilityMedCert.value = isSelected
+        _isSelectedCerfFromOtherDocs.value = isSelected
+        _checked.value = checked
         _email.value = allClear
         _phone.value = allClear
         _siteAddress.value = allClear
-        _isSelectedDoc.value = isSelected
+
     }
 }

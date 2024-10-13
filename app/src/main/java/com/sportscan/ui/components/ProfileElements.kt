@@ -5,6 +5,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,6 +26,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material3.Button
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,6 +42,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +56,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -60,10 +68,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sportscan.R
 import com.sportscan.ui.screens.Profile
+import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.darkYellow
 
 @Composable
-fun SectionPhoto(modifier: Modifier = Modifier) {
+fun SectionPhoto(modifier: Modifier = Modifier) {// добавить во вьюмодель
 
     var selectedImages by remember {
         mutableStateOf<List<Uri>>(emptyList())
@@ -300,11 +309,10 @@ fun RadioButtonsSelection(
     onSelectionChange: (Boolean) -> Unit,
     text: String
 ) {
+
     Column(
         modifier = modifier
-            .padding(horizontal = 10.dp)
             .selectableGroup(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -322,14 +330,14 @@ fun RadioButtonsSelection(
                     onSelectionChange(true)
                 },
                 colors = RadioButtonDefaults.colors(
-                    selectedColor = Color.Green,
-                    unselectedColor = Color.Green
+                    selectedColor = Color.Green
                 )
             )
             Text(
                 text = "Yes",
-                color = Color.Green
+                color = if (isSelected) Color.Green else MaterialTheme.colorScheme.onSurface
             )
+
 
             RadioButton(
                 selected = !isSelected,
@@ -337,20 +345,79 @@ fun RadioButtonsSelection(
                     onSelectionChange(false)
                 },
                 colors = RadioButtonDefaults.colors(
-                    selectedColor = Color.Red,
-                    unselectedColor = Color.Red
+                    selectedColor = Color.Red
                 )
             )
             Text(
                 text = "No",
-                color = Color.Red
+                color = if (!isSelected) Color.Red else MaterialTheme.colorScheme.onSurface
             )
         }
 
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PaymentMethods(
+    modifier: Modifier = Modifier,
+    checked: ToggleableState,
+    onChangeToggle: (ToggleableState) -> Unit
+) {
+    val paymentMethods = listOf("Cash", "Card", "Online payment", "QR code")
+
+    Column(
+        modifier = modifier
+            .border(
+                width = 2.dp,
+                brush = gradLogo(),
+                shape = MaterialTheme.shapes.large
+            )
+            .padding(12.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Choose your payment methods")
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(paymentMethods) { paymentMethod ->
+                PaymentMethodItem(
+                    text = paymentMethod,
+                    checked = checked,
+                    onCheckedChange = onChangeToggle
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun PaymentMethodItem(
+    text: String,
+    checked: ToggleableState,
+    onCheckedChange: (ToggleableState) -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        TriStateCheckbox(
+            state = checked,
+            onClick = { onCheckedChange(if (checked == ToggleableState.On) ToggleableState.Off else ToggleableState.On) },
+            colors = CheckboxDefaults.colors(
+                checkmarkColor = if (isSystemInDarkTheme()) authElements else Color.White,
+                checkedColor = if (isSystemInDarkTheme()) Color.White else authElements,
+                uncheckedColor = authElements,
+            )
+        )
+        Text(text = text)
+    }
+}
+
+@Preview(showBackground = true)
 @Composable
 private fun Preview() {
     Profile(navigateTo = {})

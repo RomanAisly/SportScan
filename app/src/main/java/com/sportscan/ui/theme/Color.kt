@@ -53,3 +53,10 @@ val gradButtAutDisabled2 = Brush.horizontalGradient(
         Color(0xFF2E394C)
     )
 )
+
+val gradMed = Brush.horizontalGradient(
+    colors = listOf(
+        Color(0xFF0CEC17),
+        Color(0xFFEC0B0B)
+    )
+)

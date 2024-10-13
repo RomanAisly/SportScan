@@ -1,13 +1,13 @@
 package com.sportscan.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -39,10 +39,13 @@ import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.CostOfLesson
 import com.sportscan.ui.components.ExposedField
 import com.sportscan.ui.components.InputProfileField
+import com.sportscan.ui.components.PaymentMethods
 import com.sportscan.ui.components.RadioButtonsSelection
 import com.sportscan.ui.components.SectionPhoto
+import com.sportscan.ui.components.gradLogo
 import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.darkGreen
+import com.sportscan.ui.theme.gradMed
 import com.sportscan.ui.viewmodels.ProfileViewModel
 
 @Composable
@@ -63,6 +66,7 @@ fun Profile(
     val isSelectedDorCertReq by profileViewModel.isSelectedDorCertReq.collectAsState()
     val isSelectedAbilityMedCert by profileViewModel.isSelectedAbilityMedCert.collectAsState()
     val isSelectedCerfFromOtherDocs by profileViewModel.isSelectedCerfFromOtherDocs.collectAsState()
+    val checked by profileViewModel.checked.collectAsState()
     val email by profileViewModel.email.collectAsState()
     val phone by profileViewModel.phone.collectAsState()
     val siteAddress by profileViewModel.siteAddress.collectAsState()
@@ -158,35 +162,60 @@ fun Profile(
                 label = "About"
             )
 
-            RadioButtonsSelection(
-                modifier = modifier.padding(top = 10.dp),
-                isSelected = isSelectedDoc,
-                onSelectionChange = profileViewModel::updateSelectedDoc,
-                text = "Has a medical worker/rescuer?"
+            Column(
+                modifier = modifier
+                    .padding(vertical = 10.dp)
+                    .padding(horizontal = 10.dp)
+                    .border(
+                        width = 2.dp,
+                        brush = gradMed,
+                        shape = MaterialTheme.shapes.large
+                    )
+                    .padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                RadioButtonsSelection(
+                    isSelected = isSelectedDoc,
+                    onSelectionChange = profileViewModel::updateSelectedDoc,
+                    text = "Has a medical worker/rescuer?"
+                )
+
+                RadioButtonsSelection(
+                    isSelected = isSelectedDorCertReq,
+                    onSelectionChange = profileViewModel::updateSelectedDorCertReq,
+                    text = "Is a doctor's certificate required?"
+                )
+
+                RadioButtonsSelection(
+                    isSelected = isSelectedAbilityMedCert,
+                    onSelectionChange = profileViewModel::updateSelectedAbilityMedCert,
+                    text = "Is an ability to perform a medical certificate required?"
+                )
+
+                RadioButtonsSelection(
+                    isSelected = isSelectedCerfFromOtherDocs,
+                    onSelectionChange = profileViewModel::updateSelectedCerfFromOtherDocs,
+                    text = "Is a certificate from another source required?"
+                )
+            }
+
+
+            PaymentMethods(
+                checked = checked,
+                onChangeToggle = profileViewModel::updateChecked
             )
 
-            RadioButtonsSelection(
-                isSelected = isSelectedDorCertReq,
-                onSelectionChange = profileViewModel::updateSelectedDorCertReq,
-                text = "Is a doctor's certificate required?"
-            )
-
-            RadioButtonsSelection(
-                isSelected = isSelectedAbilityMedCert,
-                onSelectionChange = profileViewModel::updateSelectedAbilityMedCert,
-                text = "Is an ability to perform a medical certificate required?"
-            )
-
-            RadioButtonsSelection(
-                modifier = modifier.padding(bottom = 8.dp),
-                isSelected = isSelectedCerfFromOtherDocs,
-                onSelectionChange = profileViewModel::updateSelectedCerfFromOtherDocs,
-                text = "Is a certificate from another source required?"
-            )
 
             Column(
                 modifier = modifier
-                    .wrapContentSize(),
+                    .padding(vertical = 10.dp)
+                    .border(
+                        width = 2.dp,
+                        brush = gradLogo(),
+                        shape = MaterialTheme.shapes.large
+                    )
+                    .padding(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically)
             ) {
@@ -271,7 +300,9 @@ fun Profile(
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true
+)
 @Composable
 private fun Preview() {
     Profile(navigateTo = {})
