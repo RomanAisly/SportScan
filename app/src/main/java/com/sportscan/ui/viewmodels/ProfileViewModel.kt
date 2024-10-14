@@ -90,10 +90,31 @@ class ProfileViewModel : ViewModel() {
     }
 
 
-    private val _checked = MutableStateFlow(ToggleableState.Off)
-    val checked = _checked.asStateFlow()
-    fun updateChecked(checked: ToggleableState) {
-        _checked.value = checked
+    private val _checkedCash = MutableStateFlow(ToggleableState.Off)
+    val checkedCash = _checkedCash.asStateFlow()
+    fun updateCheckedCash(checkedCash: ToggleableState) {
+        _checkedCash.value = checkedCash
+    }
+
+
+    private val _checkedCard = MutableStateFlow(ToggleableState.Off)
+    val checkedCard = _checkedCard.asStateFlow()
+    fun updateCheckedCard(checkedCard: ToggleableState) {
+        _checkedCard.value = checkedCard
+    }
+
+
+    private val _checkedOnlinePayment = MutableStateFlow(ToggleableState.Off)
+    val checkedOnlinePayment = _checkedOnlinePayment.asStateFlow()
+    fun updateCheckedOnlinePayment(checkedOnlinePayment: ToggleableState) {
+        _checkedOnlinePayment.value = checkedOnlinePayment
+    }
+
+
+    private val _checkedQR = MutableStateFlow(ToggleableState.Off)
+    val checkedQR = _checkedQR.asStateFlow()
+    fun updateCheckedQR(checkedQR: ToggleableState) {
+        _checkedQR.value = checkedQR
     }
 
 
@@ -139,7 +160,10 @@ class ProfileViewModel : ViewModel() {
         _isSelectedDorCertReq.value = isSelected
         _isSelectedAbilityMedCert.value = isSelected
         _isSelectedCerfFromOtherDocs.value = isSelected
-        _checked.value = checked
+        _checkedCash.value = checked
+        _checkedCard.value = checked
+        _checkedOnlinePayment.value = checked
+        _checkedQR.value = checked
         _email.value = allClear
         _phone.value = allClear
         _siteAddress.value = allClear

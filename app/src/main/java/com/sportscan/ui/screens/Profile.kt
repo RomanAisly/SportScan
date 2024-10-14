@@ -39,7 +39,7 @@ import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.CostOfLesson
 import com.sportscan.ui.components.ExposedField
 import com.sportscan.ui.components.InputProfileField
-import com.sportscan.ui.components.PaymentMethods
+import com.sportscan.ui.components.PaymentMethodItem
 import com.sportscan.ui.components.RadioButtonsSelection
 import com.sportscan.ui.components.SectionPhoto
 import com.sportscan.ui.components.gradLogo
@@ -66,7 +66,10 @@ fun Profile(
     val isSelectedDorCertReq by profileViewModel.isSelectedDorCertReq.collectAsState()
     val isSelectedAbilityMedCert by profileViewModel.isSelectedAbilityMedCert.collectAsState()
     val isSelectedCerfFromOtherDocs by profileViewModel.isSelectedCerfFromOtherDocs.collectAsState()
-    val checked by profileViewModel.checked.collectAsState()
+    val checkedCash by profileViewModel.checkedCash.collectAsState()
+    val checkedCard by profileViewModel.checkedCard.collectAsState()
+    val checkedOnlinePayment by profileViewModel.checkedOnlinePayment.collectAsState()
+    val checkedQR by profileViewModel.checkedQR.collectAsState()
     val email by profileViewModel.email.collectAsState()
     val phone by profileViewModel.phone.collectAsState()
     val siteAddress by profileViewModel.siteAddress.collectAsState()
@@ -200,11 +203,54 @@ fun Profile(
                 )
             }
 
+            Column(
+                modifier = modifier
+                    .border(
+                        width = 2.dp,
+                        brush = gradLogo(),
+                        shape = MaterialTheme.shapes.large
+                    )
+                    .padding(12.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Payment methods",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = modifier.padding(vertical = 6.dp)
+                )
 
-            PaymentMethods(
-                checked = checked,
-                onChangeToggle = profileViewModel::updateChecked
-            )
+                Row {
+                    Column {
+                        PaymentMethodItem(
+                            text = "Cash",
+                            checked = checkedCash,
+                            onCheckedChange = profileViewModel::updateCheckedCash
+                        )
+                        PaymentMethodItem(
+                            text = "Card",
+                            checked = checkedCard,
+                            onCheckedChange = profileViewModel::updateCheckedCard
+                        )
+                    }
+
+                    Column {
+                        PaymentMethodItem(
+                            text = "Online payment",
+                            checked = checkedOnlinePayment,
+                            onCheckedChange = profileViewModel::updateCheckedOnlinePayment
+                        )
+                        PaymentMethodItem(
+                            text = "QR",
+                            checked = checkedQR,
+                            onCheckedChange = profileViewModel::updateCheckedQR
+                        )
+                    }
+                }
+            }
 
 
             Column(

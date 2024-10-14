@@ -5,7 +5,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,9 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -357,42 +353,7 @@ fun RadioButtonsSelection(
     }
 }
 
-@Composable
-fun PaymentMethods(
-    modifier: Modifier = Modifier,
-    checked: ToggleableState,
-    onChangeToggle: (ToggleableState) -> Unit
-) {
-    val paymentMethods = listOf("Cash", "Card", "Online payment", "QR code")
 
-    Column(
-        modifier = modifier
-            .border(
-                width = 2.dp,
-                brush = gradLogo(),
-                shape = MaterialTheme.shapes.large
-            )
-            .padding(12.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "Choose your payment methods")
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(paymentMethods) { paymentMethod ->
-                PaymentMethodItem(
-                    text = paymentMethod,
-                    checked = checked,
-                    onCheckedChange = onChangeToggle
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun PaymentMethodItem(
