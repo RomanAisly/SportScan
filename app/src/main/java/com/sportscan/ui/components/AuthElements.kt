@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sportscan.R
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.borderOutlinedTextField
 import com.sportscan.ui.theme.darkBlue
@@ -56,7 +58,7 @@ fun Logo(modifier: Modifier = Modifier, gradient: Brush) {
     ) {
 
         Text(
-            text = "ActivityScan",
+            text = stringResource(R.string.app_name),
             fontSize = 30.sp,
             style = TextStyle(
                 brush = gradient
@@ -64,7 +66,7 @@ fun Logo(modifier: Modifier = Modifier, gradient: Brush) {
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = "sports",
+            text = stringResource(R.string.logo_small_text),
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onSurface

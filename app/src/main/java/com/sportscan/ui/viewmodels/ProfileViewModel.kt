@@ -1,11 +1,20 @@
 package com.sportscan.ui.viewmodels
 
+import android.net.Uri
 import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.ViewModel
+import com.sportscan.R
+import com.sportscan.domain.helpers.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class ProfileViewModel : ViewModel() {
+
+    private val _uriList = MutableStateFlow<List<Uri>>(emptyList())
+    val uriList = _uriList.asStateFlow()
+    fun updateUriList(uris: List<Uri>) {
+        _uriList.value = uris
+    }
 
     private val _sectionName = MutableStateFlow("")
     val sectionName = _sectionName.asStateFlow()
@@ -14,9 +23,10 @@ class ProfileViewModel : ViewModel() {
     }
 
 
-    private val _selectedSport = MutableStateFlow("Type of sport")
+    private val _selectedSport =
+        MutableStateFlow(UiText.StringResource(R.string.def_val_type_of_sport))
     val selectedSport = _selectedSport.asStateFlow()
-    fun updateSelectedSport(selectedSport: String) {
+    fun updateSelectedSport(selectedSport: UiText.StringResource) {
         _selectedSport.value = selectedSport
     }
 
@@ -141,7 +151,7 @@ class ProfileViewModel : ViewModel() {
 
     fun updateAllFields(
         allClear: String = "",
-        selectedSport: String = "Type of sport",
+        selectedSport: UiText.StringResource = UiText.StringResource(R.string.def_val_type_of_sport),
         ageOfClient: String = "Age of client",
         costPeriod: String = "per/",
         workGraphic: String = "Work graphic",

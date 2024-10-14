@@ -52,6 +52,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -63,21 +64,22 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sportscan.R
+import com.sportscan.domain.helpers.UiText
 import com.sportscan.ui.screens.Profile
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.darkYellow
 
 @Composable
-fun SectionPhoto(modifier: Modifier = Modifier) {// добавить во вьюмодель
+fun SectionPhoto(
+    modifier: Modifier = Modifier,
+    uriList: List<Uri> = emptyList(),
+    onImagesSelected: (List<Uri>) -> Unit
+) {
 
-    var selectedImages by remember {
-        mutableStateOf<List<Uri>>(emptyList())
-    }
     val multiplePhotoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickMultipleVisualMedia(),
-        onResult = { uris ->
-            selectedImages = uris
-        })
+        onResult = onImagesSelected)
+
     Column(
         modifier.wrapContentHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -91,9 +93,9 @@ fun SectionPhoto(modifier: Modifier = Modifier) {// добавить во вью
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             contentPadding = PaddingValues(8.dp)
         ) {
-            items(selectedImages.size) { index ->
+            items(uriList.size) { index ->
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current).data(selectedImages[index])
+                    model = ImageRequest.Builder(LocalContext.current).data(uriList[index])
                         .crossfade(true).build(),
                     contentDescription = "",
                     contentScale = ContentScale.Fit,
@@ -111,7 +113,7 @@ fun SectionPhoto(modifier: Modifier = Modifier) {// добавить во вью
                     )
                 )
             }) {
-            Text(text = "Pick multiple images")
+            Text(text = stringResource(R.string.pick_images_button))
         }
     }
 }
@@ -146,9 +148,9 @@ fun InputProfileField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExposedField(
-    options: List<String>,
+    options: List<UiText.StringResource>,
     selectedOption: String,
-    onSelectionChange: (String) -> Unit,
+    onSelectionChange: (UiText.StringResource) -> Unit,
     icon: Painter,
     tint: Color = Color.Blue
 ) {
@@ -183,7 +185,7 @@ fun ExposedField(
         ) {
             options.forEach { selectionOption ->
                 DropdownMenuItem(
-                    text = { Text(selectionOption) },
+                    text = { (selectionOption.asString()) },
                     onClick = {
                         onSelectionChange(selectionOption)
                         isExpanded = false
@@ -352,7 +354,6 @@ fun RadioButtonsSelection(
 
     }
 }
-
 
 
 @Composable

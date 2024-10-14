@@ -25,7 +25,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -54,6 +56,9 @@ fun Profile(
     navigateTo: (NavScreens) -> Unit,
     profileViewModel: ProfileViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+
+    val uriList by profileViewModel.uriList.collectAsState()
     val sectionName by profileViewModel.sectionName.collectAsState()
     val selectedSport by profileViewModel.selectedSport.collectAsState()
     val address by profileViewModel.address.collectAsState()
@@ -87,10 +92,13 @@ fun Profile(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            SectionPhoto()
+            SectionPhoto(
+                uriList = uriList,
+                onImagesSelected = profileViewModel::updateUriList
+            )
 
             Text(
-                text = "Fill in all the fields below to register the section",
+                text = stringResource(R.string.header_text_profile),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
@@ -101,8 +109,8 @@ fun Profile(
             InputProfileField(
                 value = sectionName,
                 onValueChange = profileViewModel::updateSectionName,
-                placeholder = "Enter the section's name",
-                label = "Section's name",
+                placeholder = stringResource(R.string.placeholder_section_name),
+                label = stringResource(R.string.label_section_name),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
@@ -110,8 +118,15 @@ fun Profile(
             )
 
             ExposedField(
-                options = listOf("Swimming", "Cycling", "Judo", "Football", "Tennis"),
-                selectedOption = selectedSport,
+                options = listOf(
+                    stringResource(R.string.swimming),
+                    stringResource(R.string.cycling),
+                    stringResource(R.string.judo), stringResource(R.string.football),
+                    stringResource(
+                        R.string.tennis
+                    )
+                ),
+                selectedOption = selectedSport.asString(context),
                 onSelectionChange = {
                     profileViewModel.updateSelectedSport(it)
                 },

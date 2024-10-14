@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -36,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sportscan.R
 import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.GradientButton
 import com.sportscan.ui.components.LoginTextField
@@ -90,7 +92,7 @@ fun SignUp(
                     .fillMaxWidth(),
                 value = login,
                 onValueChange = signUpViewModel::updateLogin,
-                placeholder = "Enter email"
+                placeholder = stringResource(R.string.placeholder_login_field)
             )
 
             PasswordTextField(
@@ -98,7 +100,7 @@ fun SignUp(
                     .fillMaxWidth(),
                 value = password,
                 onValueChange = signUpViewModel::updatePassword,
-                placeholder = "Enter password",
+                placeholder = stringResource(R.string.placeholder_password_field),
                 passwordVisible = passwordVisible,
                 onPasswordVisibilityToggle = {
                     passwordVisible =
@@ -110,7 +112,7 @@ fun SignUp(
                     .fillMaxWidth(),
                 value = repeatPassword,
                 onValueChange = signUpViewModel::updateRepeatPassword,
-                placeholder = "Repeat password",
+                placeholder = stringResource(R.string.placeholder_repeat_password_field),
                 passwordVisible = passwordVisible,
                 onPasswordVisibilityToggle = {
                     passwordVisible =
@@ -142,10 +144,10 @@ fun SignUp(
 
                 BasicText(
                     text = buildAnnotatedString {
-                        append("I accept the terms of the ")
+                        append(stringResource(R.string.accept_terms))
                         withLink(
                             LinkAnnotation.Url(
-                                "",
+                                "",// add link here
                                 TextLinkStyles(
                                     style = SpanStyle(
                                         color = authTextColor(),
@@ -154,7 +156,7 @@ fun SignUp(
                                 )
                             )
                         ) {
-                            append(" User Agreement")
+                            append(stringResource(R.string.user_agreement))
                         }
                     },
                     style = TextStyle(
@@ -166,7 +168,7 @@ fun SignUp(
 
             GradientButton(
                 onClick = { navigateTo.invoke(NavScreens.PersonalAccountScreen) },
-                text = "Register",
+                text = stringResource(R.string.sign_up_button),
                 gradient = if (isButtonEnabled) gradButtAutEnable else gradButtDisable(),
                 enabled = isButtonEnabled,
             )
@@ -179,13 +181,13 @@ fun SignUp(
             ) {
 
                 Text(
-                    text = "Already have an account?",
+                    text = stringResource(R.string.if_has_account),
                     fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Text(
-                    text = "Enter",
+                    text = stringResource(R.string.to_login_screen),
                     fontSize = 16.sp,
                     color = authTextColor(),
                     modifier = modifier

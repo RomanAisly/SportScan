@@ -20,10 +20,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sportscan.R
 import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.GradientButton
 import com.sportscan.ui.components.LoginTextField
@@ -73,7 +75,7 @@ fun Login(
                     .fillMaxWidth(),
                 value = login,
                 onValueChange = loginViewModel::updateLogin,
-                placeholder = "Enter email"
+                placeholder = stringResource(R.string.placeholder_login_field)
             )
 
             PasswordTextField(
@@ -81,7 +83,7 @@ fun Login(
                     .fillMaxWidth(),
                 value = password,
                 onValueChange = loginViewModel::updatePassword,
-                placeholder = "Enter password",
+                placeholder = stringResource(R.string.placeholder_password_field),
                 passwordVisible = passwordVisible,
                 onPasswordVisibilityToggle = {
                     passwordVisible =
@@ -90,7 +92,7 @@ fun Login(
             )
 
             Text(
-                text = "Forgot password?",
+                text = stringResource(R.string.password_recovery),
                 fontSize = 16.sp,
                 color = foregPassTextColor(),
                 modifier = Modifier
@@ -100,7 +102,7 @@ fun Login(
 
             GradientButton(
                 onClick = { navigateTo.invoke(NavScreens.PersonalAccountScreen) },
-                text = "Enter",
+                text = stringResource(R.string.login_button),
                 enabled = login.isNotEmpty() && password.isNotEmpty(),
                 gradient = if (login.isNotEmpty() && password.isNotEmpty())
                     gradButtAutEnable
@@ -116,13 +118,13 @@ fun Login(
             ) {
 
                 Text(
-                    text = "Don't have an account?",
+                    text = stringResource(R.string.sign_up_if_no_account),
                     fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Text(
-                    text = "Register",
+                    text = stringResource(R.string.to_sign_up_screen),
                     fontSize = 16.sp,
                     color = authTextColor(),
                     modifier = Modifier.clickable { navigateTo.invoke(NavScreens.SignUpScreen) }

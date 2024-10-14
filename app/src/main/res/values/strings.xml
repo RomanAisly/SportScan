@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">SportScan</string>
+    <string name="logo_small_text">sports</string>
+    <string name="placeholder_login_field">Enter email</string>
+    <string name="placeholder_password_field">Enter password</string>
+    <string name="password_recovery">Forgot password?</string>
+    <string name="login_button">Enter</string>
+    <string name="sign_up_if_no_account">Don\'t have an account?</string>
+    <string name="to_sign_up_screen">Sign Up</string>
+    <string name="placeholder_repeat_password_field">Repeat password</string>
+    <string name="accept_terms">"I accept the terms of the "</string>
+    <string name="user_agreement">" User Agreement"</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="if_has_account">Already have an account?</string>
+    <string name="to_login_screen">Enter</string>
+    <string name="pick_images_button">Pick multiple images</string>
+    <string name="header_text_profile">Fill in all the fields below to register the section</string>
+    <string name="placeholder_section_name">Enter the section\'s name</string>
+    <string name="label_section_name">Section\'s name</string>
+    <string name="def_val_type_of_sport">Type of sport</string>
+    <string name="swimming">Swimming</string>
+    <string name="cycling">Cycling</string>
+    <string name="judo">Judo</string>
+    <string name="football">Football</string>
+    <string name="tennis">Tennis</string>
 </resources>
