@@ -167,7 +167,7 @@ fun SignUp(
             }
 
             GradientButton(
-                onClick = { navigateTo.invoke(NavScreens.PersonalAccountScreen) },
+                onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
                 text = stringResource(R.string.sign_up_button),
                 gradient = if (isButtonEnabled) gradButtAutEnable else gradButtDisable(),
                 enabled = isButtonEnabled,

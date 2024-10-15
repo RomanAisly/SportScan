@@ -11,5 +11,5 @@ sealed class NavScreens {
     data object SignUpScreen : NavScreens()
 
     @Serializable
-    data object PersonalAccountScreen : NavScreens()
+    data object ProfileScreen : NavScreens()
 }

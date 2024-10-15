@@ -11,11 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Facebook
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,8 +20,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -40,12 +34,12 @@ import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.CostOfLesson
 import com.sportscan.ui.components.ExposedField
 import com.sportscan.ui.components.InputProfileField
+import com.sportscan.ui.components.LogoElements
 import com.sportscan.ui.components.PaymentMethodItem
 import com.sportscan.ui.components.RadioButtonsSelection
 import com.sportscan.ui.components.SectionPhoto
 import com.sportscan.ui.components.gradLogo
 import com.sportscan.ui.components.screenBackground
-import com.sportscan.ui.theme.darkGreen
 import com.sportscan.ui.theme.gradMed
 import com.sportscan.ui.viewmodels.ProfileViewModel
 
@@ -90,10 +84,7 @@ fun Profile(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            SectionPhoto(
-                uriList = uriList,
-                onImagesSelected = profileViewModel::updateUriList
-            )
+            LogoElements(modifier = modifier.padding(vertical = 18.dp))
 
             Text(
                 text = stringResource(R.string.header_text_profile),
@@ -103,6 +94,7 @@ fun Profile(
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = modifier.padding(vertical = 10.dp)
             )
+
 
             InputProfileField(
                 value = sectionName,
@@ -115,21 +107,11 @@ fun Profile(
                 )
             )
 
-            ExposedField(
-                options = listOf(
-                    stringResource(R.string.swimming),
-                    stringResource(R.string.cycling),
-                    stringResource(R.string.judo), stringResource(R.string.football),
-                    stringResource(
-                        R.string.tennis
-                    )
-                ),
-                selectedOption = selectedSport,
-                onSelectionChange = {
-                    profileViewModel.updateSelectedSport(it)
-                },
-                icon = painterResource(id = R.drawable.sport_type),
-                contDesc = stringResource(R.string.cont_desc_sport_type),
+            InputProfileField(
+                value = selectedSport,
+                onValueChange = profileViewModel::updateSelectedSport,
+                placeholder = stringResource(R.string.placeholder_type_of_sport),
+                label = stringResource(R.string.label_type_of_sport),
             )
 
             InputProfileField(
@@ -149,10 +131,8 @@ fun Profile(
                 onSelectionChange = {
                     profileViewModel.updateAgeOfClient(it)
                 },
-                icon = painterResource(id = R.drawable.age_group),
-                tint = darkGreen,
-                contDesc = stringResource(R.string.cont_desc_age_of_client)
-            )
+
+                )
 
             CostOfLesson(
                 value = costOfLesson,
@@ -172,16 +152,19 @@ fun Profile(
                 onSelectionChange = {
                     profileViewModel.updateWorkGraphic(it)
                 },
-                icon = painterResource(id = R.drawable.work_graphic),
-                tint = Color.Red,
-                contDesc = stringResource(R.string.cont_desc_work_graphic)
-            )
+
+                )
 
             InputProfileField(
                 value = about,
                 onValueChange = profileViewModel::updateAbout,
                 placeholder = stringResource(R.string.placeholder_about),
                 label = stringResource(R.string.label_about)
+            )
+
+            SectionPhoto(
+                uriList = uriList,
+                onImagesSelected = profileViewModel::updateUriList
             )
 
             Column(
@@ -274,22 +257,23 @@ fun Profile(
 
             Column(
                 modifier = modifier
-                    .padding(vertical = 10.dp)
+                    .padding(10.dp)
                     .border(
                         width = 2.dp,
                         brush = gradLogo(),
                         shape = MaterialTheme.shapes.large
                     )
-                    .padding(12.dp),
+                    .padding(vertical = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically)
+                verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically)
             ) {
                 Text(
                     text = stringResource(R.string.contact_information),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = modifier.padding(vertical = 6.dp)
                 )
 
                 InputProfileField(
@@ -321,46 +305,30 @@ fun Profile(
                     label = stringResource(R.string.label_site_address)
                 )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Rounded.Facebook,
-                            contentDescription = "",// добавить иконку
-                            tint = Color.Blue
-                        )
-                    }
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Rounded.Facebook,
-                            contentDescription = "",// добавить иконку
-                            tint = Color.Red
-                        )
-                    }
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Rounded.Facebook,
-                            contentDescription = "",// добавить иконку
-                            tint = Color.Green
-                        )
-                    }
-                }
+                Text(
+                    text = "Social media links",
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontSize = 18.sp,
+                    modifier = modifier.padding(vertical = 6.dp)
+                )
+
             }
 
 
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp),
+                    .padding(bottom = 20.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(onClick = { profileViewModel.updateAllFields() }) { Text(text = stringResource(
-                    R.string.button_reset
-                )
-                ) }
+                Button(onClick = { profileViewModel.updateAllFields() }) {
+                    Text(
+                        text = stringResource(
+                            R.string.button_reset
+                        )
+                    )
+                }
                 Button(onClick = {}) { Text(text = stringResource(R.string.button_save)) }
             }
         }

@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -34,10 +35,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.MenuDefaults
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,7 +49,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -66,7 +67,40 @@ import coil.request.ImageRequest
 import com.sportscan.R
 import com.sportscan.ui.screens.Profile
 import com.sportscan.ui.theme.authElements
+import com.sportscan.ui.theme.borderOutlinedTextField
 import com.sportscan.ui.theme.darkYellow
+import com.sportscan.ui.theme.gradLogoDark
+import com.sportscan.ui.theme.gradLogoLight
+import com.sportscan.ui.theme.lightBlue
+
+@Composable
+fun LogoElements(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.app_name),
+                fontSize = 24.sp,
+                style = TextStyle(brush = if (isSystemInDarkTheme()) gradLogoDark else gradLogoLight)
+            )
+            Text(
+                text = stringResource(R.string.profile_logo_small_text),
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        Text(
+            text = stringResource(R.string.contact_with_us),
+            fontSize = 18.sp,
+            color = authTextColor()
+        )
+    }
+}
 
 @Composable
 fun SectionPhoto(
@@ -106,14 +140,23 @@ fun SectionPhoto(
             }
         }
         Button(
+            modifier = Modifier.height(56.dp),
             onClick = {
                 multiplePhotoPicker.launch(
                     PickVisualMediaRequest(
                         ActivityResultContracts.PickVisualMedia.ImageOnly
                     )
                 )
-            }) {
-            Text(text = stringResource(R.string.pick_images_button))
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = lightBlue,
+            )
+
+        ) {
+            Text(
+                text = stringResource(R.string.button_pick_images),
+                color = Color.Black
+            )
         }
     }
 }
@@ -130,7 +173,10 @@ fun InputProfileField(
     val maxChar = 300
     val focusManager = LocalFocusManager.current
 
-    TextField(
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         value = value,
         onValueChange = { if (it.length <= maxChar) onValueChange(it) },
         keyboardOptions = keyboardOptions,
@@ -142,6 +188,27 @@ fun InputProfileField(
         textStyle = TextStyle(fontSize = 18.sp),
         placeholder = { Text(text = placeholder, fontSize = 12.sp) },
         label = { Text(text = label, fontSize = 15.sp, textAlign = TextAlign.Center) },
+        shape = MaterialTheme.shapes.extraLarge,
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = borderOutlinedTextField,
+            errorContainerColor = Color.Red,
+            errorTextColor = Color.Red,
+            errorIndicatorColor = Color.Red,
+            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedTrailingIconColor = Color.Transparent,
+            unfocusedContainerColor = authInputField(),
+            focusedContainerColor = authInputField()
+        )
     )
 }
 
@@ -151,9 +218,6 @@ fun ExposedField(
     options: List<String>,
     selectedOption: String,
     onSelectionChange: (String) -> Unit,
-    icon: Painter,
-    contDesc: String,
-    tint: Color = Color.Blue
 ) {
     var isExpanded by remember { mutableStateOf(false) }
 
@@ -161,23 +225,40 @@ fun ExposedField(
         expanded = isExpanded,
         onExpandedChange = { isExpanded = true },
     ) {
-        TextField(
+        OutlinedTextField(
             value = selectedOption,
             onValueChange = {},
             readOnly = true,
-            modifier = Modifier.menuAnchor(type = MenuAnchorType.PrimaryEditable, enabled = true),
-            leadingIcon = {
-                Icon(
-                    painter = icon,
-                    contentDescription = contDesc,
-                    tint = tint
-                )
-            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .menuAnchor(type = MenuAnchorType.PrimaryEditable, enabled = true),
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
             textStyle = TextStyle(
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 15.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Start
+            ),
+            shape = MaterialTheme.shapes.extraLarge,
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = if (isSystemInDarkTheme()) {
+                    Color.White
+                } else {
+                    authElements
+                },
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = borderOutlinedTextField,
+                errorContainerColor = Color.Red,
+                errorTextColor = Color.Red,
+                errorIndicatorColor = Color.Red,
+                focusedTrailingIconColor = if (isSystemInDarkTheme()) {
+                    Color.White
+                } else {
+                    authElements
+                },
+                unfocusedTrailingIconColor = Color.Transparent,
+                unfocusedContainerColor = authInputField(),
+                focusedContainerColor = authInputField()
             )
         )
         ExposedDropdownMenu(
@@ -197,6 +278,7 @@ fun ExposedField(
     }
 }
 
+
 @Composable
 fun CostOfLesson(
     value: String,
@@ -210,7 +292,10 @@ fun CostOfLesson(
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
 
-    TextField(
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
@@ -227,7 +312,7 @@ fun CostOfLesson(
         label = { Text(text = label, fontSize = 15.sp) },
         leadingIcon = {
             Icon(
-                painter = painterResource(id = R.drawable.rubble),
+                painter = painterResource(id = R.drawable.ic_rubble),
                 contentDescription = stringResource(R.string.cont_desc_rubble_price),
                 tint = darkYellow
             )
@@ -246,20 +331,43 @@ fun CostOfLesson(
                             imageVector = Icons.Rounded.ArrowDropUp,
                             contentDescription = stringResource(
                                 R.string.cont_desc_collapsed
-                            )
+                            ),
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     } else {
                         Icon(
                             imageVector = Icons.Rounded.ArrowDropDown,
                             contentDescription = stringResource(
                                 R.string.cont_desc_expanded
-                            )
+                            ),
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
             }
 
-        }
+        },
+        shape = MaterialTheme.shapes.extraLarge,
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = borderOutlinedTextField,
+            errorContainerColor = Color.Red,
+            errorTextColor = Color.Red,
+            errorIndicatorColor = Color.Red,
+            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedTrailingIconColor = Color.Transparent,
+            unfocusedContainerColor = authInputField(),
+            focusedContainerColor = authInputField()
+        )
     )
     DropdownMenu(
         expanded = isExpanded,

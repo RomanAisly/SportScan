@@ -21,7 +21,7 @@ class ProfileViewModel : ViewModel() {
     }
 
 
-    private val _selectedSport = MutableStateFlow("Вид спорта")
+    private val _selectedSport = MutableStateFlow("")
     val selectedSport = _selectedSport.asStateFlow()
     fun updateSelectedSport(selectedSport: String) {
         _selectedSport.value = selectedSport
@@ -147,22 +147,21 @@ class ProfileViewModel : ViewModel() {
 
 
     fun updateAllFields(
-        allClear: String = "",
-        selectedSport: String = "Вид спорта",
+        clearField: String = "",
         ageOfClient: String = "Возраст клиента",
         costPeriod: String = "в/",
         workGraphic: String = "Рабочий график",
         isSelected: Boolean = false,
         checked: ToggleableState = ToggleableState.Off
     ) {
-        _sectionName.value = allClear
-        _selectedSport.value = selectedSport
-        _address.value = allClear
+        _sectionName.value = clearField
+        _selectedSport.value = clearField
+        _address.value = clearField
         _ageOfClient.value = ageOfClient
-        _costOfLesson.value = allClear
+        _costOfLesson.value = clearField
         _costPeriod.value = costPeriod
         _workGraphic.value = workGraphic
-        _about.value = allClear
+        _about.value = clearField
         _isSelectedDoc.value = isSelected
         _isSelectedDorCertReq.value = isSelected
         _isSelectedAbilityMedCert.value = isSelected
@@ -171,9 +170,9 @@ class ProfileViewModel : ViewModel() {
         _checkedCard.value = checked
         _checkedOnlinePayment.value = checked
         _checkedQR.value = checked
-        _email.value = allClear
-        _phone.value = allClear
-        _siteAddress.value = allClear
+        _email.value = clearField
+        _phone.value = clearField
+        _siteAddress.value = clearField
 
     }
 }

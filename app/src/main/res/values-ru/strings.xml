@@ -8,7 +8,7 @@
     <string name="login_button">Войти</string>
     <string name="sign_up_if_no_account">Нет аккаунта?</string>
     <string name="if_has_account">Уже есть аккаунт?</string>
-    <string name="pick_images_button">Добавить изображения</string>
+    <string name="button_pick_images">Добавить изображения</string>
     <string name="header_text_profile">Заполните поля ниже чтобы зарегистрировать секцию</string>
     <string name="placeholder_section_name">Введите название секции</string>
     <string name="label_section_name">Название секции</string>
@@ -59,7 +59,11 @@
     <string name="cont_desc_collapsed">свёрнутый</string>
     <string name="cont_desc_expanded">раскрытый</string>
     <string name="placeholder_repeat_password_field">Повторите пароль</string>
-    <string name="accept_terms">Я принимаю условия</string>
-    <string name="user_agreement">Пользовательского соглашения</string>
+    <string name="accept_terms">"Я принимаю условия "</string>
+    <string name="user_agreement">" Пользовательского соглашения"</string>
     <string name="sign_up_button">Зарегистрироваться</string>
+    <string name="profile_logo_small_text">Спорт и танцы</string>
+    <string name="contact_with_us">Свяжитесь с нами</string>
+    <string name="label_type_of_sport">Вид спорта</string>
+    <string name="placeholder_type_of_sport">Введите вид спорта</string>
 </resources>

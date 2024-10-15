@@ -19,7 +19,7 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
     NavHost(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
         navController = navHostController,
-        startDestination = NavScreens.LoginScreen,
+        startDestination = NavScreens.ProfileScreen,
         enterTransition = {
             slideInHorizontally(tween(durationMillis = 1150),
                 initialOffsetX = { it })
@@ -49,7 +49,7 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
                 navHostController.navigate(it)
             })
         }
-        composable<NavScreens.PersonalAccountScreen> {
+        composable<NavScreens.ProfileScreen> {
             Profile(navigateTo = {
                 navHostController.navigate(it)
             })

@@ -186,11 +186,11 @@ fun PasswordTextField(
 
 @Composable
 fun GradientButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     text: String,
     enabled: Boolean,
     gradient: Brush,
-    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
@@ -230,7 +230,7 @@ fun screenBackground() = if (isSystemInDarkTheme()) darkBlue else Color.White
 fun authTextColor() = if (isSystemInDarkTheme()) lightBlue else Color.Blue
 
 @Composable
-fun foregPassTextColor() = if (isSystemInDarkTheme()) lightBlue else Color.LightGray
+fun forePassTextColor() = if (isSystemInDarkTheme()) lightBlue else Color.LightGray
 
 @Composable
 fun gradLogo() = if (isSystemInDarkTheme()) gradLogoDark else gradLogoLight

@@ -32,7 +32,7 @@ import com.sportscan.ui.components.LoginTextField
 import com.sportscan.ui.components.Logo
 import com.sportscan.ui.components.PasswordTextField
 import com.sportscan.ui.components.authTextColor
-import com.sportscan.ui.components.foregPassTextColor
+import com.sportscan.ui.components.forePassTextColor
 import com.sportscan.ui.components.gradButtDisable
 import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.gradButtAutEnable
@@ -94,14 +94,14 @@ fun Login(
             Text(
                 text = stringResource(R.string.password_recovery),
                 fontSize = 16.sp,
-                color = foregPassTextColor(),
+                color = forePassTextColor(),
                 modifier = Modifier
                     .align(Alignment.End)
                     .clickable { },
             )
 
             GradientButton(
-                onClick = { navigateTo.invoke(NavScreens.PersonalAccountScreen) },
+                onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
                 text = stringResource(R.string.login_button),
                 enabled = login.isNotEmpty() && password.isNotEmpty(),
                 gradient = if (login.isNotEmpty() && password.isNotEmpty())
