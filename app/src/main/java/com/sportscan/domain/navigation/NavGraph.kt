@@ -19,7 +19,7 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
     NavHost(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
         navController = navHostController,
-        startDestination = NavScreens.PersonalAccountScreen,
+        startDestination = NavScreens.LoginScreen,
         enterTransition = {
             slideInHorizontally(tween(durationMillis = 1150),
                 initialOffsetX = { it })

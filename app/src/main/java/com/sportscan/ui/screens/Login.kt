@@ -124,7 +124,7 @@ fun Login(
                 )
 
                 Text(
-                    text = stringResource(R.string.to_sign_up_screen),
+                    text = stringResource(R.string.sign_up_button),
                     fontSize = 16.sp,
                     color = authTextColor(),
                     modifier = Modifier.clickable { navigateTo.invoke(NavScreens.SignUpScreen) }

@@ -148,7 +148,9 @@ fun PasswordTextField(
             }
             Icon(
                 imageVector = iconVisibilityPassword,
-                contentDescription = if (passwordVisible) "Hide password" else "Show password",
+                contentDescription = if (passwordVisible) stringResource(R.string.cont_desc_hide_password) else stringResource(
+                    R.string.cont_desc_show_password
+                ),
                 modifier = Modifier.clickable { onPasswordVisibilityToggle() }
             )
         },

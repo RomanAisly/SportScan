@@ -64,7 +64,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sportscan.R
-import com.sportscan.domain.helpers.UiText
 import com.sportscan.ui.screens.Profile
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.darkYellow
@@ -78,7 +77,8 @@ fun SectionPhoto(
 
     val multiplePhotoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickMultipleVisualMedia(),
-        onResult = onImagesSelected)
+        onResult = onImagesSelected
+    )
 
     Column(
         modifier.wrapContentHeight(),
@@ -97,7 +97,7 @@ fun SectionPhoto(
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current).data(uriList[index])
                         .crossfade(true).build(),
-                    contentDescription = "",
+                    contentDescription = stringResource(R.string.cont_desc_section_photo),
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -148,10 +148,11 @@ fun InputProfileField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExposedField(
-    options: List<UiText.StringResource>,
+    options: List<String>,
     selectedOption: String,
-    onSelectionChange: (UiText.StringResource) -> Unit,
+    onSelectionChange: (String) -> Unit,
     icon: Painter,
+    contDesc: String,
     tint: Color = Color.Blue
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -168,7 +169,7 @@ fun ExposedField(
             leadingIcon = {
                 Icon(
                     painter = icon,
-                    contentDescription = "",
+                    contentDescription = contDesc,
                     tint = tint
                 )
             },
@@ -185,7 +186,7 @@ fun ExposedField(
         ) {
             options.forEach { selectionOption ->
                 DropdownMenuItem(
-                    text = { (selectionOption.asString()) },
+                    text = { Text(selectionOption) },
                     onClick = {
                         onSelectionChange(selectionOption)
                         isExpanded = false
@@ -207,6 +208,7 @@ fun CostOfLesson(
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
 
     TextField(
         value = value,
@@ -226,7 +228,7 @@ fun CostOfLesson(
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.rubble),
-                contentDescription = "",
+                contentDescription = stringResource(R.string.cont_desc_rubble_price),
                 tint = darkYellow
             )
         },
@@ -240,9 +242,19 @@ fun CostOfLesson(
                 )
                 IconButton(onClick = { isExpanded = true }) {
                     if (isExpanded) {
-                        Icon(imageVector = Icons.Rounded.ArrowDropUp, contentDescription = "")
+                        Icon(
+                            imageVector = Icons.Rounded.ArrowDropUp,
+                            contentDescription = stringResource(
+                                R.string.cont_desc_collapsed
+                            )
+                        )
                     } else {
-                        Icon(imageVector = Icons.Rounded.ArrowDropDown, contentDescription = "")
+                        Icon(
+                            imageVector = Icons.Rounded.ArrowDropDown,
+                            contentDescription = stringResource(
+                                R.string.cont_desc_expanded
+                            )
+                        )
                     }
                 }
             }
@@ -259,42 +271,42 @@ fun CostOfLesson(
 
         DropdownMenuItem(
             onClick = {
-                onCostPeriodChange("Hour")
+                onCostPeriodChange(context.getString(R.string.hour))
                 isExpanded = false
             },
-            text = { Text("Hour") }
+            text = { Text(stringResource(R.string.hour)) }
         )
         HorizontalDivider()
         DropdownMenuItem(
             onClick = {
-                onCostPeriodChange("Day")
+                onCostPeriodChange(context.getString(R.string.day))
                 isExpanded = false
             },
-            text = { Text("Day") }
+            text = { Text(stringResource(R.string.day)) }
         )
         HorizontalDivider()
         DropdownMenuItem(
             onClick = {
-                onCostPeriodChange("Week")
+                onCostPeriodChange(context.getString(R.string.week))
                 isExpanded = false
             },
-            text = { Text("Week") }
+            text = { Text(stringResource(R.string.week)) }
         )
         HorizontalDivider()
         DropdownMenuItem(
             onClick = {
-                onCostPeriodChange("Month")
+                onCostPeriodChange(context.getString(R.string.month))
                 isExpanded = false
             },
-            text = { Text("Month") }
+            text = { Text(stringResource(R.string.month)) }
         )
         HorizontalDivider()
         DropdownMenuItem(
             onClick = {
-                onCostPeriodChange("Year")
+                onCostPeriodChange(context.getString(R.string.year))
                 isExpanded = false
             },
-            text = { Text("Year") }
+            text = { Text(stringResource(R.string.year)) }
         )
     }
 }
@@ -332,7 +344,7 @@ fun RadioButtonsSelection(
                 )
             )
             Text(
-                text = "Yes",
+                text = stringResource(R.string.yes),
                 color = if (isSelected) Color.Green else MaterialTheme.colorScheme.onSurface
             )
 
@@ -347,7 +359,7 @@ fun RadioButtonsSelection(
                 )
             )
             Text(
-                text = "No",
+                text = stringResource(R.string.no),
                 color = if (!isSelected) Color.Red else MaterialTheme.colorScheme.onSurface
             )
         }

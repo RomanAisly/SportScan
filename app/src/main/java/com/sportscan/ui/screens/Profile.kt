@@ -25,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -56,7 +55,6 @@ fun Profile(
     navigateTo: (NavScreens) -> Unit,
     profileViewModel: ProfileViewModel = viewModel()
 ) {
-    val context = LocalContext.current
 
     val uriList by profileViewModel.uriList.collectAsState()
     val sectionName by profileViewModel.sectionName.collectAsState()
@@ -126,18 +124,19 @@ fun Profile(
                         R.string.tennis
                     )
                 ),
-                selectedOption = selectedSport.asString(context),
+                selectedOption = selectedSport,
                 onSelectionChange = {
                     profileViewModel.updateSelectedSport(it)
                 },
-                icon = painterResource(id = R.drawable.sport_type)
+                icon = painterResource(id = R.drawable.sport_type),
+                contDesc = stringResource(R.string.cont_desc_sport_type),
             )
 
             InputProfileField(
                 value = address,
                 onValueChange = profileViewModel::updateAddress,
-                placeholder = "Enter the address",
-                label = "Address",
+                placeholder = stringResource(R.string.placeholder_address),
+                label = stringResource(R.string.label_address),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
@@ -151,33 +150,38 @@ fun Profile(
                     profileViewModel.updateAgeOfClient(it)
                 },
                 icon = painterResource(id = R.drawable.age_group),
-                tint = darkGreen
+                tint = darkGreen,
+                contDesc = stringResource(R.string.cont_desc_age_of_client)
             )
 
             CostOfLesson(
                 value = costOfLesson,
                 onValueChange = profileViewModel::updateCostOfLesson,
-                placeholder = "Enter the cost of lesson",
-                label = "Cost of lesson",
+                placeholder = stringResource(R.string.placeholder_cost_of_lesson),
+                label = stringResource(R.string.label_cost_of_lesson),
                 costPeriod = costPeriod,
                 onCostPeriodChange = profileViewModel::updateCostPeriod
             )
 
             ExposedField(
-                options = listOf("Monday - Friday", "Monday - Sunday", "24/7"),
+                options = listOf(
+                    stringResource(R.string.monday_friday),
+                    stringResource(R.string.monday_sunday), "24/7"
+                ),
                 selectedOption = workGraphic,
                 onSelectionChange = {
                     profileViewModel.updateWorkGraphic(it)
                 },
                 icon = painterResource(id = R.drawable.work_graphic),
-                tint = Color.Red
+                tint = Color.Red,
+                contDesc = stringResource(R.string.cont_desc_work_graphic)
             )
 
             InputProfileField(
                 value = about,
                 onValueChange = profileViewModel::updateAbout,
-                placeholder = "Enter more information about the section",
-                label = "About"
+                placeholder = stringResource(R.string.placeholder_about),
+                label = stringResource(R.string.label_about)
             )
 
             Column(
@@ -196,25 +200,25 @@ fun Profile(
                 RadioButtonsSelection(
                     isSelected = isSelectedDoc,
                     onSelectionChange = profileViewModel::updateSelectedDoc,
-                    text = "Has a medical worker/rescuer?"
+                    text = stringResource(R.string.med_worker)
                 )
 
                 RadioButtonsSelection(
                     isSelected = isSelectedDorCertReq,
                     onSelectionChange = profileViewModel::updateSelectedDorCertReq,
-                    text = "Is a doctor's certificate required?"
+                    text = stringResource(R.string.doc_cart_req)
                 )
 
                 RadioButtonsSelection(
                     isSelected = isSelectedAbilityMedCert,
                     onSelectionChange = profileViewModel::updateSelectedAbilityMedCert,
-                    text = "Is an ability to perform a medical certificate required?"
+                    text = stringResource(R.string.reg_doc_cart)
                 )
 
                 RadioButtonsSelection(
                     isSelected = isSelectedCerfFromOtherDocs,
                     onSelectionChange = profileViewModel::updateSelectedCerfFromOtherDocs,
-                    text = "Is a certificate from another source required?"
+                    text = stringResource(R.string.other_dor_cart_from)
                 )
             }
 
@@ -230,7 +234,7 @@ fun Profile(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Payment methods",
+                    text = stringResource(R.string.payment_methods),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center,
@@ -241,12 +245,12 @@ fun Profile(
                 Row {
                     Column {
                         PaymentMethodItem(
-                            text = "Cash",
+                            text = stringResource(R.string.cash),
                             checked = checkedCash,
                             onCheckedChange = profileViewModel::updateCheckedCash
                         )
                         PaymentMethodItem(
-                            text = "Card",
+                            text = stringResource(R.string.card),
                             checked = checkedCard,
                             onCheckedChange = profileViewModel::updateCheckedCard
                         )
@@ -254,12 +258,12 @@ fun Profile(
 
                     Column {
                         PaymentMethodItem(
-                            text = "Online payment",
+                            text = stringResource(R.string.online_payment),
                             checked = checkedOnlinePayment,
                             onCheckedChange = profileViewModel::updateCheckedOnlinePayment
                         )
                         PaymentMethodItem(
-                            text = "QR",
+                            text = stringResource(R.string.qr_code),
                             checked = checkedQR,
                             onCheckedChange = profileViewModel::updateCheckedQR
                         )
@@ -281,7 +285,7 @@ fun Profile(
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically)
             ) {
                 Text(
-                    text = "Contact information",
+                    text = stringResource(R.string.contact_information),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center,
@@ -291,8 +295,8 @@ fun Profile(
                 InputProfileField(
                     value = email,
                     onValueChange = profileViewModel::updateEmail,
-                    placeholder = "Enter your email",
-                    label = "Email",
+                    placeholder = stringResource(R.string.placeholder_login_field),
+                    label = stringResource(R.string.label_email),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Done
@@ -302,8 +306,8 @@ fun Profile(
                 InputProfileField(
                     value = phone,
                     onValueChange = profileViewModel::updatePhone,
-                    placeholder = "Enter your phone number",
-                    label = "Phone number",
+                    placeholder = stringResource(R.string.placeholder_cont_phone_number),
+                    label = stringResource(R.string.label_phone_number),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Phone,
                         imeAction = ImeAction.Done
@@ -313,8 +317,8 @@ fun Profile(
                 InputProfileField(
                     value = siteAddress,
                     onValueChange = profileViewModel::updateSiteAddress,
-                    placeholder = "Enter the site address",
-                    label = "Site address"
+                    placeholder = stringResource(R.string.placeholder_site_address),
+                    label = stringResource(R.string.label_site_address)
                 )
 
                 Row(
@@ -324,21 +328,21 @@ fun Profile(
                     IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.Rounded.Facebook,
-                            contentDescription = "",
+                            contentDescription = "",// добавить иконку
                             tint = Color.Blue
                         )
                     }
                     IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.Rounded.Facebook,
-                            contentDescription = "",
+                            contentDescription = "",// добавить иконку
                             tint = Color.Red
                         )
                     }
                     IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.Rounded.Facebook,
-                            contentDescription = "",
+                            contentDescription = "",// добавить иконку
                             tint = Color.Green
                         )
                     }
@@ -353,17 +357,18 @@ fun Profile(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(onClick = { profileViewModel.updateAllFields() }) { Text(text = "Reset") }
-                Button(onClick = {}) { Text(text = "Save") }
+                Button(onClick = { profileViewModel.updateAllFields() }) { Text(text = stringResource(
+                    R.string.button_reset
+                )
+                ) }
+                Button(onClick = {}) { Text(text = stringResource(R.string.button_save)) }
             }
         }
     }
 }
 
 
-@Preview(
-    showBackground = true
-)
+@Preview(showBackground = true)
 @Composable
 private fun Preview() {
     Profile(navigateTo = {})

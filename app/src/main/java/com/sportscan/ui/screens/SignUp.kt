@@ -187,7 +187,7 @@ fun SignUp(
                 )
 
                 Text(
-                    text = stringResource(R.string.to_login_screen),
+                    text = stringResource(R.string.login_button),
                     fontSize = 16.sp,
                     color = authTextColor(),
                     modifier = modifier
@@ -202,7 +202,7 @@ fun SignUp(
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 private fun Preview() {
     SignUp(navigateTo = {})

@@ -3,8 +3,6 @@ package com.sportscan.ui.viewmodels
 import android.net.Uri
 import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.ViewModel
-import com.sportscan.R
-import com.sportscan.domain.helpers.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -23,10 +21,9 @@ class ProfileViewModel : ViewModel() {
     }
 
 
-    private val _selectedSport =
-        MutableStateFlow(UiText.StringResource(R.string.def_val_type_of_sport))
+    private val _selectedSport = MutableStateFlow("Вид спорта")
     val selectedSport = _selectedSport.asStateFlow()
-    fun updateSelectedSport(selectedSport: UiText.StringResource) {
+    fun updateSelectedSport(selectedSport: String) {
         _selectedSport.value = selectedSport
     }
 
@@ -38,7 +35,7 @@ class ProfileViewModel : ViewModel() {
     }
 
 
-    private val _ageOfClient = MutableStateFlow("Age of client")
+    private val _ageOfClient = MutableStateFlow("Возраст клиента")
     val ageOfClient = _ageOfClient.asStateFlow()
     fun updateAgeOfClient(ageOfClient: String) {
         _ageOfClient.value = ageOfClient
@@ -47,7 +44,7 @@ class ProfileViewModel : ViewModel() {
 
     private val _costOfLesson = MutableStateFlow("")
     val costOfLesson = _costOfLesson.asStateFlow()
-    private val _costPeriod = MutableStateFlow("per/")
+    private val _costPeriod = MutableStateFlow("в/")
     val costPeriod = _costPeriod.asStateFlow()
     fun updateCostOfLesson(costOfLesson: String) {
         _costOfLesson.value = costOfLesson
@@ -58,7 +55,7 @@ class ProfileViewModel : ViewModel() {
     }
 
 
-    private val _workGraphic = MutableStateFlow("Work graphic")
+    private val _workGraphic = MutableStateFlow("Рабочий график")
     val workGraphic = _workGraphic.asStateFlow()
     fun updateWorkGraphic(workGraphic: String) {
         _workGraphic.value = workGraphic
@@ -151,10 +148,10 @@ class ProfileViewModel : ViewModel() {
 
     fun updateAllFields(
         allClear: String = "",
-        selectedSport: UiText.StringResource = UiText.StringResource(R.string.def_val_type_of_sport),
-        ageOfClient: String = "Age of client",
-        costPeriod: String = "per/",
-        workGraphic: String = "Work graphic",
+        selectedSport: String = "Вид спорта",
+        ageOfClient: String = "Возраст клиента",
+        costPeriod: String = "в/",
+        workGraphic: String = "Рабочий график",
         isSelected: Boolean = false,
         checked: ToggleableState = ToggleableState.Off
     ) {
