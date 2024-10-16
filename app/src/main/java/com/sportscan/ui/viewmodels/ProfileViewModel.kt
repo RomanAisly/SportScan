@@ -147,21 +147,23 @@ class ProfileViewModel : ViewModel() {
 
 
     fun updateAllFields(
-        clearField: String = "",
+        resetValue: String = "",
+        uriList: List<Uri> = emptyList(),
         ageOfClient: String = "Возраст клиента",
         costPeriod: String = "в/",
         workGraphic: String = "Рабочий график",
         isSelected: Boolean = false,
         checked: ToggleableState = ToggleableState.Off
     ) {
-        _sectionName.value = clearField
-        _selectedSport.value = clearField
-        _address.value = clearField
+        _uriList.value = uriList
+        _sectionName.value = resetValue
+        _selectedSport.value = resetValue
+        _address.value = resetValue
         _ageOfClient.value = ageOfClient
-        _costOfLesson.value = clearField
+        _costOfLesson.value = resetValue
         _costPeriod.value = costPeriod
         _workGraphic.value = workGraphic
-        _about.value = clearField
+        _about.value = resetValue
         _isSelectedDoc.value = isSelected
         _isSelectedDorCertReq.value = isSelected
         _isSelectedAbilityMedCert.value = isSelected
@@ -170,9 +172,9 @@ class ProfileViewModel : ViewModel() {
         _checkedCard.value = checked
         _checkedOnlinePayment.value = checked
         _checkedQR.value = checked
-        _email.value = clearField
-        _phone.value = clearField
-        _siteAddress.value = clearField
+        _email.value = resetValue
+        _phone.value = resetValue
+        _siteAddress.value = resetValue
 
     }
 }

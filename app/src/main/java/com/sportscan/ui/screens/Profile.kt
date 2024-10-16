@@ -84,7 +84,7 @@ fun Profile(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            LogoElements(modifier = modifier.padding(vertical = 18.dp))
+            LogoElements(modifier = modifier.padding(top = 30.dp))
 
             Text(
                 text = stringResource(R.string.header_text_profile),
@@ -112,6 +112,10 @@ fun Profile(
                 onValueChange = profileViewModel::updateSelectedSport,
                 placeholder = stringResource(R.string.placeholder_type_of_sport),
                 label = stringResource(R.string.label_type_of_sport),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                )
             )
 
             InputProfileField(

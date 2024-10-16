@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -77,7 +78,7 @@ import com.sportscan.ui.theme.lightBlue
 fun LogoElements(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.spacedBy(80.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
@@ -96,8 +97,9 @@ fun LogoElements(modifier: Modifier = Modifier) {
         }
         Text(
             text = stringResource(R.string.contact_with_us),
-            fontSize = 18.sp,
-            color = authTextColor()
+            fontSize = 16.sp,
+            color = authTextColor(),
+            modifier = Modifier.clickable {  }
         )
     }
 }
@@ -132,15 +134,15 @@ fun SectionPhoto(
                     model = ImageRequest.Builder(LocalContext.current).data(uriList[index])
                         .crossfade(true).build(),
                     contentDescription = stringResource(R.string.cont_desc_section_photo),
-                    contentScale = ContentScale.Fit,
+                    contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .height(220.dp)
                 )
             }
         }
         Button(
-            modifier = Modifier.height(56.dp),
+            modifier = Modifier.height(50.dp),
             onClick = {
                 multiplePhotoPicker.launch(
                     PickVisualMediaRequest(
@@ -186,7 +188,13 @@ fun InputProfileField(
             }
         ),
         textStyle = TextStyle(fontSize = 18.sp),
-        placeholder = { Text(text = placeholder, fontSize = 12.sp) },
+        placeholder = {
+            Text(
+                text = placeholder,
+                fontSize = 12.sp,
+                color = Color(0.5f, 0.5f, 0.5f, 0.8f)
+            )
+        },
         label = { Text(text = label, fontSize = 15.sp, textAlign = TextAlign.Center) },
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
@@ -312,7 +320,7 @@ fun CostOfLesson(
         label = { Text(text = label, fontSize = 15.sp) },
         leadingIcon = {
             Icon(
-                painter = painterResource(id = R.drawable.ic_rubble),
+                painter = painterResource(id = R.drawable.ic_ruble),
                 contentDescription = stringResource(R.string.cont_desc_rubble_price),
                 tint = darkYellow
             )
@@ -321,7 +329,7 @@ fun CostOfLesson(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = costPeriod,
-                    fontSize = 13.sp,
+                    fontSize = 16.sp,
                     textAlign = TextAlign.End,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
