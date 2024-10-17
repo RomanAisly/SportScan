@@ -99,7 +99,7 @@ fun LogoElements(modifier: Modifier = Modifier) {
             text = stringResource(R.string.contact_with_us),
             fontSize = 16.sp,
             color = authTextColor(),
-            modifier = Modifier.clickable {  }
+            modifier = Modifier.clickable { }
         )
     }
 }
@@ -174,6 +174,7 @@ fun InputProfileField(
 ) {
     val maxChar = 300
     val focusManager = LocalFocusManager.current
+    var isPlaying by remember { mutableStateOf(false) }
 
     OutlinedTextField(
         modifier = Modifier
@@ -185,8 +186,12 @@ fun InputProfileField(
         keyboardActions = KeyboardActions(
             onDone = {
                 focusManager.clearFocus()
+                if (!isPlaying) isPlaying = true else isPlaying = false
             }
         ),
+        trailingIcon = {
+            TrailingIconAnim(isPlaying = isPlaying)
+        },
         textStyle = TextStyle(fontSize = 18.sp),
         placeholder = {
             Text(

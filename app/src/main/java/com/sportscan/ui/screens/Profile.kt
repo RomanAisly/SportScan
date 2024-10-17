@@ -133,9 +133,7 @@ fun Profile(
                 options = listOf("0-6", "6-12", "12-16", "18+"),
                 selectedOption = ageClient,
                 onSelectionChange = {
-                    profileViewModel.updateAgeOfClient(it)
-                },
-
+                    profileViewModel.updateAgeOfClient(it) }
                 )
 
             CostOfLesson(
@@ -154,16 +152,18 @@ fun Profile(
                 ),
                 selectedOption = workGraphic,
                 onSelectionChange = {
-                    profileViewModel.updateWorkGraphic(it)
-                },
-
+                    profileViewModel.updateWorkGraphic(it)}
                 )
 
             InputProfileField(
                 value = about,
                 onValueChange = profileViewModel::updateAbout,
                 placeholder = stringResource(R.string.placeholder_about),
-                label = stringResource(R.string.label_about)
+                label = stringResource(R.string.label_about),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                )
             )
 
             SectionPhoto(

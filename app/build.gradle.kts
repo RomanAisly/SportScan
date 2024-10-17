@@ -74,19 +74,15 @@ dependencies {
     implementation(libs.hitl.android)
     implementation(libs.hilt.navigation)
     ksp(libs.hilt.android.compiler)
-
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
-
     implementation(libs.coil)
-
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter)
     implementation(libs.okhttp)
-
     implementation(libs.kotlinx.serialization)
     implementation(libs.androidx.navigation.compose)
-
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.lottie.compose)
 }
