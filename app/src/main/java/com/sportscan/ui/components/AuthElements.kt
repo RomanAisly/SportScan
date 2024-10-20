@@ -76,10 +76,12 @@ fun Logo(modifier: Modifier = Modifier, gradient: Brush) {
 
 @Composable
 fun LoginTextField(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    modifier: Modifier = Modifier
+    supportingText: @Composable () -> Unit = {},
+    isError: Boolean = false
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -98,6 +100,8 @@ fun LoginTextField(
         ),
         textStyle = TextStyle(fontSize = 18.sp),
         placeholder = { Text(text = placeholder) },
+        supportingText = { if (isError) supportingText() },
+        isError = isError,
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
             focusedTextColor = if (isSystemInDarkTheme()) {
@@ -121,7 +125,9 @@ fun PasswordTextField(
     onValueChange: (String) -> Unit,
     placeholder: String,
     passwordVisible: Boolean,
-    onPasswordVisibilityToggle: () -> Unit
+    onPasswordVisibilityToggle: () -> Unit,
+    supportingText: @Composable () -> Unit = {},
+    isError: Boolean = false
 ) {
 
     val focusManager = LocalFocusManager.current
@@ -160,6 +166,8 @@ fun PasswordTextField(
             PasswordVisualTransformation()
         },
         placeholder = { Text(text = placeholder) },
+        supportingText = { if (isError) supportingText() },
+        isError = isError,
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
             focusedTextColor = if (isSystemInDarkTheme()) {

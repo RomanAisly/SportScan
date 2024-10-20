@@ -170,9 +170,9 @@ fun InputProfileField(
     onValueChange: (String) -> Unit,
     placeholder: String,
     label: String,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    prefix: @Composable (() -> Unit)? = null
 ) {
-    val maxChar = 300
     val focusManager = LocalFocusManager.current
     var isPlaying by remember { mutableStateOf(false) }
 
@@ -181,12 +181,12 @@ fun InputProfileField(
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         value = value,
-        onValueChange = { if (it.length <= maxChar) onValueChange(it) },
+        onValueChange = { if (it.length <= 300) onValueChange(it) },
         keyboardOptions = keyboardOptions,
         keyboardActions = KeyboardActions(
             onDone = {
                 focusManager.clearFocus()
-                if (!isPlaying) isPlaying = true else isPlaying = false
+                isPlaying = !isPlaying
             }
         ),
         trailingIcon = {
@@ -202,6 +202,7 @@ fun InputProfileField(
         },
         label = { Text(text = label, fontSize = 15.sp, textAlign = TextAlign.Center) },
         shape = MaterialTheme.shapes.extraLarge,
+        prefix = prefix,
         colors = TextFieldDefaults.colors(
             focusedTextColor = if (isSystemInDarkTheme()) {
                 Color.White
@@ -330,35 +331,33 @@ fun CostOfLesson(
                 tint = darkYellow
             )
         },
+        suffix = {
+            Text(
+                text = costPeriod,
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        },
         trailingIcon = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = costPeriod,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.End,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                IconButton(onClick = { isExpanded = true }) {
-                    if (isExpanded) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowDropUp,
-                            contentDescription = stringResource(
-                                R.string.cont_desc_collapsed
-                            ),
-                            tint = MaterialTheme.colorScheme.onSurface
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowDropDown,
-                            contentDescription = stringResource(
-                                R.string.cont_desc_expanded
-                            ),
-                            tint = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
+            IconButton(onClick = { isExpanded = true }) {
+                if (isExpanded) {
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowDropUp,
+                        contentDescription = stringResource(
+                            R.string.cont_desc_collapsed
+                        ),
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowDropDown,
+                        contentDescription = stringResource(
+                            R.string.cont_desc_expanded
+                        ),
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
                 }
             }
-
         },
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
@@ -512,8 +511,75 @@ fun PaymentMethodItem(
     }
 }
 
+
+@Composable
+fun SocialMediaField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    label: String,
+    leadingIcon: @Composable () -> Unit
+) {
+    val focusManager = LocalFocusManager.current
+    var isPlaying by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        value = value,
+        onValueChange = { if (it.length <= 300) onValueChange(it) },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Uri,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+                isPlaying = !isPlaying
+            }
+        ),
+        leadingIcon = {
+            leadingIcon()
+        },
+        trailingIcon = {
+            TrailingIconAnim(isPlaying = isPlaying)
+        },
+        textStyle = TextStyle(fontSize = 18.sp),
+        placeholder = {
+            Text(
+                text = placeholder,
+                fontSize = 12.sp,
+                color = Color(0.5f, 0.5f, 0.5f, 0.8f)
+            )
+        },
+        label = { Text(text = label, fontSize = 15.sp, textAlign = TextAlign.Center) },
+        shape = MaterialTheme.shapes.extraLarge,
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = borderOutlinedTextField,
+            errorContainerColor = Color.Red,
+            errorTextColor = Color.Red,
+            errorIndicatorColor = Color.Red,
+            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedTrailingIconColor = Color.Transparent,
+            unfocusedContainerColor = authInputField(),
+            focusedContainerColor = authInputField()
+        )
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Profile(navigateTo = {})
+    Profile()
 }

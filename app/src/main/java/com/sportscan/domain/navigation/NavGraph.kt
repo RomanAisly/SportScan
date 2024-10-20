@@ -50,9 +50,7 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
             })
         }
         composable<NavScreens.ProfileScreen> {
-            Profile(navigateTo = {
-                navHostController.navigate(it)
-            })
+            Profile()
         }
     }
 }

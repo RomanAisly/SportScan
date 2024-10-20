@@ -40,6 +40,7 @@
     <string name="label_phone_number">Номер телефона</string>
     <string name="placeholder_site_address">Введите адрес сайта</string>
     <string name="label_site_address">Адрес сайта</string>
+    <string name="placeholder_vk">Введите адрес вашего профиля/группы/сообщества в Вконтакте</string>
     <string name="button_reset">Сброс</string>
     <string name="button_save">Сохранить</string>
     <string name="hour">Час</string>
@@ -66,4 +67,18 @@
     <string name="contact_with_us">Свяжитесь с нами</string>
     <string name="label_type_of_sport">Вид спорта</string>
     <string name="placeholder_type_of_sport">Введите вид спорта</string>
+    <string name="social_media_links">Социальные сети</string>
+    <string name="sub_text_login_invalid">неверный логин</string>
+    <string name="sub_text_password_invalid">неверный пароль</string>
+    <string name="label_vk">Вконтакте</string>
+    <string name="placeholder_telegram">Введите адрес вашего профиля в Telegram</string>
+    <string name="label_telegram">Telegram</string>
+    <string name="placeholder_ok">Введите адрес вашего профиля в Одноклассники</string>
+    <string name="label_ok">Одноклассники</string>
+    <string name="placeholder_youtube">Введите адрес вашего профиля YouTube</string>
+    <string name="label_youtube">YouTube</string>
+    <string name="placeholder_rutube">Введите адрес вашего профиля RuTube</string>
+    <string name="label_rutube">Rutube</string>
+    <string name="placeholder_dzen">Введите адрес вашего профиля Дзен</string>
+    <string name="label_dzen">Дзен</string>
 </resources>

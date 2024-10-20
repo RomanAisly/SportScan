@@ -1,5 +1,6 @@
 package com.sportscan.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +21,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -30,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sportscan.R
-import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.CostOfLesson
 import com.sportscan.ui.components.ExposedField
 import com.sportscan.ui.components.InputProfileField
@@ -38,6 +40,7 @@ import com.sportscan.ui.components.LogoElements
 import com.sportscan.ui.components.PaymentMethodItem
 import com.sportscan.ui.components.RadioButtonsSelection
 import com.sportscan.ui.components.SectionPhoto
+import com.sportscan.ui.components.SocialMediaField
 import com.sportscan.ui.components.gradLogo
 import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.gradMed
@@ -46,7 +49,6 @@ import com.sportscan.ui.viewmodels.ProfileViewModel
 @Composable
 fun Profile(
     modifier: Modifier = Modifier,
-    navigateTo: (NavScreens) -> Unit,
     profileViewModel: ProfileViewModel = viewModel()
 ) {
 
@@ -67,9 +69,15 @@ fun Profile(
     val checkedCard by profileViewModel.checkedCard.collectAsState()
     val checkedOnlinePayment by profileViewModel.checkedOnlinePayment.collectAsState()
     val checkedQR by profileViewModel.checkedQR.collectAsState()
+    val siteAddress by profileViewModel.siteAddress.collectAsState()
     val email by profileViewModel.email.collectAsState()
     val phone by profileViewModel.phone.collectAsState()
-    val siteAddress by profileViewModel.siteAddress.collectAsState()
+    val vk by profileViewModel.vk.collectAsState()
+    val telegram by profileViewModel.telegram.collectAsState()
+    val ok by profileViewModel.ok.collectAsState()
+    val youtube by profileViewModel.youtube.collectAsState()
+    val ruTube by profileViewModel.ruTube.collectAsState()
+    val dzen by profileViewModel.dzen.collectAsState()
 
     Scaffold { paddingValues ->
         Column(
@@ -133,8 +141,9 @@ fun Profile(
                 options = listOf("0-6", "6-12", "12-16", "18+"),
                 selectedOption = ageClient,
                 onSelectionChange = {
-                    profileViewModel.updateAgeOfClient(it) }
-                )
+                    profileViewModel.updateAgeOfClient(it)
+                }
+            )
 
             CostOfLesson(
                 value = costOfLesson,
@@ -152,8 +161,9 @@ fun Profile(
                 ),
                 selectedOption = workGraphic,
                 onSelectionChange = {
-                    profileViewModel.updateWorkGraphic(it)}
-                )
+                    profileViewModel.updateWorkGraphic(it)
+                }
+            )
 
             InputProfileField(
                 value = about,
@@ -281,6 +291,17 @@ fun Profile(
                 )
 
                 InputProfileField(
+                    value = siteAddress,
+                    onValueChange = profileViewModel::updateSiteAddress,
+                    placeholder = stringResource(R.string.placeholder_site_address),
+                    label = stringResource(R.string.label_site_address),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Uri,
+                        imeAction = ImeAction.Done
+                    )
+                )
+
+                InputProfileField(
                     value = email,
                     onValueChange = profileViewModel::updateEmail,
                     placeholder = stringResource(R.string.placeholder_login_field),
@@ -299,21 +320,94 @@ fun Profile(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Phone,
                         imeAction = ImeAction.Done
-                    )
+                    ),
+                    prefix = { Text(text = "+7") }
                 )
 
-                InputProfileField(
-                    value = siteAddress,
-                    onValueChange = profileViewModel::updateSiteAddress,
-                    placeholder = stringResource(R.string.placeholder_site_address),
-                    label = stringResource(R.string.label_site_address)
-                )
 
                 Text(
-                    text = "Social media links",
+                    text = stringResource(R.string.social_media_links),
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 18.sp,
                     modifier = modifier.padding(vertical = 6.dp)
+                )
+
+                SocialMediaField(
+                    value = vk,
+                    onValueChange = profileViewModel::updateVk,
+                    placeholder = stringResource(R.string.placeholder_vk),
+                    label = stringResource(R.string.label_vk),
+                    leadingIcon = {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_vk),
+                            contentDescription = ""
+                        )
+                    }
+                )
+
+                SocialMediaField(
+                    value = telegram,
+                    onValueChange = profileViewModel::updateTelegram,
+                    placeholder = stringResource(R.string.placeholder_telegram),
+                    label = stringResource(R.string.label_telegram),
+                    leadingIcon = {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_telegram),
+                            contentDescription = ""
+                        )
+                    }
+                )
+
+                SocialMediaField(
+                    value = ok,
+                    onValueChange = profileViewModel::updateOk,
+                    placeholder = stringResource(R.string.placeholder_ok),
+                    label = stringResource(R.string.label_ok),
+                    leadingIcon = {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_ok),
+                            contentDescription = ""
+                        )
+                    }
+                )
+
+                SocialMediaField(
+                    value = youtube,
+                    onValueChange = profileViewModel::updateYoutube,
+                    placeholder = stringResource(R.string.placeholder_youtube),
+                    label = stringResource(R.string.label_youtube),
+                    leadingIcon = {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_youtube),
+                            contentDescription = ""
+                        )
+                    }
+                )
+
+                SocialMediaField(
+                    value = ruTube,
+                    onValueChange = profileViewModel::updateRuTube,
+                    placeholder = stringResource(R.string.placeholder_rutube),
+                    label = stringResource(R.string.label_rutube),
+                    leadingIcon = {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_rutube),
+                            contentDescription = ""
+                        )
+                    }
+                )
+
+                SocialMediaField(
+                    value = dzen,
+                    onValueChange = profileViewModel::updateDzen,
+                    placeholder = stringResource(R.string.placeholder_dzen),
+                    label = stringResource(R.string.label_dzen),
+                    leadingIcon = {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_dzen),
+                            contentDescription = ""
+                        )
+                    }
                 )
 
             }
@@ -343,5 +437,5 @@ fun Profile(
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Profile(navigateTo = {})
+    Profile()
 }

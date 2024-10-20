@@ -43,6 +43,18 @@
     <string name="label_phone_number">Phone number</string>
     <string name="placeholder_site_address">Enter the site address</string>
     <string name="label_site_address">Site address</string>
+    <string name="placeholder_vk">Enter the address of your VK profile/group/community</string>
+    <string name="label_vk">VK</string>
+    <string name="placeholder_telegram">Enter the address of your Telegram profile</string>
+    <string name="label_telegram">Telegram</string>
+    <string name="placeholder_ok">Enter the address of your OK profile</string>
+    <string name="label_ok">OK</string>
+    <string name="placeholder_youtube">Enter the address of your Youtube profile</string>
+    <string name="label_youtube">Youtube</string>
+    <string name="placeholder_rutube">Enter the address of your RuTube profile</string>
+    <string name="label_rutube">RuTube</string>
+    <string name="placeholder_dzen">Enter the address of your Dzen profile</string>
+    <string name="label_dzen">Dzen</string>
     <string name="button_reset">Reset</string>
     <string name="button_save">Save</string>
     <string name="hour">Hour</string>
@@ -65,4 +77,7 @@
     <string name="contact_with_us">Contact with us</string>
     <string name="label_type_of_sport">Type of sport</string>
     <string name="placeholder_type_of_sport">Enter type of sport</string>
+    <string name="social_media_links">Social media links</string>
+    <string name="sub_text_login_invalid">invalid login</string>
+    <string name="sub_text_password_invalid">invalid password</string>
 </resources>

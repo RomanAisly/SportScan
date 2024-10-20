@@ -75,7 +75,14 @@ fun Login(
                     .fillMaxWidth(),
                 value = login,
                 onValueChange = loginViewModel::updateLogin,
-                placeholder = stringResource(R.string.placeholder_login_field)
+                placeholder = stringResource(R.string.placeholder_login_field),
+                supportingText = {
+                    Text(
+                        text = stringResource(R.string.sub_text_login_invalid),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                },
+                isError = false // TODO: проверка через бэк
             )
 
             PasswordTextField(
@@ -88,7 +95,14 @@ fun Login(
                 onPasswordVisibilityToggle = {
                     passwordVisible =
                         !passwordVisible
-                }
+                },
+                supportingText = {
+                    Text(
+                        text = stringResource(R.string.sub_text_password_invalid),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                },
+                isError = false // TODO: проверка через бэк
             )
 
             Text(

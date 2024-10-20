@@ -125,6 +125,13 @@ class ProfileViewModel : ViewModel() {
     }
 
 
+    private val _siteAddress = MutableStateFlow("")
+    val siteAddress = _siteAddress.asStateFlow()
+    fun updateSiteAddress(siteAddress: String) {
+        _siteAddress.value = siteAddress
+    }
+
+
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
     fun updateEmail(email: String) {
@@ -139,10 +146,45 @@ class ProfileViewModel : ViewModel() {
     }
 
 
-    private val _siteAddress = MutableStateFlow("")
-    val siteAddress = _siteAddress.asStateFlow()
-    fun updateSiteAddress(siteAddress: String) {
-        _siteAddress.value = siteAddress
+    private val _vk = MutableStateFlow("")
+    val vk = _vk.asStateFlow()
+    fun updateVk(vk: String) {
+        _vk.value = vk
+    }
+
+
+    private val _telegram = MutableStateFlow("")
+    val telegram = _telegram.asStateFlow()
+    fun updateTelegram(telegram: String) {
+        _telegram.value = telegram
+    }
+
+
+    private val _ok = MutableStateFlow("")
+    val ok = _ok.asStateFlow()
+    fun updateOk(ok: String) {
+        _ok.value = ok
+    }
+
+
+    private val _youtube = MutableStateFlow("")
+    val youtube = _youtube.asStateFlow()
+    fun updateYoutube(youtube: String) {
+        _youtube.value = youtube
+    }
+
+
+    private val _ruTube = MutableStateFlow("")
+    val ruTube = _ruTube.asStateFlow()
+    fun updateRuTube(ruTube: String) {
+        _ruTube.value = ruTube
+    }
+
+
+    private val _dzen = MutableStateFlow("")
+    val dzen = _dzen.asStateFlow()
+    fun updateDzen(dzen: String) {
+        _dzen.value = dzen
     }
 
 
@@ -172,9 +214,13 @@ class ProfileViewModel : ViewModel() {
         _checkedCard.value = checked
         _checkedOnlinePayment.value = checked
         _checkedQR.value = checked
+        _siteAddress.value = resetValue
         _email.value = resetValue
         _phone.value = resetValue
-        _siteAddress.value = resetValue
-
+        _vk.value = resetValue
+        _telegram.value = resetValue
+        _ok.value = resetValue
+        _youtube.value = resetValue
+        _ruTube.value = resetValue
     }
 }
