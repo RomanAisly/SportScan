@@ -197,7 +197,7 @@ fun GradientButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     text: String,
-    enabled: Boolean,
+    enabled: Boolean = true,
     gradient: Brush,
 ) {
     Button(

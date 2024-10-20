@@ -18,6 +18,7 @@ val darkBlue = Color(0xFF041129)
 val lightBlue = Color(0xFFADCDE5)
 val lightWhite = Color(0xFFF7F7F7)
 val darkYellow = Color(0xFFFAB000)
+val orange = Color(0xFFEC8011)
 
 val gradLogoLight = Brush.horizontalGradient(
     colors = listOf(

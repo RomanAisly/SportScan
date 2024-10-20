@@ -12,11 +12,6 @@
     <string name="header_text_profile">Заполните поля ниже чтобы зарегистрировать секцию</string>
     <string name="placeholder_section_name">Введите название секции</string>
     <string name="label_section_name">Название секции</string>
-    <string name="swimming">Плавание</string>
-    <string name="cycling">Велогонки</string>
-    <string name="judo">Дзюдо</string>
-    <string name="football">Футбол</string>
-    <string name="tennis">Тэнис</string>
     <string name="placeholder_address">Введите адрес</string>
     <string name="label_address">Адрес</string>
     <string name="placeholder_cost_of_lesson">Введите цену занятия</string>
@@ -27,7 +22,7 @@
     <string name="label_about">О секции</string>
     <string name="med_worker">Есть медицинский работник/спасатель?</string>
     <string name="doc_cart_req">Нужна справка от врача?</string>
-    <string name="reg_doc_cart">Есть возможность оформить мед. справку на месте?</string>
+    <string name="reg_doc_cart">Есть возможность оформить\n мед. справку на месте?</string>
     <string name="other_dor_cart_from">Нужна справка от других врачей?</string>
     <string name="payment_methods">Способы оплаты</string>
     <string name="cash">Наличные</string>

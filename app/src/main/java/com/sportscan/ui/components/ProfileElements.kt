@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
@@ -38,7 +38,6 @@ import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TriStateCheckbox
@@ -49,6 +48,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -117,7 +117,7 @@ fun SectionPhoto(
     )
 
     Column(
-        modifier.wrapContentHeight(),
+        modifier = modifier.clip(MaterialTheme.shapes.small),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -125,7 +125,7 @@ fun SectionPhoto(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp),
+                .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             contentPadding = PaddingValues(8.dp)
         ) {
@@ -142,7 +142,13 @@ fun SectionPhoto(
             }
         }
         Button(
-            modifier = Modifier.height(50.dp),
+            modifier = Modifier
+                .height(50.dp)
+                .border(
+                    width = 2.dp,
+                    color = lightBlue,
+                    shape = MaterialTheme.shapes.extraLarge
+                ),
             onClick = {
                 multiplePhotoPicker.launch(
                     PickVisualMediaRequest(
@@ -151,13 +157,13 @@ fun SectionPhoto(
                 )
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = lightBlue,
+                containerColor = screenBackground(),
             )
 
         ) {
             Text(
                 text = stringResource(R.string.button_pick_images),
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -443,46 +449,43 @@ fun RadioButtonsSelection(
     Column(
         modifier = modifier
             .selectableGroup(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = text,
-            textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(start = 12.dp)
         )
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Start
         ) {
             RadioButton(
                 selected = isSelected,
                 onClick = {
                     onSelectionChange(true)
-                },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = Color.Green
-                )
+                }
             )
             Text(
-                text = stringResource(R.string.yes),
-                color = if (isSelected) Color.Green else MaterialTheme.colorScheme.onSurface
+                text = stringResource(R.string.yes)
             )
-
-
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
             RadioButton(
                 selected = !isSelected,
                 onClick = {
                     onSelectionChange(false)
-                },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = Color.Red
-                )
+                }
             )
             Text(
-                text = stringResource(R.string.no),
-                color = if (!isSelected) Color.Red else MaterialTheme.colorScheme.onSurface
+                text = stringResource(R.string.no)
             )
         }
+
 
     }
 }

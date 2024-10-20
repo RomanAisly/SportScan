@@ -15,11 +15,6 @@
     <string name="header_text_profile">Fill in all the fields below to register the section</string>
     <string name="placeholder_section_name">Enter the section\'s name</string>
     <string name="label_section_name">Section\'s name</string>
-    <string name="swimming">Swimming</string>
-    <string name="cycling">Cycling</string>
-    <string name="judo">Judo</string>
-    <string name="football">Football</string>
-    <string name="tennis">Tennis</string>
     <string name="placeholder_address">Enter the address</string>
     <string name="label_address">Address</string>
     <string name="placeholder_cost_of_lesson">Enter the cost of lesson</string>
@@ -30,7 +25,7 @@
     <string name="label_about">About</string>
     <string name="med_worker">Has a medical worker/rescuer?</string>
     <string name="doc_cart_req">Is a doctor\'s certificate required?</string>
-    <string name="reg_doc_cart">Is an ability to perform a medical certificate required?</string>
+    <string name="reg_doc_cart">Is an ability to perform\na medical certificate required?</string>
     <string name="other_dor_cart_from">Is a certificate from another source required?</string>
     <string name="payment_methods">Payment methods</string>
     <string name="cash">Cash</string>

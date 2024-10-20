@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +12,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,7 +44,8 @@ import com.sportscan.ui.components.SectionPhoto
 import com.sportscan.ui.components.SocialMediaField
 import com.sportscan.ui.components.gradLogo
 import com.sportscan.ui.components.screenBackground
-import com.sportscan.ui.theme.gradMed
+import com.sportscan.ui.theme.lightBlue
+import com.sportscan.ui.theme.orange
 import com.sportscan.ui.viewmodels.ProfileViewModel
 
 @Composable
@@ -89,10 +91,13 @@ fun Profile(
                 )
                 .verticalScroll(state = rememberScrollState())
                 .background(screenBackground()),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LogoElements(modifier = modifier.padding(top = 30.dp))
+            LogoElements(
+                modifier = modifier
+                    .padding(top = 30.dp)
+                    .padding(horizontal = 20.dp)
+            )
 
             Text(
                 text = stringResource(R.string.header_text_profile),
@@ -177,41 +182,29 @@ fun Profile(
             )
 
             SectionPhoto(
+                modifier = modifier.padding(bottom = 8.dp),
                 uriList = uriList,
                 onImagesSelected = profileViewModel::updateUriList
             )
 
             Column(
-                modifier = modifier
-                    .padding(vertical = 10.dp)
-                    .padding(horizontal = 10.dp)
-                    .border(
-                        width = 2.dp,
-                        brush = gradMed,
-                        shape = MaterialTheme.shapes.large
-                    )
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = modifier.padding(start = 8.dp),
             ) {
                 RadioButtonsSelection(
                     isSelected = isSelectedDoc,
                     onSelectionChange = profileViewModel::updateSelectedDoc,
                     text = stringResource(R.string.med_worker)
                 )
-
                 RadioButtonsSelection(
                     isSelected = isSelectedDorCertReq,
                     onSelectionChange = profileViewModel::updateSelectedDorCertReq,
                     text = stringResource(R.string.doc_cart_req)
                 )
-
                 RadioButtonsSelection(
                     isSelected = isSelectedAbilityMedCert,
                     onSelectionChange = profileViewModel::updateSelectedAbilityMedCert,
                     text = stringResource(R.string.reg_doc_cart)
                 )
-
                 RadioButtonsSelection(
                     isSelected = isSelectedCerfFromOtherDocs,
                     onSelectionChange = profileViewModel::updateSelectedCerfFromOtherDocs,
@@ -219,53 +212,44 @@ fun Profile(
                 )
             }
 
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.onSurface,
+                thickness = 1.dp,
+                modifier = Modifier.padding(horizontal = 20.dp)
+            )
+
             Column(
                 modifier = modifier
-                    .border(
-                        width = 2.dp,
-                        brush = gradLogo(),
-                        shape = MaterialTheme.shapes.large
-                    )
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(vertical = 4.dp)
+                    .padding(horizontal = 20.dp)
             ) {
                 Text(
                     text = stringResource(R.string.payment_methods),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = modifier.padding(vertical = 6.dp)
+                    modifier = Modifier.padding(vertical = 6.dp)
                 )
-
-                Row {
-                    Column {
-                        PaymentMethodItem(
-                            text = stringResource(R.string.cash),
-                            checked = checkedCash,
-                            onCheckedChange = profileViewModel::updateCheckedCash
-                        )
-                        PaymentMethodItem(
-                            text = stringResource(R.string.card),
-                            checked = checkedCard,
-                            onCheckedChange = profileViewModel::updateCheckedCard
-                        )
-                    }
-
-                    Column {
-                        PaymentMethodItem(
-                            text = stringResource(R.string.online_payment),
-                            checked = checkedOnlinePayment,
-                            onCheckedChange = profileViewModel::updateCheckedOnlinePayment
-                        )
-                        PaymentMethodItem(
-                            text = stringResource(R.string.qr_code),
-                            checked = checkedQR,
-                            onCheckedChange = profileViewModel::updateCheckedQR
-                        )
-                    }
-                }
+                PaymentMethodItem(
+                    text = stringResource(R.string.cash),
+                    checked = checkedCash,
+                    onCheckedChange = profileViewModel::updateCheckedCash
+                )
+                PaymentMethodItem(
+                    text = stringResource(R.string.card),
+                    checked = checkedCard,
+                    onCheckedChange = profileViewModel::updateCheckedCard
+                )
+                PaymentMethodItem(
+                    text = stringResource(R.string.online_payment),
+                    checked = checkedOnlinePayment,
+                    onCheckedChange = profileViewModel::updateCheckedOnlinePayment
+                )
+                PaymentMethodItem(
+                    text = stringResource(R.string.qr_code),
+                    checked = checkedQR,
+                    onCheckedChange = profileViewModel::updateCheckedQR
+                )
             }
 
 
@@ -339,8 +323,8 @@ fun Profile(
                     label = stringResource(R.string.label_vk),
                     leadingIcon = {
                         Image(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_vk),
-                            contentDescription = ""
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_vk),
+                            contentDescription = stringResource(R.string.label_vk)
                         )
                     }
                 )
@@ -352,8 +336,8 @@ fun Profile(
                     label = stringResource(R.string.label_telegram),
                     leadingIcon = {
                         Image(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_telegram),
-                            contentDescription = ""
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_telegram),
+                            contentDescription = stringResource(R.string.label_telegram)
                         )
                     }
                 )
@@ -365,8 +349,8 @@ fun Profile(
                     label = stringResource(R.string.label_ok),
                     leadingIcon = {
                         Image(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_ok),
-                            contentDescription = ""
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_ok),
+                            contentDescription = stringResource(R.string.label_ok)
                         )
                     }
                 )
@@ -378,8 +362,8 @@ fun Profile(
                     label = stringResource(R.string.label_youtube),
                     leadingIcon = {
                         Image(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_youtube),
-                            contentDescription = ""
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_youtube),
+                            contentDescription = stringResource(R.string.label_youtube)
                         )
                     }
                 )
@@ -391,8 +375,8 @@ fun Profile(
                     label = stringResource(R.string.label_rutube),
                     leadingIcon = {
                         Image(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_rutube),
-                            contentDescription = ""
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_rutube),
+                            contentDescription = stringResource(R.string.label_rutube)
                         )
                     }
                 )
@@ -404,30 +388,60 @@ fun Profile(
                     label = stringResource(R.string.label_dzen),
                     leadingIcon = {
                         Image(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_dzen),
-                            contentDescription = ""
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_dzen),
+                            contentDescription = stringResource(R.string.label_dzen)
                         )
                     }
                 )
 
             }
 
-
-            Row(
+            Column(
                 modifier = modifier
-                    .fillMaxWidth()
                     .padding(bottom = 20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Button(onClick = { profileViewModel.updateAllFields() }) {
+                Button(
+                    onClick = { profileViewModel.updateAllFields() },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = screenBackground()
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 80.dp)
+                        .border(
+                            width = 2.dp,
+                            color = lightBlue,
+                            shape = MaterialTheme.shapes.extraLarge
+                        )
+                ) {
                     Text(
                         text = stringResource(
                             R.string.button_reset
-                        )
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                Button(onClick = {}) { Text(text = stringResource(R.string.button_save)) }
+                Button(
+                    onClick = {}, colors = ButtonDefaults.buttonColors(
+                        containerColor = screenBackground()
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 80.dp)
+                        .border(
+                            width = 2.dp,
+                            color = orange,
+                            shape = MaterialTheme.shapes.extraLarge
+                        )
+                ) {
+                    Text(
+                        text = stringResource(R.string.button_save),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+
             }
         }
     }
