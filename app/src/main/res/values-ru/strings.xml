@@ -76,4 +76,5 @@
     <string name="label_rutube">Rutube</string>
     <string name="placeholder_dzen">Введите адрес вашего профиля Дзен</string>
     <string name="label_dzen">Дзен</string>
+    <string name="age_of_client">Возраст клиента</string>
 </resources>

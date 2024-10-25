@@ -23,6 +23,7 @@
     <string name="monday_sunday">Monday - Sunday</string>
     <string name="placeholder_about">Enter more information about the section</string>
     <string name="label_about">About</string>
+    <string name="age_of_client">Age of client</string>
     <string name="med_worker">Has a medical worker/rescuer?</string>
     <string name="doc_cart_req">Is a doctor\'s certificate required?</string>
     <string name="reg_doc_cart">Is an ability to perform\na medical certificate required?</string>

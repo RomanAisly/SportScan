@@ -42,7 +42,6 @@ import com.sportscan.ui.components.PaymentMethodItem
 import com.sportscan.ui.components.RadioButtonsSelection
 import com.sportscan.ui.components.SectionPhoto
 import com.sportscan.ui.components.SocialMediaField
-import com.sportscan.ui.components.gradLogo
 import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.lightBlue
 import com.sportscan.ui.theme.orange
@@ -256,11 +255,6 @@ fun Profile(
             Column(
                 modifier = modifier
                     .padding(10.dp)
-                    .border(
-                        width = 2.dp,
-                        brush = gradLogo(),
-                        shape = MaterialTheme.shapes.large
-                    )
                     .padding(vertical = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically)
@@ -272,6 +266,18 @@ fun Profile(
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = modifier.padding(vertical = 6.dp)
+                )
+
+                InputProfileField(
+                    value = phone,
+                    onValueChange = profileViewModel::updatePhone,
+                    placeholder = stringResource(R.string.placeholder_cont_phone_number),
+                    label = stringResource(R.string.label_phone_number),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Phone,
+                        imeAction = ImeAction.Done
+                    ),
+                    prefix = { Text(text = "+7") }
                 )
 
                 InputProfileField(
@@ -295,19 +301,6 @@ fun Profile(
                         imeAction = ImeAction.Done
                     )
                 )
-
-                InputProfileField(
-                    value = phone,
-                    onValueChange = profileViewModel::updatePhone,
-                    placeholder = stringResource(R.string.placeholder_cont_phone_number),
-                    label = stringResource(R.string.label_phone_number),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Phone,
-                        imeAction = ImeAction.Done
-                    ),
-                    prefix = { Text(text = "+7") }
-                )
-
 
                 Text(
                     text = stringResource(R.string.social_media_links),
