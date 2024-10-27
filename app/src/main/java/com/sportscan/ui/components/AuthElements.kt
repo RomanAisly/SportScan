@@ -221,7 +221,7 @@ fun GradientButton(
                 text = text,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = darkBlue,
             )
         }
     }

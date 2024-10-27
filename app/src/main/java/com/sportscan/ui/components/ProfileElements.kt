@@ -1,5 +1,6 @@
 package com.sportscan.ui.components
 
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
@@ -51,6 +53,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -61,6 +64,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -172,22 +176,30 @@ fun SectionPhoto(
 
 @Composable
 fun InputProfileField(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
     label: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    prefix: @Composable (() -> Unit)? = null
+    prefix: @Composable (() -> Unit)? = null,
+    maxLetters: Int = 300,
+    letterSpacing: TextUnit = TextUnit.Unspecified
 ) {
     val focusManager = LocalFocusManager.current
     var isPlaying by remember { mutableStateOf(false) }
+    val configuration = LocalConfiguration.current
 
     OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        } else {
+            modifier
+        },
         value = value,
-        onValueChange = { if (it.length <= 300) onValueChange(it) },
+        onValueChange = { if (it.length <= maxLetters) onValueChange(it) },
         keyboardOptions = keyboardOptions,
         keyboardActions = KeyboardActions(
             onDone = {
@@ -198,7 +210,7 @@ fun InputProfileField(
         trailingIcon = {
             TrailingIconAnim(isPlaying = isPlaying)
         },
-        textStyle = TextStyle(fontSize = 18.sp),
+        textStyle = TextStyle(fontSize = 18.sp, letterSpacing = letterSpacing),
         placeholder = {
             Text(
                 text = placeholder,
@@ -235,13 +247,23 @@ fun InputProfileField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExposedField(
+    modifier: Modifier = Modifier,
     options: List<String>,
     selectedOption: String,
     onSelectionChange: (String) -> Unit,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
+    val configuration = LocalConfiguration.current
 
     ExposedDropdownMenuBox(
+        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            modifier
+                .fillMaxWidth()
+        } else {
+            modifier
+                .width(300.dp)
+                .padding(top = 8.dp)
+        },
         expanded = isExpanded,
         onExpandedChange = { isExpanded = true },
     ) {
@@ -301,6 +323,7 @@ fun ExposedField(
 
 @Composable
 fun CostOfLesson(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
@@ -311,11 +334,16 @@ fun CostOfLesson(
     var isExpanded by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
+    val configuration = LocalConfiguration.current
 
     OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        } else {
+            modifier
+        },
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
@@ -517,6 +545,7 @@ fun PaymentMethodItem(
 
 @Composable
 fun SocialMediaField(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
@@ -525,11 +554,16 @@ fun SocialMediaField(
 ) {
     val focusManager = LocalFocusManager.current
     var isPlaying by remember { mutableStateOf(false) }
+    val configuration = LocalConfiguration.current
 
     OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        } else {
+            modifier
+        },
         value = value,
         onValueChange = { if (it.length <= 300) onValueChange(it) },
         keyboardOptions = KeyboardOptions(
