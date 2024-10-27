@@ -86,8 +86,7 @@ fun Profile(
     val ruTube by profileViewModel.ruTube.collectAsState()
     val dzen by profileViewModel.dzen.collectAsState()
 
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> {
+   if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Scaffold { paddingValues ->
                 Column(
                     modifier
@@ -464,7 +463,7 @@ fun Profile(
             }
         }
 
-        else -> {
+        else  {
             Scaffold { paddingValues ->
                 Column(
                     modifier
@@ -494,7 +493,7 @@ fun Profile(
                             .fillMaxWidth()
                             .padding(vertical = 10.dp)
                             .padding(horizontal = 20.dp),
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalAlignment = Alignment.Bottom,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
@@ -794,7 +793,8 @@ fun Profile(
                         modifier
                             .fillMaxSize()
                             .padding(vertical = 30.dp),
-                        horizontalArrangement = Arrangement.SpaceAround
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Button(
                             onClick = { profileViewModel.updateAllFields() },
@@ -835,7 +835,6 @@ fun Profile(
                 }
             }
         }
-    }
 }
 
 
