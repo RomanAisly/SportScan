@@ -19,23 +19,23 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
     NavHost(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
         navController = navHostController,
-        startDestination = NavScreens.LoginScreen,
+        startDestination = NavScreens.ProfileScreen,
         enterTransition = {
-            slideInHorizontally(tween(durationMillis = 1150),
+            slideInHorizontally(tween(durationMillis = 1300),
                 initialOffsetX = { it })
         },
         exitTransition = {
-            slideOutHorizontally(tween(durationMillis = 1150),
+            slideOutHorizontally(tween(durationMillis = 1300),
                 targetOffsetX = { -it })
         },
         popEnterTransition = {
             slideInHorizontally(
-                tween(durationMillis = 1150),
+                tween(durationMillis = 1300),
                 initialOffsetX = { it })
         },
         popExitTransition = {
             slideOutHorizontally(
-                tween(durationMillis = 1150),
+                tween(durationMillis = 1300),
                 targetOffsetX = { it })
         }
     ) {

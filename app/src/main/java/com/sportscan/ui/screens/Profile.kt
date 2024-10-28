@@ -44,6 +44,7 @@ import com.sportscan.ui.components.ExposedField
 import com.sportscan.ui.components.InputProfileField
 import com.sportscan.ui.components.LogoElements
 import com.sportscan.ui.components.PaymentMethodItem
+import com.sportscan.ui.components.PhoneField
 import com.sportscan.ui.components.RadioButtonsSelection
 import com.sportscan.ui.components.SectionPhoto
 import com.sportscan.ui.components.SocialMediaField
@@ -86,123 +87,505 @@ fun Profile(
     val ruTube by profileViewModel.ruTube.collectAsState()
     val dzen by profileViewModel.dzen.collectAsState()
 
-   if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Scaffold { paddingValues ->
-                Column(
-                    modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = paddingValues.calculateTopPadding(),
-                            bottom = paddingValues.calculateBottomPadding()
-                        )
-                        .verticalScroll(state = rememberScrollState())
-                        .background(screenBackground()),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    LogoElements(
-                        modifier = modifier
-                            .padding(top = 30.dp)
-                            .padding(horizontal = 20.dp)
+    if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        Scaffold { paddingValues ->
+            Column(
+                modifier
+                    .fillMaxSize()
+                    .padding(
+                        top = paddingValues.calculateTopPadding(),
+                        bottom = paddingValues.calculateBottomPadding()
                     )
+                    .verticalScroll(state = rememberScrollState())
+                    .background(screenBackground()),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                LogoElements(
+                    modifier = modifier
+                        .padding(top = 30.dp)
+                        .padding(horizontal = 20.dp)
+                )
 
+                Text(
+                    text = stringResource(R.string.header_text_profile),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = modifier.padding(vertical = 10.dp)
+                )
+
+
+                InputProfileField(
+                    modifier = modifier,
+                    value = sectionName,
+                    onValueChange = profileViewModel::updateSectionName,
+                    placeholder = stringResource(R.string.placeholder_section_name),
+                    label = stringResource(R.string.label_section_name),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    )
+                )
+
+                InputProfileField(
+                    modifier = modifier,
+                    value = selectedSport,
+                    onValueChange = profileViewModel::updateSelectedSport,
+                    placeholder = stringResource(R.string.placeholder_type_of_sport),
+                    label = stringResource(R.string.label_type_of_sport),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    )
+                )
+
+                InputProfileField(
+                    modifier = modifier,
+                    value = address,
+                    onValueChange = profileViewModel::updateAddress,
+                    placeholder = stringResource(R.string.placeholder_address),
+                    label = stringResource(R.string.label_address),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    )
+                )
+
+                ExposedField(
+                    modifier = modifier,
+                    options = listOf("0-6", "6-12", "12-16", "18+"),
+                    selectedOption = ageClient,
+                    onSelectionChange = {
+                        profileViewModel.updateAgeOfClient(it)
+                    }
+                )
+
+                CostOfLesson(
+                    modifier = modifier,
+                    value = costOfLesson,
+                    onValueChange = profileViewModel::updateCostOfLesson,
+                    placeholder = stringResource(R.string.placeholder_cost_of_lesson),
+                    label = stringResource(R.string.label_cost_of_lesson),
+                    costPeriod = costPeriod,
+                    onCostPeriodChange = profileViewModel::updateCostPeriod
+                )
+
+                ExposedField(
+                    modifier = modifier,
+                    options = listOf(
+                        stringResource(R.string.monday_friday),
+                        stringResource(R.string.monday_sunday), "24/7"
+                    ),
+                    selectedOption = workGraphic,
+                    onSelectionChange = {
+                        profileViewModel.updateWorkGraphic(it)
+                    }
+                )
+
+                InputProfileField(
+                    modifier = modifier,
+                    value = about,
+                    onValueChange = profileViewModel::updateAbout,
+                    placeholder = stringResource(R.string.placeholder_about),
+                    label = stringResource(R.string.label_about),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    )
+                )
+
+                SectionPhoto(
+                    modifier = modifier.padding(bottom = 8.dp),
+                    uriList = uriList,
+                    onImagesSelected = profileViewModel::updateUriList
+                )
+
+                Column(
+                    modifier = modifier.padding(start = 8.dp),
+                ) {
+                    RadioButtonsSelection(
+                        isSelected = isSelectedDoc,
+                        onSelectionChange = profileViewModel::updateSelectedDoc,
+                        text = stringResource(R.string.med_worker)
+                    )
+                    RadioButtonsSelection(
+                        isSelected = isSelectedDorCertReq,
+                        onSelectionChange = profileViewModel::updateSelectedDorCertReq,
+                        text = stringResource(R.string.doc_cart_req)
+                    )
+                    RadioButtonsSelection(
+                        isSelected = isSelectedAbilityMedCert,
+                        onSelectionChange = profileViewModel::updateSelectedAbilityMedCert,
+                        text = stringResource(R.string.reg_doc_cart)
+                    )
+                    RadioButtonsSelection(
+                        isSelected = isSelectedCerfFromOtherDocs,
+                        onSelectionChange = profileViewModel::updateSelectedCerfFromOtherDocs,
+                        text = stringResource(R.string.other_dor_cart_from)
+                    )
+                }
+
+                HorizontalDivider(
+                    color = MaterialTheme.colorScheme.onSurface,
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                )
+
+                Column(
+                    modifier = modifier
+                        .padding(vertical = 4.dp)
+                        .padding(horizontal = 20.dp)
+                ) {
                     Text(
-                        text = stringResource(R.string.header_text_profile),
-                        fontSize = 20.sp,
+                        text = stringResource(R.string.payment_methods),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(vertical = 6.dp)
+                    )
+                    PaymentMethodItem(
+                        text = stringResource(R.string.cash),
+                        checked = checkedCash,
+                        onCheckedChange = profileViewModel::updateCheckedCash
+                    )
+                    PaymentMethodItem(
+                        text = stringResource(R.string.card),
+                        checked = checkedCard,
+                        onCheckedChange = profileViewModel::updateCheckedCard
+                    )
+                    PaymentMethodItem(
+                        text = stringResource(R.string.online_payment),
+                        checked = checkedOnlinePayment,
+                        onCheckedChange = profileViewModel::updateCheckedOnlinePayment
+                    )
+                    PaymentMethodItem(
+                        text = stringResource(R.string.qr_code),
+                        checked = checkedQR,
+                        onCheckedChange = profileViewModel::updateCheckedQR
+                    )
+                }
+
+
+                Column(
+                    modifier = modifier
+                        .padding(vertical = 10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = stringResource(R.string.contact_information),
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = modifier.padding(vertical = 10.dp)
+                        modifier = modifier.padding(vertical = 6.dp)
                     )
 
+                    PhoneField(
+                        modifier = modifier,
+                        phoneNumber = phone,
+                        onPhoneNumberChanged = profileViewModel::updatePhone,
+                        mask = "(000) 000-00-00",
+                        maskNumber = '0'
+                    )
 
                     InputProfileField(
                         modifier = modifier,
-                        value = sectionName,
-                        onValueChange = profileViewModel::updateSectionName,
-                        placeholder = stringResource(R.string.placeholder_section_name),
-                        label = stringResource(R.string.label_section_name),
+                        value = siteAddress,
+                        onValueChange = profileViewModel::updateSiteAddress,
+                        placeholder = stringResource(R.string.placeholder_site_address),
+                        label = stringResource(R.string.label_site_address),
                         keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
+                            keyboardType = KeyboardType.Uri,
                             imeAction = ImeAction.Done
                         )
                     )
 
                     InputProfileField(
                         modifier = modifier,
-                        value = selectedSport,
-                        onValueChange = profileViewModel::updateSelectedSport,
-                        placeholder = stringResource(R.string.placeholder_type_of_sport),
-                        label = stringResource(R.string.label_type_of_sport),
+                        value = email,
+                        onValueChange = profileViewModel::updateEmail,
+                        placeholder = stringResource(R.string.placeholder_login_field),
+                        label = stringResource(R.string.label_email),
                         keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
+                            keyboardType = KeyboardType.Email,
                             imeAction = ImeAction.Done
                         )
                     )
 
-                    InputProfileField(
-                        modifier = modifier,
-                        value = address,
-                        onValueChange = profileViewModel::updateAddress,
-                        placeholder = stringResource(R.string.placeholder_address),
-                        label = stringResource(R.string.label_address),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        )
+                    Text(
+                        text = stringResource(R.string.social_media_links),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 18.sp,
+                        modifier = modifier.padding(vertical = 6.dp)
                     )
 
-                    ExposedField(
+                    SocialMediaField(
                         modifier = modifier,
-                        options = listOf("0-6", "6-12", "12-16", "18+"),
-                        selectedOption = ageClient,
-                        onSelectionChange = {
-                            profileViewModel.updateAgeOfClient(it)
+                        value = vk,
+                        onValueChange = profileViewModel::updateVk,
+                        placeholder = stringResource(R.string.placeholder_vk),
+                        label = stringResource(R.string.label_vk),
+                        leadingIcon = {
+                            Image(
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_vk),
+                                contentDescription = stringResource(R.string.label_vk)
+                            )
                         }
                     )
 
-                    CostOfLesson(
+                    SocialMediaField(
                         modifier = modifier,
-                        value = costOfLesson,
-                        onValueChange = profileViewModel::updateCostOfLesson,
-                        placeholder = stringResource(R.string.placeholder_cost_of_lesson),
-                        label = stringResource(R.string.label_cost_of_lesson),
-                        costPeriod = costPeriod,
-                        onCostPeriodChange = profileViewModel::updateCostPeriod
+                        value = telegram,
+                        onValueChange = profileViewModel::updateTelegram,
+                        placeholder = stringResource(R.string.placeholder_telegram),
+                        label = stringResource(R.string.label_telegram),
+                        leadingIcon = {
+                            Image(
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_telegram),
+                                contentDescription = stringResource(R.string.label_telegram)
+                            )
+                        }
                     )
 
-                    ExposedField(
+                    SocialMediaField(
                         modifier = modifier,
-                        options = listOf(
-                            stringResource(R.string.monday_friday),
-                            stringResource(R.string.monday_sunday), "24/7"
+                        value = ok,
+                        onValueChange = profileViewModel::updateOk,
+                        placeholder = stringResource(R.string.placeholder_ok),
+                        label = stringResource(R.string.label_ok),
+                        leadingIcon = {
+                            Image(
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_ok),
+                                contentDescription = stringResource(R.string.label_ok)
+                            )
+                        }
+                    )
+
+                    SocialMediaField(
+                        modifier = modifier,
+                        value = youtube,
+                        onValueChange = profileViewModel::updateYoutube,
+                        placeholder = stringResource(R.string.placeholder_youtube),
+                        label = stringResource(R.string.label_youtube),
+                        leadingIcon = {
+                            Image(
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_youtube),
+                                contentDescription = stringResource(R.string.label_youtube)
+                            )
+                        }
+                    )
+
+                    SocialMediaField(
+                        modifier = modifier,
+                        value = ruTube,
+                        onValueChange = profileViewModel::updateRuTube,
+                        placeholder = stringResource(R.string.placeholder_rutube),
+                        label = stringResource(R.string.label_rutube),
+                        leadingIcon = {
+                            Image(
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_rutube),
+                                contentDescription = stringResource(R.string.label_rutube)
+                            )
+                        }
+                    )
+
+                    SocialMediaField(
+                        modifier = modifier,
+                        value = dzen,
+                        onValueChange = profileViewModel::updateDzen,
+                        placeholder = stringResource(R.string.placeholder_dzen),
+                        label = stringResource(R.string.label_dzen),
+                        leadingIcon = {
+                            Image(
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_dzen),
+                                contentDescription = stringResource(R.string.label_dzen)
+                            )
+                        }
+                    )
+
+                }
+
+                Column(
+                    modifier = modifier
+                        .padding(bottom = 20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Button(
+                        onClick = { profileViewModel.updateAllFields() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = screenBackground()
                         ),
-                        selectedOption = workGraphic,
-                        onSelectionChange = {
-                            profileViewModel.updateWorkGraphic(it)
-                        }
-                    )
-
-                    InputProfileField(
-                        modifier = modifier,
-                        value = about,
-                        onValueChange = profileViewModel::updateAbout,
-                        placeholder = stringResource(R.string.placeholder_about),
-                        label = stringResource(R.string.label_about),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        )
-                    )
-
-                    SectionPhoto(
-                        modifier = modifier.padding(bottom = 8.dp),
-                        uriList = uriList,
-                        onImagesSelected = profileViewModel::updateUriList
-                    )
-
-                    Column(
-                        modifier = modifier.padding(start = 8.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 80.dp)
+                            .border(
+                                width = 2.dp,
+                                color = lightBlue,
+                                shape = MaterialTheme.shapes.extraLarge
+                            )
                     ) {
+                        Text(
+                            text = stringResource(
+                                R.string.button_reset
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    Button(
+                        onClick = {}, colors = ButtonDefaults.buttonColors(
+                            containerColor = screenBackground()
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 80.dp)
+                            .border(
+                                width = 2.dp,
+                                color = orange,
+                                shape = MaterialTheme.shapes.extraLarge
+                            )
+                    ) {
+                        Text(
+                            text = stringResource(R.string.button_save),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+
+                }
+            }
+        }
+    } else {
+        Scaffold { paddingValues ->
+            Column(
+                modifier
+                    .fillMaxSize()
+                    .padding(
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+                    )
+                    .verticalScroll(state = rememberScrollState())
+                    .background(screenBackground()),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                LogoElements(
+                    modifier = modifier
+                        .padding(top = 30.dp)
+                        .padding(horizontal = 20.dp)
+                )
+                Text(
+                    text = stringResource(R.string.header_text_profile),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = modifier.padding(vertical = 10.dp)
+                )
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp)
+                        .padding(horizontal = 20.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column {
+                        InputProfileField(
+                            modifier = modifier,
+                            value = sectionName,
+                            onValueChange = profileViewModel::updateSectionName,
+                            placeholder = stringResource(R.string.placeholder_section_name),
+                            label = stringResource(R.string.label_section_name),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done
+                            )
+                        )
+
+                        InputProfileField(
+                            modifier = modifier,
+                            value = selectedSport,
+                            onValueChange = profileViewModel::updateSelectedSport,
+                            placeholder = stringResource(R.string.placeholder_type_of_sport),
+                            label = stringResource(R.string.label_type_of_sport),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done
+                            )
+                        )
+
+                        InputProfileField(
+                            modifier = modifier,
+                            value = address,
+                            onValueChange = profileViewModel::updateAddress,
+                            placeholder = stringResource(R.string.placeholder_address),
+                            label = stringResource(R.string.label_address),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done
+                            )
+                        )
+
+                        ExposedField(
+                            modifier = modifier,
+                            options = listOf("0-6", "6-12", "12-16", "18+"),
+                            selectedOption = ageClient,
+                            onSelectionChange = {
+                                profileViewModel.updateAgeOfClient(it)
+                            }
+                        )
+
+                        CostOfLesson(
+                            modifier = modifier,
+                            value = costOfLesson,
+                            onValueChange = profileViewModel::updateCostOfLesson,
+                            placeholder = stringResource(R.string.placeholder_cost_of_lesson),
+                            label = stringResource(R.string.label_cost_of_lesson),
+                            costPeriod = costPeriod,
+                            onCostPeriodChange = profileViewModel::updateCostPeriod
+                        )
+
+                        ExposedField(
+                            modifier = modifier,
+                            options = listOf(
+                                stringResource(R.string.monday_friday),
+                                stringResource(R.string.monday_sunday), "24/7"
+                            ),
+                            selectedOption = workGraphic,
+                            onSelectionChange = {
+                                profileViewModel.updateWorkGraphic(it)
+                            }
+                        )
+
+                        InputProfileField(
+                            modifier = modifier,
+                            value = about,
+                            onValueChange = profileViewModel::updateAbout,
+                            placeholder = stringResource(R.string.placeholder_about),
+                            label = stringResource(R.string.label_about),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done
+                            )
+                        )
+                    }
+                    Column {
+                        SectionPhoto(
+                            modifier = modifier.padding(bottom = 8.dp),
+                            uriList = uriList,
+                            onImagesSelected = profileViewModel::updateUriList
+                        )
+
+                    }
+                }
+
+                Row(
+                    modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    Column {
                         RadioButtonsSelection(
                             isSelected = isSelectedDoc,
                             onSelectionChange = profileViewModel::updateSelectedDoc,
@@ -224,18 +607,7 @@ fun Profile(
                             text = stringResource(R.string.other_dor_cart_from)
                         )
                     }
-
-                    HorizontalDivider(
-                        color = MaterialTheme.colorScheme.onSurface,
-                        thickness = 1.dp,
-                        modifier = Modifier.padding(horizontal = 20.dp)
-                    )
-
-                    Column(
-                        modifier = modifier
-                            .padding(vertical = 4.dp)
-                            .padding(horizontal = 20.dp)
-                    ) {
+                    Column {
                         Text(
                             text = stringResource(R.string.payment_methods),
                             fontSize = 18.sp,
@@ -264,14 +636,14 @@ fun Profile(
                             onCheckedChange = profileViewModel::updateCheckedQR
                         )
                     }
-
-
-                    Column(
-                        modifier = modifier
-                            .padding(vertical = 10.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically)
-                    ) {
+                }
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    Column {
                         Text(
                             text = stringResource(R.string.contact_information),
                             fontSize = 18.sp,
@@ -280,7 +652,6 @@ fun Profile(
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = modifier.padding(vertical = 6.dp)
                         )
-
                         InputProfileField(
                             modifier = modifier,
                             value = phone,
@@ -318,14 +689,14 @@ fun Profile(
                                 imeAction = ImeAction.Done
                             )
                         )
-
+                    }
+                    Column {
                         Text(
                             text = stringResource(R.string.social_media_links),
                             color = MaterialTheme.colorScheme.onSurface,
                             fontSize = 18.sp,
                             modifier = modifier.padding(vertical = 6.dp)
                         )
-
                         SocialMediaField(
                             modifier = modifier,
                             value = vk,
@@ -407,434 +778,58 @@ fun Profile(
                                     imageVector = ImageVector.vectorResource(R.drawable.ic_dzen),
                                     contentDescription = stringResource(R.string.label_dzen)
                                 )
-                            }
-                        )
-
-                    }
-
-                    Column(
-                        modifier = modifier
-                            .padding(bottom = 20.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        Button(
-                            onClick = { profileViewModel.updateAllFields() },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = screenBackground()
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 80.dp)
-                                .border(
-                                    width = 2.dp,
-                                    color = lightBlue,
-                                    shape = MaterialTheme.shapes.extraLarge
-                                )
-                        ) {
-                            Text(
-                                text = stringResource(
-                                    R.string.button_reset
-                                ),
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                        Button(
-                            onClick = {}, colors = ButtonDefaults.buttonColors(
-                                containerColor = screenBackground()
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 80.dp)
-                                .border(
-                                    width = 2.dp,
-                                    color = orange,
-                                    shape = MaterialTheme.shapes.extraLarge
-                                )
-                        ) {
-                            Text(
-                                text = stringResource(R.string.button_save),
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-
+                            })
                     }
                 }
-            }
-        }
 
-        else  {
-            Scaffold { paddingValues ->
-                Column(
+                Row(
                     modifier
                         .fillMaxSize()
-                        .padding(
-                            end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
-                        )
-                        .verticalScroll(state = rememberScrollState())
-                        .background(screenBackground()),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(vertical = 30.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    LogoElements(
-                        modifier = modifier
-                            .padding(top = 30.dp)
-                            .padding(horizontal = 20.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.header_text_profile),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = modifier.padding(vertical = 10.dp)
-                    )
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 10.dp)
-                            .padding(horizontal = 20.dp),
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                    Button(
+                        onClick = { profileViewModel.updateAllFields() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = screenBackground()
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(0.4f)
+                            .border(
+                                width = 2.dp,
+                                color = lightBlue,
+                                shape = MaterialTheme.shapes.extraLarge
+                            )
                     ) {
-                        Column {
-                            InputProfileField(
-                                modifier = modifier,
-                                value = sectionName,
-                                onValueChange = profileViewModel::updateSectionName,
-                                placeholder = stringResource(R.string.placeholder_section_name),
-                                label = stringResource(R.string.label_section_name),
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Done
-                                )
-                            )
-
-                            InputProfileField(
-                                modifier = modifier,
-                                value = selectedSport,
-                                onValueChange = profileViewModel::updateSelectedSport,
-                                placeholder = stringResource(R.string.placeholder_type_of_sport),
-                                label = stringResource(R.string.label_type_of_sport),
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Done
-                                )
-                            )
-
-                            InputProfileField(
-                                modifier = modifier,
-                                value = address,
-                                onValueChange = profileViewModel::updateAddress,
-                                placeholder = stringResource(R.string.placeholder_address),
-                                label = stringResource(R.string.label_address),
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Done
-                                )
-                            )
-
-                            ExposedField(
-                                modifier = modifier,
-                                options = listOf("0-6", "6-12", "12-16", "18+"),
-                                selectedOption = ageClient,
-                                onSelectionChange = {
-                                    profileViewModel.updateAgeOfClient(it)
-                                }
-                            )
-
-                            CostOfLesson(
-                                modifier = modifier,
-                                value = costOfLesson,
-                                onValueChange = profileViewModel::updateCostOfLesson,
-                                placeholder = stringResource(R.string.placeholder_cost_of_lesson),
-                                label = stringResource(R.string.label_cost_of_lesson),
-                                costPeriod = costPeriod,
-                                onCostPeriodChange = profileViewModel::updateCostPeriod
-                            )
-
-                            ExposedField(
-                                modifier = modifier,
-                                options = listOf(
-                                    stringResource(R.string.monday_friday),
-                                    stringResource(R.string.monday_sunday), "24/7"
-                                ),
-                                selectedOption = workGraphic,
-                                onSelectionChange = {
-                                    profileViewModel.updateWorkGraphic(it)
-                                }
-                            )
-
-                            InputProfileField(
-                                modifier = modifier,
-                                value = about,
-                                onValueChange = profileViewModel::updateAbout,
-                                placeholder = stringResource(R.string.placeholder_about),
-                                label = stringResource(R.string.label_about),
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Done
-                                )
-                            )
-                        }
-                        Column {
-                            SectionPhoto(
-                                modifier = modifier.padding(bottom = 8.dp),
-                                uriList = uriList,
-                                onImagesSelected = profileViewModel::updateUriList
-                            )
-
-                        }
-                    }
-
-                    Row(
-                        modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 20.dp),
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        Column {
-                            RadioButtonsSelection(
-                                isSelected = isSelectedDoc,
-                                onSelectionChange = profileViewModel::updateSelectedDoc,
-                                text = stringResource(R.string.med_worker)
-                            )
-                            RadioButtonsSelection(
-                                isSelected = isSelectedDorCertReq,
-                                onSelectionChange = profileViewModel::updateSelectedDorCertReq,
-                                text = stringResource(R.string.doc_cart_req)
-                            )
-                            RadioButtonsSelection(
-                                isSelected = isSelectedAbilityMedCert,
-                                onSelectionChange = profileViewModel::updateSelectedAbilityMedCert,
-                                text = stringResource(R.string.reg_doc_cart)
-                            )
-                            RadioButtonsSelection(
-                                isSelected = isSelectedCerfFromOtherDocs,
-                                onSelectionChange = profileViewModel::updateSelectedCerfFromOtherDocs,
-                                text = stringResource(R.string.other_dor_cart_from)
-                            )
-                        }
-                        Column {
-                            Text(
-                                text = stringResource(R.string.payment_methods),
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(vertical = 6.dp)
-                            )
-                            PaymentMethodItem(
-                                text = stringResource(R.string.cash),
-                                checked = checkedCash,
-                                onCheckedChange = profileViewModel::updateCheckedCash
-                            )
-                            PaymentMethodItem(
-                                text = stringResource(R.string.card),
-                                checked = checkedCard,
-                                onCheckedChange = profileViewModel::updateCheckedCard
-                            )
-                            PaymentMethodItem(
-                                text = stringResource(R.string.online_payment),
-                                checked = checkedOnlinePayment,
-                                onCheckedChange = profileViewModel::updateCheckedOnlinePayment
-                            )
-                            PaymentMethodItem(
-                                text = stringResource(R.string.qr_code),
-                                checked = checkedQR,
-                                onCheckedChange = profileViewModel::updateCheckedQR
-                            )
-                        }
-                    }
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 10.dp),
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        Column {
-                            Text(
-                                text = stringResource(R.string.contact_information),
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                modifier = modifier.padding(vertical = 6.dp)
-                            )
-                            InputProfileField(
-                                modifier = modifier,
-                                value = phone,
-                                onValueChange = profileViewModel::updatePhone,
-                                placeholder = stringResource(R.string.placeholder_cont_phone_number),
-                                label = stringResource(R.string.label_phone_number),
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Phone,
-                                    imeAction = ImeAction.Done
-                                ),
-                                prefix = { Text(text = "+7") },
-                                maxLetters = 10
-                            )
-
-                            InputProfileField(
-                                modifier = modifier,
-                                value = siteAddress,
-                                onValueChange = profileViewModel::updateSiteAddress,
-                                placeholder = stringResource(R.string.placeholder_site_address),
-                                label = stringResource(R.string.label_site_address),
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Uri,
-                                    imeAction = ImeAction.Done
-                                )
-                            )
-
-                            InputProfileField(
-                                modifier = modifier,
-                                value = email,
-                                onValueChange = profileViewModel::updateEmail,
-                                placeholder = stringResource(R.string.placeholder_login_field),
-                                label = stringResource(R.string.label_email),
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Email,
-                                    imeAction = ImeAction.Done
-                                )
-                            )
-                        }
-                        Column {
-                            Text(
-                                text = stringResource(R.string.social_media_links),
-                                color = MaterialTheme.colorScheme.onSurface,
-                                fontSize = 18.sp,
-                                modifier = modifier.padding(vertical = 6.dp)
-                            )
-                            SocialMediaField(
-                                modifier = modifier,
-                                value = vk,
-                                onValueChange = profileViewModel::updateVk,
-                                placeholder = stringResource(R.string.placeholder_vk),
-                                label = stringResource(R.string.label_vk),
-                                leadingIcon = {
-                                    Image(
-                                        imageVector = ImageVector.vectorResource(R.drawable.ic_vk),
-                                        contentDescription = stringResource(R.string.label_vk)
-                                    )
-                                }
-                            )
-
-                            SocialMediaField(
-                                modifier = modifier,
-                                value = telegram,
-                                onValueChange = profileViewModel::updateTelegram,
-                                placeholder = stringResource(R.string.placeholder_telegram),
-                                label = stringResource(R.string.label_telegram),
-                                leadingIcon = {
-                                    Image(
-                                        imageVector = ImageVector.vectorResource(R.drawable.ic_telegram),
-                                        contentDescription = stringResource(R.string.label_telegram)
-                                    )
-                                }
-                            )
-
-                            SocialMediaField(
-                                modifier = modifier,
-                                value = ok,
-                                onValueChange = profileViewModel::updateOk,
-                                placeholder = stringResource(R.string.placeholder_ok),
-                                label = stringResource(R.string.label_ok),
-                                leadingIcon = {
-                                    Image(
-                                        imageVector = ImageVector.vectorResource(R.drawable.ic_ok),
-                                        contentDescription = stringResource(R.string.label_ok)
-                                    )
-                                }
-                            )
-
-                            SocialMediaField(
-                                modifier = modifier,
-                                value = youtube,
-                                onValueChange = profileViewModel::updateYoutube,
-                                placeholder = stringResource(R.string.placeholder_youtube),
-                                label = stringResource(R.string.label_youtube),
-                                leadingIcon = {
-                                    Image(
-                                        imageVector = ImageVector.vectorResource(R.drawable.ic_youtube),
-                                        contentDescription = stringResource(R.string.label_youtube)
-                                    )
-                                }
-                            )
-
-                            SocialMediaField(
-                                modifier = modifier,
-                                value = ruTube,
-                                onValueChange = profileViewModel::updateRuTube,
-                                placeholder = stringResource(R.string.placeholder_rutube),
-                                label = stringResource(R.string.label_rutube),
-                                leadingIcon = {
-                                    Image(
-                                        imageVector = ImageVector.vectorResource(R.drawable.ic_rutube),
-                                        contentDescription = stringResource(R.string.label_rutube)
-                                    )
-                                }
-                            )
-
-                            SocialMediaField(
-                                modifier = modifier,
-                                value = dzen,
-                                onValueChange = profileViewModel::updateDzen,
-                                placeholder = stringResource(R.string.placeholder_dzen),
-                                label = stringResource(R.string.label_dzen),
-                                leadingIcon = {
-                                    Image(
-                                        imageVector = ImageVector.vectorResource(R.drawable.ic_dzen),
-                                        contentDescription = stringResource(R.string.label_dzen)
-                                    )
-                                })
-                        }
-                    }
-
-                    Row(
-                        modifier
-                            .fillMaxSize()
-                            .padding(vertical = 30.dp),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Button(
-                            onClick = { profileViewModel.updateAllFields() },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = screenBackground()
+                        Text(
+                            text = stringResource(
+                                R.string.button_reset
                             ),
-                            modifier = Modifier.fillMaxWidth(0.4f)
-                                .border(
-                                    width = 2.dp,
-                                    color = lightBlue,
-                                    shape = MaterialTheme.shapes.extraLarge
-                                )
-                        ) {
-                            Text(
-                                text = stringResource(
-                                    R.string.button_reset
-                                ),
-                                color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    Button(
+                        onClick = {}, colors = ButtonDefaults.buttonColors(
+                            containerColor = screenBackground()
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(0.6f)
+                            .border(
+                                width = 2.dp,
+                                color = orange,
+                                shape = MaterialTheme.shapes.extraLarge
                             )
-                        }
-                        Button(
-                            onClick = {}, colors = ButtonDefaults.buttonColors(
-                                containerColor = screenBackground()
-                            ),
-                            modifier = Modifier.fillMaxWidth(0.6f)
-                                .border(
-                                    width = 2.dp,
-                                    color = orange,
-                                    shape = MaterialTheme.shapes.extraLarge
-                                )
-                        ) {
-                            Text(
-                                text = stringResource(R.string.button_save),
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
+                    ) {
+                        Text(
+                            text = stringResource(R.string.button_save),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                     }
                 }
             }
         }
+    }
 }
 
 

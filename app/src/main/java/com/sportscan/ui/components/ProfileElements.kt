@@ -59,12 +59,16 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -183,8 +187,7 @@ fun InputProfileField(
     label: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     prefix: @Composable (() -> Unit)? = null,
-    maxLetters: Int = 300,
-    letterSpacing: TextUnit = TextUnit.Unspecified
+    maxLetters: Int = 300
 ) {
     val focusManager = LocalFocusManager.current
     var isPlaying by remember { mutableStateOf(false) }
@@ -210,7 +213,7 @@ fun InputProfileField(
         trailingIcon = {
             TrailingIconAnim(isPlaying = isPlaying)
         },
-        textStyle = TextStyle(fontSize = 18.sp, letterSpacing = letterSpacing),
+        textStyle = TextStyle(fontSize = 18.sp),
         placeholder = {
             Text(
                 text = placeholder,
@@ -613,6 +616,134 @@ fun SocialMediaField(
             focusedContainerColor = authInputField()
         )
     )
+}
+
+@Composable
+fun PhoneField(
+    modifier: Modifier = Modifier,
+    phoneNumber: String,
+    mask: String = "999 999 99 99",
+    maskNumber: Char = '9',
+    onPhoneNumberChanged: (String) -> Unit
+) {
+    val focusManager = LocalFocusManager.current
+    var isPlaying by remember { mutableStateOf(false) }
+    val configuration = LocalConfiguration.current
+
+    OutlinedTextField(
+        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        } else {
+            modifier
+        },
+        value = phoneNumber,
+        onValueChange = { it ->
+            if (it.length <= 10) {
+                onPhoneNumberChanged(it.take(mask.count { it == maskNumber }))
+            }
+        },
+        label = { Text(text = stringResource(R.string.label_phone_number)) },
+        placeholder = {
+            Text(
+                text = stringResource(R.string.placeholder_cont_phone_number),
+                fontSize = 12.sp,
+                color = Color(0.5f, 0.5f, 0.5f, 0.8f),
+                textAlign = TextAlign.End
+            )
+        },
+        prefix = { Text(text = "+7") },
+        textStyle = TextStyle(fontSize = 18.sp),
+        trailingIcon = {
+            TrailingIconAnim(isPlaying = isPlaying)
+        },
+        shape = MaterialTheme.shapes.extraLarge,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Phone,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+                isPlaying = !isPlaying
+            }
+        ),
+        visualTransformation = PhoneVisualTransformation(mask, maskNumber),
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = borderOutlinedTextField,
+            errorContainerColor = Color.Red,
+            errorTextColor = Color.Red,
+            errorIndicatorColor = Color.Red,
+            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
+                Color.White
+            } else {
+                authElements
+            },
+            unfocusedTrailingIconColor = Color.Transparent,
+            unfocusedContainerColor = authInputField(),
+            focusedContainerColor = authInputField()
+        )
+    )
+}
+
+class PhoneVisualTransformation(val mask: String, val maskNumber: Char) : VisualTransformation {
+
+    private val maxLength = mask.count { it == maskNumber }
+
+    override fun filter(text: AnnotatedString): TransformedText {
+        val trimmed = if (text.length > maxLength) text.take(maxLength) else text
+        val annotatedString = buildAnnotatedString {
+            if (trimmed.isEmpty()) return@buildAnnotatedString
+
+            var maskIndex = 0
+            var textIndex = 0
+            while (textIndex < trimmed.length && maskIndex < mask.length) {
+                if (mask[maskIndex] != maskNumber) {
+                    val nextDigitIndex = mask.indexOf(maskNumber, maskIndex)
+                    append(mask.substring(maskIndex, nextDigitIndex))
+                    maskIndex = nextDigitIndex
+                }
+                append(trimmed[textIndex++])
+                maskIndex++
+            }
+        }
+        return TransformedText(annotatedString, PhoneOffsetMapper(mask, maskNumber))
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is PhoneVisualTransformation) return false
+        if (mask != other.mask) return false
+        if (maskNumber != other.maskNumber) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return mask.hashCode()
+    }
+
+}
+
+private class PhoneOffsetMapper(val mask: String, val maskNumber: Char) : OffsetMapping {
+    override fun originalToTransformed(offset: Int): Int {
+        var noneDigitCount = 0
+        var i = 0
+        while (i < offset + noneDigitCount) {
+            if (mask[i++] != maskNumber) noneDigitCount++
+        }
+        return offset + noneDigitCount
+    }
+
+    override fun transformedToOriginal(offset: Int): Int =
+        offset - mask.take(offset).count { it != maskNumber }
+
 }
 
 @Preview(showBackground = true)
