@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 private val DarkColorScheme = darkColorScheme(
     primary = lightThemeColor1,
     secondary = lightThemeColor2,
-    tertiary = lightThemeColor3,
+    tertiary = lightThemeColor3
 )
 
 private val LightColorScheme = lightColorScheme(

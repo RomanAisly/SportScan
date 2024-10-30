@@ -61,8 +61,7 @@ fun Login(
                 modifier
                     .fillMaxSize()
                     .padding(
-                        top = paddingValues.calculateTopPadding(),
-                        bottom = paddingValues.calculateBottomPadding(),
+                      paddingValues
                     )
                     .verticalScroll(rememberScrollState())
                     .background(screenBackground()),
@@ -119,7 +118,7 @@ fun Login(
                 )
 
                 GradientButton(
-                    onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
+                    onClick = { navigateTo(NavScreens.ProfileScreen) },
                     text = stringResource(R.string.login_button),
                     enabled = login.isNotEmpty() && password.isNotEmpty(),
                     gradient = if (login.isNotEmpty() && password.isNotEmpty())
@@ -145,7 +144,7 @@ fun Login(
                         text = stringResource(R.string.sign_up_button),
                         fontSize = 16.sp,
                         color = authTextColor(),
-                        modifier = Modifier.clickable { navigateTo.invoke(NavScreens.SignUpScreen) }
+                        modifier = Modifier.clickable { navigateTo(NavScreens.SignUpScreen) }
                     )
                 }
             }
@@ -216,7 +215,7 @@ fun Login(
                         verticalArrangement = Arrangement.spacedBy(18.dp, Alignment.Top)
                     ) {
                         GradientButton(
-                            onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
+                            onClick = { navigateTo(NavScreens.ProfileScreen) },
                             text = stringResource(R.string.login_button),
                             enabled = login.isNotEmpty() && password.isNotEmpty(),
                             gradient = if (login.isNotEmpty() && password.isNotEmpty())
@@ -235,7 +234,7 @@ fun Login(
                             text = stringResource(R.string.sign_up_button),
                             fontSize = 16.sp,
                             color = authTextColor(),
-                            modifier = Modifier.clickable { navigateTo.invoke(NavScreens.SignUpScreen) }
+                            modifier = Modifier.clickable { navigateTo(NavScreens.SignUpScreen) }
                         )
                     }
                 }

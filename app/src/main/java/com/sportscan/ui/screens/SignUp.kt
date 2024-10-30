@@ -81,7 +81,6 @@ fun SignUp(
                         top = paddingValues.calculateTopPadding(),
                         bottom = paddingValues.calculateBottomPadding(),
                     )
-                    .padding(horizontal = 16.dp)
                     .background(screenBackground()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(14.dp, Alignment.CenterVertically)
@@ -127,7 +126,8 @@ fun SignUp(
 
                 Row(
                     modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TriStateCheckbox(
@@ -151,9 +151,12 @@ fun SignUp(
                         text = buildAnnotatedString {
                             append(stringResource(R.string.accept_terms))
                             withLink(
-                                LinkAnnotation.Url(
-                                    "",// add link here
-                                    TextLinkStyles(
+                                LinkAnnotation.Clickable(
+                                    tag = "UserAgreement",
+                                    linkInteractionListener = {
+
+                                    },
+                                    styles = TextLinkStyles(
                                         style = SpanStyle(
                                             color = authTextColor(),
                                             textDecoration = TextDecoration.Underline
@@ -172,7 +175,8 @@ fun SignUp(
                 }
 
                 GradientButton(
-                    onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
+                    modifier.padding(10.dp),
+                    onClick = { navigateTo(NavScreens.ProfileScreen) },
                     text = stringResource(R.string.sign_up_button),
                     gradient = if (isButtonEnabled) gradButtAutEnable else gradButtDisable(),
                     enabled = isButtonEnabled,
@@ -180,9 +184,9 @@ fun SignUp(
 
                 Row(
                     modifier
-                        .fillMaxWidth()
-                        .padding(start = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
 
                     Text(
@@ -197,7 +201,7 @@ fun SignUp(
                         color = authTextColor(),
                         modifier = modifier
                             .clickable {
-                                navigateTo.invoke(NavScreens.LoginScreen)
+                                navigateTo(NavScreens.LoginScreen)
                             }
                             .padding(start = 25.dp)
                     )
@@ -305,7 +309,7 @@ fun SignUp(
                         }
 
                         GradientButton(
-                            onClick = { navigateTo.invoke(NavScreens.ProfileScreen) },
+                            onClick = { navigateTo(NavScreens.ProfileScreen) },
                             text = stringResource(R.string.sign_up_button),
                             gradient = if (isButtonEnabled) gradButtAutEnable else gradButtDisable(),
                             enabled = isButtonEnabled,
@@ -327,7 +331,7 @@ fun SignUp(
                                 color = authTextColor(),
                                 modifier = modifier
                                     .clickable {
-                                        navigateTo.invoke(NavScreens.LoginScreen)
+                                        navigateTo(NavScreens.LoginScreen)
                                     }
                             )
                         }
