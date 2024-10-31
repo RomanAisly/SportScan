@@ -74,13 +74,15 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sportscan.R
-import com.sportscan.ui.screens.Profile
+import com.sportscan.ui.screens.ProfilePortrait
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.borderOutlinedTextField
 import com.sportscan.ui.theme.darkYellow
+import com.sportscan.ui.theme.errorColor
 import com.sportscan.ui.theme.gradLogoDark
 import com.sportscan.ui.theme.gradLogoLight
 import com.sportscan.ui.theme.lightBlue
+import com.sportscan.ui.theme.transparent
 
 @Composable
 fun LogoElements(modifier: Modifier = Modifier) {
@@ -184,7 +186,6 @@ fun InputProfileField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    label: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     prefix: @Composable (() -> Unit)? = null,
     maxLetters: Int = 300
@@ -221,26 +222,17 @@ fun InputProfileField(
                 color = Color(0.5f, 0.5f, 0.5f, 0.8f)
             )
         },
-        label = { Text(text = label, fontSize = 15.sp, textAlign = TextAlign.Center) },
         shape = MaterialTheme.shapes.extraLarge,
         prefix = prefix,
         colors = TextFieldDefaults.colors(
-            focusedTextColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedIndicatorColor = Color.Transparent,
+            focusedTextColor = focusedFieldContent(),
+            unfocusedIndicatorColor = transparent,
             focusedIndicatorColor = borderOutlinedTextField,
-            errorContainerColor = Color.Red,
-            errorTextColor = Color.Red,
-            errorIndicatorColor = Color.Red,
-            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedTrailingIconColor = Color.Transparent,
+            errorContainerColor = errorColor,
+            errorTextColor = errorColor,
+            errorIndicatorColor = errorColor,
+            focusedTrailingIconColor = focusedFieldContent(),
+            unfocusedTrailingIconColor = transparent,
             unfocusedContainerColor = authInputField(),
             focusedContainerColor = authInputField()
         )
@@ -286,22 +278,14 @@ fun ExposedField(
             ),
             shape = MaterialTheme.shapes.extraLarge,
             colors = TextFieldDefaults.colors(
-                focusedTextColor = if (isSystemInDarkTheme()) {
-                    Color.White
-                } else {
-                    authElements
-                },
-                unfocusedIndicatorColor = Color.Transparent,
+                focusedTextColor = focusedFieldContent(),
+                unfocusedIndicatorColor = transparent,
                 focusedIndicatorColor = borderOutlinedTextField,
-                errorContainerColor = Color.Red,
-                errorTextColor = Color.Red,
-                errorIndicatorColor = Color.Red,
-                focusedTrailingIconColor = if (isSystemInDarkTheme()) {
-                    Color.White
-                } else {
-                    authElements
-                },
-                unfocusedTrailingIconColor = Color.Transparent,
+                errorContainerColor = errorColor,
+                errorTextColor = errorColor,
+                errorIndicatorColor = errorColor,
+                focusedTrailingIconColor = focusedFieldContent(),
+                unfocusedTrailingIconColor = transparent,
                 unfocusedContainerColor = authInputField(),
                 focusedContainerColor = authInputField()
             )
@@ -330,7 +314,6 @@ fun CostOfLesson(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    label: String,
     costPeriod: String,
     onCostPeriodChange: (String) -> Unit
 ) {
@@ -360,7 +343,6 @@ fun CostOfLesson(
         ),
         textStyle = TextStyle(fontSize = 16.sp),
         placeholder = { Text(text = placeholder, fontSize = 12.sp) },
-        label = { Text(text = label, fontSize = 15.sp) },
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.ic_ruble),
@@ -398,22 +380,14 @@ fun CostOfLesson(
         },
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
-            focusedTextColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedIndicatorColor = Color.Transparent,
+            focusedTextColor = focusedFieldContent(),
+            unfocusedIndicatorColor = transparent,
             focusedIndicatorColor = borderOutlinedTextField,
-            errorContainerColor = Color.Red,
-            errorTextColor = Color.Red,
-            errorIndicatorColor = Color.Red,
-            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedTrailingIconColor = Color.Transparent,
+            errorContainerColor = errorColor,
+            errorTextColor = errorColor,
+            errorIndicatorColor = errorColor,
+            focusedTrailingIconColor = focusedFieldContent(),
+            unfocusedTrailingIconColor = transparent,
             unfocusedContainerColor = authInputField(),
             focusedContainerColor = authInputField()
         )
@@ -537,7 +511,7 @@ fun PaymentMethodItem(
             onClick = { onCheckedChange(if (checked == ToggleableState.On) ToggleableState.Off else ToggleableState.On) },
             colors = CheckboxDefaults.colors(
                 checkmarkColor = if (isSystemInDarkTheme()) authElements else Color.White,
-                checkedColor = if (isSystemInDarkTheme()) Color.White else authElements,
+                checkedColor = focusedFieldContent(),
                 uncheckedColor = authElements,
             )
         )
@@ -552,7 +526,6 @@ fun SocialMediaField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    label: String,
     leadingIcon: @Composable () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
@@ -593,25 +566,16 @@ fun SocialMediaField(
                 color = Color(0.5f, 0.5f, 0.5f, 0.8f)
             )
         },
-        label = { Text(text = label, fontSize = 15.sp, textAlign = TextAlign.Center) },
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
-            focusedTextColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedIndicatorColor = Color.Transparent,
+            focusedTextColor = focusedFieldContent(),
+            unfocusedIndicatorColor = transparent,
             focusedIndicatorColor = borderOutlinedTextField,
-            errorContainerColor = Color.Red,
-            errorTextColor = Color.Red,
-            errorIndicatorColor = Color.Red,
-            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedTrailingIconColor = Color.Transparent,
+            errorContainerColor = errorColor,
+            errorTextColor = errorColor,
+            errorIndicatorColor = errorColor,
+            focusedTrailingIconColor = focusedFieldContent(),
+            unfocusedTrailingIconColor = transparent,
             unfocusedContainerColor = authInputField(),
             focusedContainerColor = authInputField()
         )
@@ -644,7 +608,6 @@ fun PhoneField(
                 onPhoneNumberChanged(it.take(mask.count { it == maskNumber }))
             }
         },
-        label = { Text(text = stringResource(R.string.label_phone_number)) },
         placeholder = {
             Text(
                 text = stringResource(R.string.placeholder_cont_phone_number),
@@ -671,22 +634,14 @@ fun PhoneField(
         ),
         visualTransformation = PhoneVisualTransformation(mask, maskNumber),
         colors = TextFieldDefaults.colors(
-            focusedTextColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedIndicatorColor = Color.Transparent,
+            focusedTextColor = focusedFieldContent(),
+            unfocusedIndicatorColor = transparent,
             focusedIndicatorColor = borderOutlinedTextField,
-            errorContainerColor = Color.Red,
-            errorTextColor = Color.Red,
-            errorIndicatorColor = Color.Red,
-            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedTrailingIconColor = Color.Transparent,
+            errorContainerColor = errorColor,
+            errorTextColor = errorColor,
+            errorIndicatorColor = errorColor,
+            focusedTrailingIconColor = focusedFieldContent(),
+            unfocusedTrailingIconColor = transparent,
             unfocusedContainerColor = authInputField(),
             focusedContainerColor = authInputField()
         )
@@ -694,9 +649,7 @@ fun PhoneField(
 }
 
 class PhoneVisualTransformation(val mask: String, val maskNumber: Char) : VisualTransformation {
-
     private val maxLength = mask.count { it == maskNumber }
-
     override fun filter(text: AnnotatedString): TransformedText {
         val trimmed = if (text.length > maxLength) text.take(maxLength) else text
         val annotatedString = buildAnnotatedString {
@@ -716,7 +669,6 @@ class PhoneVisualTransformation(val mask: String, val maskNumber: Char) : Visual
         }
         return TransformedText(annotatedString, PhoneOffsetMapper(mask, maskNumber))
     }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is PhoneVisualTransformation) return false
@@ -724,13 +676,10 @@ class PhoneVisualTransformation(val mask: String, val maskNumber: Char) : Visual
         if (maskNumber != other.maskNumber) return false
         return true
     }
-
     override fun hashCode(): Int {
         return mask.hashCode()
     }
-
 }
-
 private class PhoneOffsetMapper(val mask: String, val maskNumber: Char) : OffsetMapping {
     override fun originalToTransformed(offset: Int): Int {
         var noneDigitCount = 0
@@ -740,14 +689,12 @@ private class PhoneOffsetMapper(val mask: String, val maskNumber: Char) : Offset
         }
         return offset + noneDigitCount
     }
-
     override fun transformedToOriginal(offset: Int): Int =
         offset - mask.take(offset).count { it != maskNumber }
-
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Profile()
+    ProfilePortrait()
 }

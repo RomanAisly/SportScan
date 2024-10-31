@@ -43,12 +43,14 @@ import com.sportscan.R
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.borderOutlinedTextField
 import com.sportscan.ui.theme.darkBlue
+import com.sportscan.ui.theme.errorColor
 import com.sportscan.ui.theme.gradButtAutDisabled
 import com.sportscan.ui.theme.gradButtAutDisabled2
 import com.sportscan.ui.theme.gradLogoDark
 import com.sportscan.ui.theme.gradLogoLight
 import com.sportscan.ui.theme.lightBlue
 import com.sportscan.ui.theme.lightWhite
+import com.sportscan.ui.theme.transparent
 
 
 @Composable
@@ -113,17 +115,15 @@ fun LoginTextField(
         isError = isError,
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
-            focusedTextColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedIndicatorColor = Color.Transparent,
+            focusedTextColor = focusedFieldContent(),
+            unfocusedIndicatorColor = transparent,
             focusedIndicatorColor = borderOutlinedTextField,
-            errorContainerColor = Color.Red,
+            errorContainerColor = errorColor,
+            errorTextColor = errorColor,
+            errorIndicatorColor = errorColor,
             unfocusedContainerColor = authInputField(),
             focusedContainerColor = authInputField()
-        ),
+        )
     )
 }
 
@@ -186,22 +186,14 @@ fun PasswordTextField(
         isError = isError,
         shape = MaterialTheme.shapes.extraLarge,
         colors = TextFieldDefaults.colors(
-            focusedTextColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedIndicatorColor = Color.Transparent,
+            focusedTextColor = focusedFieldContent(),
+            unfocusedIndicatorColor = transparent,
             focusedIndicatorColor = borderOutlinedTextField,
-            errorContainerColor = Color.Red,
-            errorTextColor = Color.Red,
-            errorIndicatorColor = Color.Red,
-            focusedTrailingIconColor = if (isSystemInDarkTheme()) {
-                Color.White
-            } else {
-                authElements
-            },
-            unfocusedTrailingIconColor = Color.Transparent,
+            errorContainerColor = errorColor,
+            errorTextColor = errorColor,
+            errorIndicatorColor = errorColor,
+            focusedTrailingIconColor = focusedFieldContent(),
+            unfocusedTrailingIconColor = transparent,
             unfocusedContainerColor = authInputField(),
             focusedContainerColor = authInputField()
         )
@@ -237,7 +229,7 @@ fun GradientButton(
                 .heightIn(46.dp)
                 .background(gradient, shape = MaterialTheme.shapes.extraLarge)
                 .padding(vertical = 12.dp),
-            contentAlignment = Alignment.TopCenter,
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = text,
@@ -267,3 +259,6 @@ fun gradLogo() = if (isSystemInDarkTheme()) gradLogoDark else gradLogoLight
 
 @Composable
 fun gradButtDisable() = if (isSystemInDarkTheme()) gradButtAutDisabled2 else gradButtAutDisabled
+
+@Composable
+fun focusedFieldContent() = if (isSystemInDarkTheme()) Color.White else authElements

@@ -19,6 +19,8 @@ val lightBlue = Color(0xFFADCDE5)
 val lightWhite = Color(0xFFF7F7F7)
 val darkYellow = Color(0xFFFAB000)
 val orange = Color(0xFFEC8011)
+val errorColor = Color(0xFFF30606)
+val transparent = Color(0x00FFFFFF)
 
 val gradLogoLight = Brush.horizontalGradient(
     colors = listOf(
@@ -51,12 +53,5 @@ val gradButtAutDisabled2 = Brush.horizontalGradient(
     colors = listOf(
         Color(0xFF253043),
         Color(0xFF2E394C)
-    )
-)
-
-val gradMed = Brush.horizontalGradient(
-    colors = listOf(
-        Color(0xFF0CEC17),
-        Color(0xFFEC0B0B)
     )
 )

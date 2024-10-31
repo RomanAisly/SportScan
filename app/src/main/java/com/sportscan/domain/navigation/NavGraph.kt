@@ -1,18 +1,25 @@
 package com.sportscan.domain.navigation
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.sportscan.ui.screens.Login
-import com.sportscan.ui.screens.Profile
-import com.sportscan.ui.screens.SignUp
+import com.sportscan.ui.screens.LoginLandscape
+import com.sportscan.ui.screens.LoginPortrait
+import com.sportscan.ui.screens.ProfileLandscape
+import com.sportscan.ui.screens.ProfilePortrait
+import com.sportscan.ui.screens.SignUpLandscape
+import com.sportscan.ui.screens.SignUpPortrait
 
 @Composable
 fun NavGraph(navHostController: NavHostController) {
+    val configuration = LocalConfiguration.current
+
     NavHost(
         navController = navHostController,
         startDestination = NavScreens.LoginScreen,
@@ -36,17 +43,35 @@ fun NavGraph(navHostController: NavHostController) {
         }
     ) {
         composable<NavScreens.LoginScreen> {
-            Login(navigateTo = {
-                navHostController.navigate(it)
-            })
+            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                LoginPortrait(navigateTo = {
+                    navHostController.navigate(it)
+                })
+            } else {
+                LoginLandscape(navigateTo = {
+                    navHostController.navigate(it)
+                })
+            }
+
         }
         composable<NavScreens.SignUpScreen> {
-            SignUp(navigateTo = {
-                navHostController.navigate(it)
-            })
+            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                SignUpPortrait(navigateTo = {
+                    navHostController.navigate(it)
+                })
+            } else {
+                SignUpLandscape(navigateTo = {
+                    navHostController.navigate(it)
+                })
+            }
+
         }
         composable<NavScreens.ProfileScreen> {
-            Profile()
+            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                ProfilePortrait()
+            } else {
+                ProfileLandscape()
+            }
         }
     }
 }

@@ -5,20 +5,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 
-class LoginViewModel: ViewModel() {
+class LoginViewModel : ViewModel() {
 
     private val _login = MutableStateFlow("")
     val login = _login.asStateFlow()
+    fun updateLogin(login: String) { _login.value = login }
+
 
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
+    fun updatePassword(password: String) { _password.value = password }
 
 
-    fun updateLogin(login: String) {
-        _login.value = login
-    }
-
-    fun updatePassword(password: String) {
-        _password.value = password
+    private val _isPasswordVisible = MutableStateFlow(false)
+    val isPasswordVisible = _isPasswordVisible.asStateFlow()
+    fun togglePasswordVisibility() {
+        _isPasswordVisible.value = !_isPasswordVisible.value
     }
 }
