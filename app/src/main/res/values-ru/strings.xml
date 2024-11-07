@@ -18,7 +18,7 @@
     <string name="label_cost_of_lesson">Цена занятия</string>
     <string name="monday_friday">Понедельник - Пятница</string>
     <string name="monday_sunday">Понедельник - Воскресенье</string>
-    <string name="placeholder_about">Введите короткую информацию о вашей секции</string>
+    <string name="placeholder_about">Введите короткую информацию о секции</string>
     <string name="label_about">О секции</string>
     <string name="med_worker">Есть медицинский работник/спасатель?</string>
     <string name="doc_cart_req">Нужна справка от врача?</string>

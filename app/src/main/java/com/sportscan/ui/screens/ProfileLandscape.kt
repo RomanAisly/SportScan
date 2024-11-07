@@ -81,7 +81,7 @@ fun ProfileLandscape(
     val ruTube by profileViewModel.ruTube.collectAsState()
     val dzen by profileViewModel.dzen.collectAsState()
 
-    Scaffold { paddingValues ->
+    Scaffold(containerColor = screenBackground()) { paddingValues ->
         Column(
             modifier
                 .fillMaxSize()
@@ -103,7 +103,7 @@ fun ProfileLandscape(
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = modifier.padding(vertical = 10.dp)
+                modifier = modifier.padding(vertical = 20.dp)
             )
             Row(
                 modifier = modifier
@@ -113,7 +113,7 @@ fun ProfileLandscape(
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     InputProfileField(
                         modifier = modifier,
                         value = sectionName,
@@ -182,14 +182,11 @@ fun ProfileLandscape(
                         )
                     )
                 }
-                Column {
-                    SectionPhoto(
-                        modifier = modifier.padding(bottom = 8.dp),
-                        uriList = uriList,
-                        onImagesSelected = profileViewModel::updateUriList
-                    )
-
-                }
+                SectionPhoto(
+                    modifier = modifier.padding(bottom = 8.dp),
+                    uriList = uriList,
+                    onImagesSelected = profileViewModel::updateUriList
+                )
             }
             Row(
                 modifier
@@ -255,22 +252,25 @@ fun ProfileLandscape(
                     .padding(vertical = 10.dp),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Text(
                         text = stringResource(R.string.contact_information),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = modifier.padding(vertical = 6.dp)
+                        modifier = modifier.padding(vertical = 8.dp)
                     )
-                   PhoneField(
-                       modifier = modifier,
-                       phoneNumber = phone,
-                       onPhoneNumberChanged = profileViewModel::updatePhone,
-                       mask = "(000) 000-00-00",
-                       maskNumber = '0'
-                   )
+                    PhoneField(
+                        modifier = modifier,
+                        phoneNumber = phone,
+                        onPhoneNumberChanged = profileViewModel::updatePhone,
+                        mask = "(000) 000-00-00",
+                        maskNumber = '0'
+                    )
                     InputProfileField(
                         modifier = modifier,
                         value = siteAddress,
@@ -292,12 +292,15 @@ fun ProfileLandscape(
                         )
                     )
                 }
-                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalAlignment = Alignment.End
+                ) {
                     Text(
                         text = stringResource(R.string.social_media_links),
                         color = MaterialTheme.colorScheme.onSurface,
                         fontSize = 18.sp,
-                        modifier = modifier.padding(vertical = 6.dp)
+                        modifier = modifier.padding(vertical = 8.dp).padding(end = 80.dp)
                     )
                     SocialMediaField(
                         modifier = modifier,

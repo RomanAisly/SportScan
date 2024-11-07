@@ -65,7 +65,7 @@ fun SignUpLandscape(
             checked == ToggleableState.On
     val passwordVisible by signUpViewModel.isPasswordVisible.collectAsState()
 
-    Scaffold { paddingValues ->
+    Scaffold(containerColor = screenBackground()) { paddingValues ->
         Column(
             modifier
                 .fillMaxSize()
@@ -161,7 +161,8 @@ fun SignUpLandscape(
                         enabled = isButtonEnabled,
                     )
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterHorizontally)
                     ) {
                         Text(
                             text = stringResource(R.string.if_has_account),

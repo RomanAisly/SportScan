@@ -64,7 +64,7 @@ fun SignUpPortrait(
             checked == ToggleableState.On
     val passwordVisible by signUpViewModel.isPasswordVisible.collectAsState()
 
-    Scaffold { paddingValues ->
+    Scaffold(containerColor = screenBackground()) { paddingValues ->
         Column(
             modifier
                 .fillMaxSize()

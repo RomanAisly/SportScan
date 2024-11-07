@@ -473,7 +473,8 @@ fun RadioButtonsSelection(
                 }
             )
             Text(
-                text = stringResource(R.string.yes)
+                text = stringResource(R.string.yes),
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
         Row(
@@ -487,7 +488,8 @@ fun RadioButtonsSelection(
                 }
             )
             Text(
-                text = stringResource(R.string.no)
+                text = stringResource(R.string.no),
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
 
@@ -515,7 +517,10 @@ fun PaymentMethodItem(
                 uncheckedColor = authElements,
             )
         )
-        Text(text = text)
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
@@ -669,6 +674,7 @@ class PhoneVisualTransformation(val mask: String, val maskNumber: Char) : Visual
         }
         return TransformedText(annotatedString, PhoneOffsetMapper(mask, maskNumber))
     }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is PhoneVisualTransformation) return false
@@ -676,10 +682,12 @@ class PhoneVisualTransformation(val mask: String, val maskNumber: Char) : Visual
         if (maskNumber != other.maskNumber) return false
         return true
     }
+
     override fun hashCode(): Int {
         return mask.hashCode()
     }
 }
+
 private class PhoneOffsetMapper(val mask: String, val maskNumber: Char) : OffsetMapping {
     override fun originalToTransformed(offset: Int): Int {
         var noneDigitCount = 0
@@ -689,6 +697,7 @@ private class PhoneOffsetMapper(val mask: String, val maskNumber: Char) : Offset
         }
         return offset + noneDigitCount
     }
+
     override fun transformedToOriginal(offset: Int): Int =
         offset - mask.take(offset).count { it != maskNumber }
 }

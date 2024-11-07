@@ -49,7 +49,7 @@ fun LoginPortrait(
     val password by loginViewModel.password.collectAsState()
     val passwordVisible by loginViewModel.isPasswordVisible.collectAsState()
 
-    Scaffold { paddingValues ->
+    Scaffold(containerColor = screenBackground()) { paddingValues ->
         Column(
             modifier
                 .fillMaxSize()

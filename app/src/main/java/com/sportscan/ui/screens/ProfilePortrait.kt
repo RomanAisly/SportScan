@@ -81,7 +81,7 @@ fun ProfilePortrait(
     val ruTube by profileViewModel.ruTube.collectAsState()
     val dzen by profileViewModel.dzen.collectAsState()
 
-    Scaffold { paddingValues ->
+    Scaffold(containerColor = screenBackground()) { paddingValues ->
         Column(
             modifier
                 .fillMaxSize()
@@ -244,7 +244,7 @@ fun ProfilePortrait(
                 modifier = modifier
                     .padding(vertical = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically)
+                verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically)
             ) {
                 Text(
                     text = stringResource(R.string.contact_information),
