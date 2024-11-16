@@ -1,5 +1,6 @@
 package com.sportscan.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -16,11 +17,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.LinkAnnotation
@@ -33,7 +37,7 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.sportscan.R
 import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.GradientButton
@@ -47,22 +51,44 @@ import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.gradButtAutEnable
 import com.sportscan.ui.viewmodels.SignUpViewModel
+import com.sportscan.utils.ResultData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpPortrait(
     modifier: Modifier = Modifier,
     navigateTo: (NavScreens) -> Unit,
-    signUpViewModel: SignUpViewModel = viewModel()
+    viewModel: SignUpViewModel = hiltViewModel()
 ) {
-    val login by signUpViewModel.login.collectAsState()
-    val password by signUpViewModel.password.collectAsState()
-    val repeatPassword by signUpViewModel.repeatPassword.collectAsState()
-    val checked by signUpViewModel.checked.collectAsState()
+    val login by viewModel.login.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val repeatPassword by viewModel.repeatPassword.collectAsState()
+    val checked by viewModel.checked.collectAsState()
     val isButtonEnabled = login.isNotEmpty() &&
             password.isNotEmpty() &&
             repeatPassword.isNotEmpty() &&
             checked == ToggleableState.On
-    val passwordVisible by signUpViewModel.isPasswordVisible.collectAsState()
+    val passwordVisible by viewModel.isPasswordVisible.collectAsState()
+    val resultData by viewModel.resultData.collectAsState()
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(resultData) {
+        viewModel.resultData.collect {
+            when (it) {
+                is ResultData.Error<*> -> {
+                    Toast.makeText(context, it.msg, Toast.LENGTH_LONG).show()
+                }
+
+                is ResultData.Success<*> -> {
+                    navigateTo(NavScreens.ProfileScreen)
+                }
+
+                else -> {}
+            }
+        }
+    }
 
     Scaffold(containerColor = screenBackground()) { paddingValues ->
         Column(
@@ -84,26 +110,26 @@ fun SignUpPortrait(
                 modifier = modifier
                     .fillMaxWidth(),
                 value = login,
-                onValueChange = signUpViewModel::updateLogin,
+                onValueChange = viewModel::updateLogin,
                 placeholder = stringResource(R.string.placeholder_login_field)
             )
             PasswordTextField(
                 modifier = modifier
                     .fillMaxWidth(),
                 value = password,
-                onValueChange = signUpViewModel::updatePassword,
+                onValueChange = viewModel::updatePassword,
                 placeholder = stringResource(R.string.placeholder_password_field),
                 passwordVisible = passwordVisible,
-                onPasswordVisibilityToggle = signUpViewModel::togglePasswordVisibility
+                onPasswordVisibilityToggle = viewModel::togglePasswordVisibility
             )
             PasswordTextField(
                 modifier = modifier
                     .fillMaxWidth(),
                 value = repeatPassword,
-                onValueChange = signUpViewModel::updateRepeatPassword,
+                onValueChange = viewModel::updateRepeatPassword,
                 placeholder = stringResource(R.string.placeholder_repeat_password_field),
                 passwordVisible = passwordVisible,
-                onPasswordVisibilityToggle = signUpViewModel::togglePasswordVisibility
+                onPasswordVisibilityToggle = viewModel::togglePasswordVisibility
             )
             Row(
                 modifier
@@ -114,7 +140,7 @@ fun SignUpPortrait(
                 TriStateCheckbox(
                     state = checked,
                     onClick = {
-                        signUpViewModel.updateChecked(
+                        viewModel.updateChecked(
                             when (checked) {
                                 ToggleableState.On -> ToggleableState.Off
                                 else -> ToggleableState.On
@@ -155,7 +181,11 @@ fun SignUpPortrait(
             }
             GradientButton(
                 modifier.padding(10.dp),
-                onClick = { navigateTo(NavScreens.ProfileScreen) },
+                onClick = {
+                    coroutineScope.launch(Dispatchers.IO) {
+                        viewModel.signUp()
+                    }
+                },
                 text = stringResource(R.string.sign_up_button),
                 gradient = if (isButtonEnabled) gradButtAutEnable else gradButtDisable(),
                 enabled = isButtonEnabled,

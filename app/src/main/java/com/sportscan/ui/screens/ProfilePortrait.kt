@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.sportscan.R
 import com.sportscan.ui.components.CostOfLesson
 import com.sportscan.ui.components.ExposedField
@@ -51,7 +51,7 @@ import com.sportscan.ui.viewmodels.ProfileViewModel
 @Composable
 fun ProfilePortrait(
     modifier: Modifier = Modifier,
-    profileViewModel: ProfileViewModel = viewModel()
+    profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
 
     val uriList by profileViewModel.uriList.collectAsState()
