@@ -3,10 +3,14 @@ package com.sportscan.ui.viewmodels
 import android.net.Uri
 import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 
 data class ProfileState(
+    val isLoading: Boolean = false,
     val uriList: List<Uri> = emptyList(),
     val sectionName: String = "",
     val selectedSport: String = "",
@@ -37,183 +41,115 @@ data class ProfileState(
 
 class ProfileViewModel : ViewModel() {
 
-    private val _state = MutableStateFlow<List<Uri>>(emptyList())
-    val state = _state.asStateFlow()
+    private val _state = MutableStateFlow(ProfileState())
+    val state: StateFlow<ProfileState> = _state.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = ProfileState()
+    )
+
     fun updateUriList(uris: List<Uri>) {
-        _state.value = uris
+        _state.value = _state.value.copy(uriList = uris)
     }
 
-    private val _sectionName = MutableStateFlow("")
-    val sectionName = _sectionName.asStateFlow()
     fun updateSectionName(sectionName: String) {
-        _sectionName.value = sectionName
+        _state.value = _state.value.copy(sectionName = sectionName)
     }
 
-
-    private val _selectedSport = MutableStateFlow("")
-    val selectedSport = _selectedSport.asStateFlow()
     fun updateSelectedSport(selectedSport: String) {
-        _selectedSport.value = selectedSport
+        _state.value = _state.value.copy(selectedSport = selectedSport)
     }
 
-
-    private val _address = MutableStateFlow("")
-    val address = _address.asStateFlow()
     fun updateAddress(address: String) {
-        _address.value = address
+        _state.value = _state.value.copy(address = address)
     }
 
-
-    private val _ageOfClient = MutableStateFlow("Возраст клиента")
-    val ageOfClient = _ageOfClient.asStateFlow()
     fun updateAgeOfClient(ageOfClient: String) {
-        _ageOfClient.value = ageOfClient
+        _state.value = _state.value.copy(ageOfClient = ageOfClient)
     }
 
-
-    private val _costOfLesson = MutableStateFlow("")
-    val costOfLesson = _costOfLesson.asStateFlow()
-    private val _costPeriod = MutableStateFlow("в/")
-    val costPeriod = _costPeriod.asStateFlow()
     fun updateCostOfLesson(costOfLesson: String) {
-        _costOfLesson.value = costOfLesson
+        _state.value = _state.value.copy(costOfLesson = costOfLesson)
     }
 
-    fun updateCostPeriod(selectedPeriod: String) {
-        _costPeriod.value = selectedPeriod
+    fun updateCostPeriod(costPeriod: String) {
+        _state.value = _state.value.copy(costPeriod = costPeriod)
     }
 
-
-    private val _workGraphic = MutableStateFlow("Рабочий график")
-    val workGraphic = _workGraphic.asStateFlow()
     fun updateWorkGraphic(workGraphic: String) {
-        _workGraphic.value = workGraphic
+        _state.value = _state.value.copy(workGraphic = workGraphic)
     }
 
-
-    private val _about = MutableStateFlow("")
-    val about = _about.asStateFlow()
     fun updateAbout(about: String) {
-        _about.value = about
+        _state.value = _state.value.copy(about = about)
     }
 
-
-    private val _isSelectedDoc = MutableStateFlow(false)
-    val isSelectedDoc = _isSelectedDoc.asStateFlow()
-    fun updateSelectedDoc(isSelectedDoc: Boolean) {
-        _isSelectedDoc.value = isSelectedDoc
+    fun updateIsSelectedDoc(isSelectedDoc: Boolean) {
+        _state.value = _state.value.copy(isSelectedDoc = isSelectedDoc)
     }
 
-
-    private val _isSelectedDorCertReq = MutableStateFlow(false)
-    val isSelectedDorCertReq = _isSelectedDorCertReq.asStateFlow()
-    fun updateSelectedDorCertReq(isSelectedDorCertReq: Boolean) {
-        _isSelectedDorCertReq.value = isSelectedDorCertReq
+    fun updateIsSelectedDorCertReq(isSelectedDorCertReq: Boolean) {
+        _state.value = _state.value.copy(isSelectedDorCertReq = isSelectedDorCertReq)
     }
 
-
-    private val _isSelectedAbilityMedCert = MutableStateFlow(false)
-    val isSelectedAbilityMedCert = _isSelectedAbilityMedCert.asStateFlow()
-    fun updateSelectedAbilityMedCert(isSelectedAbilityMedCert: Boolean) {
-        _isSelectedAbilityMedCert.value = isSelectedAbilityMedCert
+    fun updateIsSelectedAbilityMedCert(isSelectedAbilityMedCert: Boolean) {
+        _state.value = _state.value.copy(isSelectedAbilityMedCert = isSelectedAbilityMedCert)
     }
 
-
-    private val _isSelectedCerfFromOtherDocs = MutableStateFlow(false)
-    val isSelectedCerfFromOtherDocs = _isSelectedCerfFromOtherDocs.asStateFlow()
-    fun updateSelectedCerfFromOtherDocs(isSelectedCerfFromOtherDocs: Boolean) {
-        _isSelectedCerfFromOtherDocs.value = isSelectedCerfFromOtherDocs
+    fun updateIsSelectedCerfFromOtherDocs(isSelectedCerfFromOtherDocs: Boolean) {
+        _state.value = _state.value.copy(isSelectedCerfFromOtherDocs = isSelectedCerfFromOtherDocs)
     }
 
-
-    private val _checkedCash = MutableStateFlow(ToggleableState.Off)
-    val checkedCash = _checkedCash.asStateFlow()
     fun updateCheckedCash(checkedCash: ToggleableState) {
-        _checkedCash.value = checkedCash
+        _state.value = _state.value.copy(checkedCash = checkedCash)
     }
 
-
-    private val _checkedCard = MutableStateFlow(ToggleableState.Off)
-    val checkedCard = _checkedCard.asStateFlow()
     fun updateCheckedCard(checkedCard: ToggleableState) {
-        _checkedCard.value = checkedCard
+        _state.value = _state.value.copy(checkedCard = checkedCard)
     }
 
-
-    private val _checkedOnlinePayment = MutableStateFlow(ToggleableState.Off)
-    val checkedOnlinePayment = _checkedOnlinePayment.asStateFlow()
     fun updateCheckedOnlinePayment(checkedOnlinePayment: ToggleableState) {
-        _checkedOnlinePayment.value = checkedOnlinePayment
+        _state.value = _state.value.copy(checkedOnlinePayment = checkedOnlinePayment)
     }
 
-
-    private val _checkedQR = MutableStateFlow(ToggleableState.Off)
-    val checkedQR = _checkedQR.asStateFlow()
     fun updateCheckedQR(checkedQR: ToggleableState) {
-        _checkedQR.value = checkedQR
+        _state.value = _state.value.copy(checkedQR = checkedQR)
     }
 
-
-    private val _siteAddress = MutableStateFlow("")
-    val siteAddress = _siteAddress.asStateFlow()
     fun updateSiteAddress(siteAddress: String) {
-        _siteAddress.value = siteAddress
+        _state.value = _state.value.copy(siteAddress = siteAddress)
     }
 
-
-    private val _email = MutableStateFlow("")
-    val email = _email.asStateFlow()
     fun updateEmail(email: String) {
-        _email.value = email
+        _state.value = _state.value.copy(email = email)
     }
 
-
-    private val _phone = MutableStateFlow("")
-    val phone = _phone.asStateFlow()
     fun updatePhone(phone: String) {
-        _phone.value = phone
+        _state.value = _state.value.copy(phone = phone)
     }
 
-
-    private val _vk = MutableStateFlow("")
-    val vk = _vk.asStateFlow()
     fun updateVk(vk: String) {
-        _vk.value = vk
+        _state.value = _state.value.copy(vk = vk)
     }
 
-
-    private val _telegram = MutableStateFlow("")
-    val telegram = _telegram.asStateFlow()
     fun updateTelegram(telegram: String) {
-        _telegram.value = telegram
+        _state.value = _state.value.copy(telegram = telegram)
     }
 
-
-    private val _ok = MutableStateFlow("")
-    val ok = _ok.asStateFlow()
     fun updateOk(ok: String) {
-        _ok.value = ok
+        _state.value = _state.value.copy(ok = ok)
     }
 
-
-    private val _youtube = MutableStateFlow("")
-    val youtube = _youtube.asStateFlow()
     fun updateYoutube(youtube: String) {
-        _youtube.value = youtube
+        _state.value = _state.value.copy(youtube = youtube)
     }
 
-
-    private val _ruTube = MutableStateFlow("")
-    val ruTube = _ruTube.asStateFlow()
     fun updateRuTube(ruTube: String) {
-        _ruTube.value = ruTube
+        _state.value = _state.value.copy(ruTube = ruTube)
     }
 
-
-    private val _dzen = MutableStateFlow("")
-    val dzen = _dzen.asStateFlow()
     fun updateDzen(dzen: String) {
-        _dzen.value = dzen
+        _state.value = _state.value.copy(dzen = dzen)
     }
 
 
@@ -226,30 +162,33 @@ class ProfileViewModel : ViewModel() {
         isSelected: Boolean = false,
         checked: ToggleableState = ToggleableState.Off
     ) {
-        _state.value = uriList
-        _sectionName.value = resetValue
-        _selectedSport.value = resetValue
-        _address.value = resetValue
-        _ageOfClient.value = ageOfClient
-        _costOfLesson.value = resetValue
-        _costPeriod.value = costPeriod
-        _workGraphic.value = workGraphic
-        _about.value = resetValue
-        _isSelectedDoc.value = isSelected
-        _isSelectedDorCertReq.value = isSelected
-        _isSelectedAbilityMedCert.value = isSelected
-        _isSelectedCerfFromOtherDocs.value = isSelected
-        _checkedCash.value = checked
-        _checkedCard.value = checked
-        _checkedOnlinePayment.value = checked
-        _checkedQR.value = checked
-        _siteAddress.value = resetValue
-        _email.value = resetValue
-        _phone.value = resetValue
-        _vk.value = resetValue
-        _telegram.value = resetValue
-        _ok.value = resetValue
-        _youtube.value = resetValue
-        _ruTube.value = resetValue
+        _state.value = _state.value.copy(
+            sectionName = resetValue,
+            uriList = uriList,
+            selectedSport = resetValue,
+            address = resetValue,
+            ageOfClient = ageOfClient,
+            costOfLesson = resetValue,
+            costPeriod = costPeriod,
+            workGraphic = workGraphic,
+            about = resetValue,
+            isSelectedDoc = isSelected,
+            isSelectedDorCertReq = isSelected,
+            isSelectedAbilityMedCert = isSelected,
+            isSelectedCerfFromOtherDocs = isSelected,
+            checkedCash = checked,
+            checkedCard = checked,
+            checkedOnlinePayment = checked,
+            checkedQR = checked,
+            siteAddress = resetValue,
+            email = resetValue,
+            phone = resetValue,
+            vk = resetValue,
+            telegram = resetValue,
+            ok = resetValue,
+            youtube = resetValue,
+            ruTube = resetValue,
+            dzen = resetValue
+        )
     }
 }

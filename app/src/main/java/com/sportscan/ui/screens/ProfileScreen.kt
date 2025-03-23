@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -52,32 +53,7 @@ fun ProfileScreen(
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
 
-    val uriList by profileViewModel.state.collectAsState()
-    val sectionName by profileViewModel.sectionName.collectAsState()
-    val selectedSport by profileViewModel.selectedSport.collectAsState()
-    val address by profileViewModel.address.collectAsState()
-    val ageClient by profileViewModel.ageOfClient.collectAsState()
-    val costOfLesson by profileViewModel.costOfLesson.collectAsState()
-    val costPeriod by profileViewModel.costPeriod.collectAsState()
-    val workGraphic by profileViewModel.workGraphic.collectAsState()
-    val about by profileViewModel.about.collectAsState()
-    val isSelectedDoc by profileViewModel.isSelectedDoc.collectAsState()
-    val isSelectedDorCertReq by profileViewModel.isSelectedDorCertReq.collectAsState()
-    val isSelectedAbilityMedCert by profileViewModel.isSelectedAbilityMedCert.collectAsState()
-    val isSelectedCerfFromOtherDocs by profileViewModel.isSelectedCerfFromOtherDocs.collectAsState()
-    val checkedCash by profileViewModel.checkedCash.collectAsState()
-    val checkedCard by profileViewModel.checkedCard.collectAsState()
-    val checkedOnlinePayment by profileViewModel.checkedOnlinePayment.collectAsState()
-    val checkedQR by profileViewModel.checkedQR.collectAsState()
-    val siteAddress by profileViewModel.siteAddress.collectAsState()
-    val email by profileViewModel.email.collectAsState()
-    val phone by profileViewModel.phone.collectAsState()
-    val vk by profileViewModel.vk.collectAsState()
-    val telegram by profileViewModel.telegram.collectAsState()
-    val ok by profileViewModel.ok.collectAsState()
-    val youtube by profileViewModel.youtube.collectAsState()
-    val ruTube by profileViewModel.ruTube.collectAsState()
-    val dzen by profileViewModel.dzen.collectAsState()
+    val state by profileViewModel.state.collectAsState()
 
     Column(
         modifier = modifier
@@ -86,21 +62,18 @@ fun ProfileScreen(
             .background(screenBackground()),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        LogoElements(
-            modifier = modifier
-                .padding(top = 30.dp)
-                .padding(horizontal = 20.dp)
-        )
+        LogoElements()
+
         SimpleText(
             text = stringResource(R.string.header_text_profile),
             textSize = 20.sp,
             textWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center,
-            modifier = modifier.padding(vertical = 10.dp)
+            modifier = modifier.fillMaxWidth().padding(vertical = 14.dp)
         )
         InputProfileField(
             modifier = modifier,
-            value = sectionName,
+            value = state.sectionName,
             onValueChange = profileViewModel::updateSectionName,
             placeholder = stringResource(R.string.placeholder_section_name),
             keyboardOptions = KeyboardOptions(
@@ -110,7 +83,7 @@ fun ProfileScreen(
         )
         InputProfileField(
             modifier = modifier,
-            value = selectedSport,
+            value = state.selectedSport,
             onValueChange = profileViewModel::updateSelectedSport,
             placeholder = stringResource(R.string.placeholder_type_of_sport),
             keyboardOptions = KeyboardOptions(
@@ -120,7 +93,7 @@ fun ProfileScreen(
         )
         InputProfileField(
             modifier = modifier,
-            value = address,
+            value = state.address,
             onValueChange = profileViewModel::updateAddress,
             placeholder = stringResource(R.string.placeholder_address),
             keyboardOptions = KeyboardOptions(
@@ -131,17 +104,17 @@ fun ProfileScreen(
         ExposedField(
             modifier = modifier,
             options = listOf("0-6", "6-12", "12-16", "18+"),
-            selectedOption = ageClient,
+            selectedOption = state.ageOfClient,
             onSelectionChange = {
                 profileViewModel.updateAgeOfClient(it)
             }
         )
         CostOfLesson(
             modifier = modifier,
-            value = costOfLesson,
+            value = state.costOfLesson,
             onValueChange = profileViewModel::updateCostOfLesson,
             placeholder = stringResource(R.string.placeholder_cost_of_lesson),
-            costPeriod = costPeriod,
+            costPeriod = state.costPeriod,
             onCostPeriodChange = profileViewModel::updateCostPeriod
         )
         ExposedField(
@@ -150,14 +123,14 @@ fun ProfileScreen(
                 stringResource(R.string.monday_friday),
                 stringResource(R.string.monday_sunday), "24/7"
             ),
-            selectedOption = workGraphic,
+            selectedOption = state.workGraphic,
             onSelectionChange = {
                 profileViewModel.updateWorkGraphic(it)
             }
         )
         InputProfileField(
             modifier = modifier,
-            value = about,
+            value = state.about,
             onValueChange = profileViewModel::updateAbout,
             placeholder = stringResource(R.string.placeholder_about),
             keyboardOptions = KeyboardOptions(
@@ -167,30 +140,30 @@ fun ProfileScreen(
         )
         SectionPhoto(
             modifier = modifier.padding(bottom = 8.dp),
-            uriList = uriList,
+            uriList = state.uriList,
             onImagesSelected = profileViewModel::updateUriList
         )
         Column(
             modifier = modifier.padding(start = 8.dp),
         ) {
             RadioButtonsSelection(
-                isSelected = isSelectedDoc,
-                onSelectionChange = profileViewModel::updateSelectedDoc,
+                isSelected = state.isSelectedDoc,
+                onSelectionChange = profileViewModel::updateIsSelectedDoc,
                 text = stringResource(R.string.med_worker)
             )
             RadioButtonsSelection(
-                isSelected = isSelectedDorCertReq,
-                onSelectionChange = profileViewModel::updateSelectedDorCertReq,
+                isSelected = state.isSelectedDorCertReq,
+                onSelectionChange = profileViewModel::updateIsSelectedDorCertReq,
                 text = stringResource(R.string.doc_cart_req)
             )
             RadioButtonsSelection(
-                isSelected = isSelectedAbilityMedCert,
-                onSelectionChange = profileViewModel::updateSelectedAbilityMedCert,
+                isSelected = state.isSelectedAbilityMedCert,
+                onSelectionChange = profileViewModel::updateIsSelectedAbilityMedCert,
                 text = stringResource(R.string.reg_doc_cart)
             )
             RadioButtonsSelection(
-                isSelected = isSelectedCerfFromOtherDocs,
-                onSelectionChange = profileViewModel::updateSelectedCerfFromOtherDocs,
+                isSelected = state.isSelectedCerfFromOtherDocs,
+                onSelectionChange = profileViewModel::updateIsSelectedCerfFromOtherDocs,
                 text = stringResource(R.string.other_dor_cart_from)
             )
         }
@@ -212,22 +185,22 @@ fun ProfileScreen(
             )
             PaymentMethodItem(
                 text = stringResource(R.string.cash),
-                checked = checkedCash,
+                checked = state.checkedCash,
                 onCheckedChange = profileViewModel::updateCheckedCash
             )
             PaymentMethodItem(
                 text = stringResource(R.string.card),
-                checked = checkedCard,
+                checked = state.checkedCard,
                 onCheckedChange = profileViewModel::updateCheckedCard
             )
             PaymentMethodItem(
                 text = stringResource(R.string.online_payment),
-                checked = checkedOnlinePayment,
+                checked = state.checkedOnlinePayment,
                 onCheckedChange = profileViewModel::updateCheckedOnlinePayment
             )
             PaymentMethodItem(
                 text = stringResource(R.string.qr_code),
-                checked = checkedQR,
+                checked = state.checkedQR,
                 onCheckedChange = profileViewModel::updateCheckedQR
             )
         }
@@ -245,14 +218,14 @@ fun ProfileScreen(
             )
             PhoneField(
                 modifier = modifier,
-                phoneNumber = phone,
+                phoneNumber = state.phone,
                 onPhoneNumberChanged = profileViewModel::updatePhone,
                 mask = "(000) 000-00-00",
                 maskNumber = '0'
             )
             InputProfileField(
                 modifier = modifier,
-                value = siteAddress,
+                value = state.siteAddress,
                 onValueChange = profileViewModel::updateSiteAddress,
                 placeholder = stringResource(R.string.placeholder_site_address),
                 keyboardOptions = KeyboardOptions(
@@ -262,7 +235,7 @@ fun ProfileScreen(
             )
             InputProfileField(
                 modifier = modifier,
-                value = email,
+                value = state.email,
                 onValueChange = profileViewModel::updateEmail,
                 placeholder = stringResource(R.string.placeholder_login_field),
                 keyboardOptions = KeyboardOptions(
@@ -278,7 +251,7 @@ fun ProfileScreen(
             )
             SocialMediaField(
                 modifier = modifier,
-                value = vk,
+                value = state.vk,
                 onValueChange = profileViewModel::updateVk,
                 placeholder = stringResource(R.string.placeholder_vk),
                 leadingIcon = {
@@ -290,7 +263,7 @@ fun ProfileScreen(
             )
             SocialMediaField(
                 modifier = modifier,
-                value = telegram,
+                value = state.telegram,
                 onValueChange = profileViewModel::updateTelegram,
                 placeholder = stringResource(R.string.placeholder_telegram),
                 leadingIcon = {
@@ -302,7 +275,7 @@ fun ProfileScreen(
             )
             SocialMediaField(
                 modifier = modifier,
-                value = ok,
+                value = state.ok,
                 onValueChange = profileViewModel::updateOk,
                 placeholder = stringResource(R.string.placeholder_ok),
                 leadingIcon = {
@@ -314,7 +287,7 @@ fun ProfileScreen(
             )
             SocialMediaField(
                 modifier = modifier,
-                value = youtube,
+                value = state.youtube,
                 onValueChange = profileViewModel::updateYoutube,
                 placeholder = stringResource(R.string.placeholder_youtube),
                 leadingIcon = {
@@ -326,7 +299,7 @@ fun ProfileScreen(
             )
             SocialMediaField(
                 modifier = modifier,
-                value = ruTube,
+                value = state.ruTube,
                 onValueChange = profileViewModel::updateRuTube,
                 placeholder = stringResource(R.string.placeholder_rutube),
                 leadingIcon = {
@@ -338,7 +311,7 @@ fun ProfileScreen(
             )
             SocialMediaField(
                 modifier = modifier,
-                value = dzen,
+                value = state.dzen,
                 onValueChange = profileViewModel::updateDzen,
                 placeholder = stringResource(R.string.placeholder_dzen),
                 leadingIcon = {
@@ -356,7 +329,7 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Button(
-                onClick = { profileViewModel.updateAllFields() },
+                onClick = profileViewModel::updateAllFields,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = screenBackground()
                 ),

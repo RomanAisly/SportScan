@@ -1,6 +1,5 @@
 package com.sportscan.ui.components
 
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
@@ -53,7 +51,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -85,8 +82,10 @@ import com.sportscan.ui.theme.transparent
 @Composable
 fun LogoElements(modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(110.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(18.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
@@ -186,16 +185,11 @@ fun InputProfileField(
 ) {
     val focusManager = LocalFocusManager.current
     var isPlaying by remember { mutableStateOf(false) }
-    val configuration = LocalConfiguration.current
 
     OutlinedTextField(
-        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        } else {
-            modifier
-        },
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         value = value,
         onValueChange = { if (it.length <= maxLetters) onValueChange(it) },
         keyboardOptions = keyboardOptions,
@@ -242,17 +236,8 @@ fun ExposedField(
     onSelectionChange: (String) -> Unit,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
-    val configuration = LocalConfiguration.current
 
     ExposedDropdownMenuBox(
-        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            modifier
-                .fillMaxWidth()
-        } else {
-            modifier
-                .width(300.dp)
-                .padding(top = 8.dp)
-        },
         expanded = isExpanded,
         onExpandedChange = { isExpanded = true },
     ) {
@@ -260,7 +245,7 @@ fun ExposedField(
             value = selectedOption,
             onValueChange = {},
             readOnly = true,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .menuAnchor(type = MenuAnchorType.PrimaryEditable, enabled = true),
@@ -314,16 +299,11 @@ fun CostOfLesson(
     var isExpanded by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
-    val configuration = LocalConfiguration.current
 
     OutlinedTextField(
-        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        } else {
-            modifier
-        },
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
@@ -519,7 +499,9 @@ fun SocialMediaField(
     var isPlaying by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         value = value,
         onValueChange = { if (it.length <= 300) onValueChange(it) },
         keyboardOptions = KeyboardOptions(
@@ -574,7 +556,9 @@ fun PhoneField(
     var isPlaying by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         value = phoneNumber,
         onValueChange = { it ->
             if (it.length <= 10) {
