@@ -3,9 +3,8 @@ package com.sportscan.data.repositories
 import com.sportscan.data.local.dao.UsersDao
 import com.sportscan.data.local.entitys.Users
 import com.sportscan.utils.ResultData
-import javax.inject.Inject
 
-class AuthRepository @Inject constructor(private val usersDao: UsersDao) {
+class AuthRepository(private val usersDao: UsersDao) {
 
     suspend fun authUser(email: String, password: String): ResultData {
         val user = usersDao.loginUser(email, password)

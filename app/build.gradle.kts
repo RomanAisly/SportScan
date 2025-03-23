@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -72,9 +71,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.hitl.android)
-    implementation(libs.hilt.navigation)
-    ksp(libs.hilt.android.compiler)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
@@ -86,4 +82,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.lottie.compose)
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
 }

@@ -33,7 +33,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.sportscan.R
 import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.GradientButton
@@ -49,12 +48,13 @@ import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.gradButtAutEnable
 import com.sportscan.ui.viewmodels.SignUpViewModel
 import com.sportscan.utils.ResultData
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     navigateTo: (NavScreens) -> Unit,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val isButtonEnabled = state.login.isNotEmpty() &&

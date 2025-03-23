@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +29,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.sportscan.R
 import com.sportscan.ui.components.CostOfLesson
 import com.sportscan.ui.components.ExposedField
@@ -46,11 +44,12 @@ import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.theme.lightBlue
 import com.sportscan.ui.theme.orange
 import com.sportscan.ui.viewmodels.ProfileViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    profileViewModel: ProfileViewModel = hiltViewModel()
+    profileViewModel: ProfileViewModel = koinViewModel()
 ) {
 
     val state by profileViewModel.state.collectAsState()

@@ -1,32 +1,29 @@
 package com.sportscan.domain.di
 
-import android.content.Context
 import androidx.room.Room
 import com.sportscan.data.local.UsersDB
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.sportscan.data.repositories.AuthRepository
+import com.sportscan.ui.viewmodels.LoginViewModel
+import com.sportscan.ui.viewmodels.ProfileViewModel
+import com.sportscan.ui.viewmodels.SignUpViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
-
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
-
-    @Provides
-    @Singleton
-    fun provideUsersDatabase(@ApplicationContext context: Context): UsersDB {
-        return Room.databaseBuilder(
-            context,
+val appModule = module {
+    single {
+        Room.databaseBuilder(
+            get(),
             UsersDB::class.java,
             "users_db"
         ).build()
     }
-
-    @Provides
-    @Singleton
-    fun provideUsersDao(usersDB: UsersDB) = usersDB.getUsersDao()
-
+    single {
+        get<UsersDB>().getUsersDao()
+    }
+    single {
+        AuthRepository(get())
+    }
+    viewModel { LoginViewModel(get()) }
+    viewModel { SignUpViewModel(get()) }
+    viewModel { ProfileViewModel() }
 }

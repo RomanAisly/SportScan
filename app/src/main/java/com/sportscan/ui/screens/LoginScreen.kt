@@ -21,7 +21,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.sportscan.R
 import com.sportscan.domain.navigation.NavScreens
 import com.sportscan.ui.components.GradientButton
@@ -38,12 +37,13 @@ import com.sportscan.ui.theme.gradLogoDark
 import com.sportscan.ui.theme.gradLogoLight
 import com.sportscan.ui.viewmodels.LoginViewModel
 import com.sportscan.utils.ResultData
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navigateTo: (NavScreens) -> Unit,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsState()
