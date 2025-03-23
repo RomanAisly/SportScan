@@ -206,7 +206,6 @@ fun InputProfileField(
         placeholder = {
             SimpleText(
                 text = placeholder,
-                textSize = 12.sp,
                 textColor = Color(0.5f, 0.5f, 0.5f, 0.8f)
             )
         },
@@ -234,6 +233,7 @@ fun ExposedField(
     options: List<String>,
     selectedOption: String,
     onSelectionChange: (String) -> Unit,
+    placeholder: String
 ) {
     var isExpanded by remember { mutableStateOf(false) }
 
@@ -255,6 +255,12 @@ fun ExposedField(
                 fontSize = 15.sp,
                 textAlign = TextAlign.Start
             ),
+            placeholder = {
+                SimpleText(
+                    text = placeholder,
+                    textColor = Color(0.5f, 0.5f, 0.5f, 0.8f)
+                )
+            },
             shape = MaterialTheme.shapes.extraLarge,
             colors = TextFieldDefaults.colors(
                 focusedTextColor = focusedFieldContent(),
@@ -316,7 +322,12 @@ fun CostOfLesson(
             }
         ),
         textStyle = TextStyle(fontSize = 16.sp),
-        placeholder = { Text(text = placeholder, fontSize = 12.sp) },
+        placeholder = {
+            SimpleText(
+                text = placeholder,
+                textColor = Color(0.5f, 0.5f, 0.5f, 0.8f)
+            )
+        },
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.ic_ruble),
@@ -326,7 +337,7 @@ fun CostOfLesson(
         },
         suffix = {
             SimpleText(
-                text = costPeriod,
+                text = costPeriod
             )
         },
         trailingIcon = {

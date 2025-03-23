@@ -25,7 +25,7 @@ fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController
                 .padding(innerPadding)
                 .background(screenBackground()),
             navController = navHostController,
-            startDestination = NavScreens.LoginScreen,
+            startDestination = NavScreens.ProfileScreen,
             enterTransition = {
                 slideInHorizontally(
                     initialOffsetX = { 900 },

@@ -106,7 +106,7 @@ fun ProfileScreen(
             selectedOption = state.ageOfClient,
             onSelectionChange = {
                 profileViewModel.updateAgeOfClient(it)
-            }
+            }, placeholder = stringResource(R.string.placeholder_age_of_client)
         )
         CostOfLesson(
             modifier = modifier,
@@ -125,7 +125,8 @@ fun ProfileScreen(
             selectedOption = state.workGraphic,
             onSelectionChange = {
                 profileViewModel.updateWorkGraphic(it)
-            }
+            },
+            placeholder = stringResource(R.string.placeholder_workgraphic)
         )
         InputProfileField(
             modifier = modifier,
@@ -256,7 +257,7 @@ fun ProfileScreen(
                 leadingIcon = {
                     Image(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_vk),
-                        contentDescription = stringResource(R.string.label_vk)
+                        contentDescription = stringResource(R.string.cont_desc_vk)
                     )
                 }
             )
@@ -268,7 +269,7 @@ fun ProfileScreen(
                 leadingIcon = {
                     Image(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_telegram),
-                        contentDescription = stringResource(R.string.label_telegram)
+                        contentDescription = stringResource(R.string.cont_desc_telegram)
                     )
                 }
             )
@@ -280,7 +281,7 @@ fun ProfileScreen(
                 leadingIcon = {
                     Image(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_ok),
-                        contentDescription = stringResource(R.string.label_ok)
+                        contentDescription = stringResource(R.string.cont_desc_ok)
                     )
                 }
             )
@@ -292,7 +293,7 @@ fun ProfileScreen(
                 leadingIcon = {
                     Image(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_youtube),
-                        contentDescription = stringResource(R.string.label_youtube)
+                        contentDescription = stringResource(R.string.cont_desc_youtube)
                     )
                 }
             )
@@ -304,7 +305,7 @@ fun ProfileScreen(
                 leadingIcon = {
                     Image(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_rutube),
-                        contentDescription = stringResource(R.string.label_rutube)
+                        contentDescription = stringResource(R.string.cont_desc_rutube)
                     )
                 }
             )
@@ -316,7 +317,7 @@ fun ProfileScreen(
                 leadingIcon = {
                     Image(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_dzen),
-                        contentDescription = stringResource(R.string.label_dzen)
+                        contentDescription = stringResource(R.string.cont_desc_dzen)
                     )
                 }
             )

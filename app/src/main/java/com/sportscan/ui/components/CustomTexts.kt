@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 fun SimpleText(
     modifier: Modifier = Modifier,
     text: String,
-    textSize: TextUnit = 16.sp,
+    textSize: TextUnit = 14.sp,
     textWeight: FontWeight = FontWeight.Normal,
     textAlign: TextAlign = TextAlign.Start,
     textColor: Color = MaterialTheme.colorScheme.onSurface
