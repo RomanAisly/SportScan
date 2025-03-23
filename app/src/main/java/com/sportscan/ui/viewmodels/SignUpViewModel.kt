@@ -8,58 +8,52 @@ import com.sportscan.utils.ResultData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+data class SignUpState(
+    val login: String = "",
+    val password: String = "",
+    val repeatPassword: String = "",
+    val checked: ToggleableState = ToggleableState.Off,
+    val isPasswordVisible: Boolean = false,
+    val resultData: ResultData? = null
+)
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(private val authRepository: AuthRepository) :
     ViewModel() {
 
-    private val _login = MutableStateFlow("")
-    val login = _login.asStateFlow()
-    fun updateLogin(login: String) {
-        _login.value = login
+    private val _state = MutableStateFlow(SignUpState())
+    val state: StateFlow<SignUpState> = _state.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = SignUpState()
+    )
+    fun updateLogin(newLogin: String) {
+        _state.value = _state.value.copy(login = newLogin)
+    }
+    fun updatePassword(newPassword: String) {
+        _state.value = _state.value.copy(password = newPassword)
+    }
+    fun updateRepeatPassword(newRepeatPassword: String) {
+        _state.value = _state.value.copy(repeatPassword = newRepeatPassword)
+    }
+    fun updateChecked(newChecked: ToggleableState) {
+        _state.value = _state.value.copy(checked = newChecked)
+    }
+    fun updatePasswordVisibility(newPasswordVisibility: Boolean) {
+        _state.value = _state.value.copy(isPasswordVisible = !newPasswordVisibility)
     }
 
-
-    private val _password = MutableStateFlow("")
-    val password = _password.asStateFlow()
-    fun updatePassword(password: String) {
-        _password.value = password
-    }
-
-
-    private val _repeatPassword = MutableStateFlow("")
-    val repeatPassword = _repeatPassword.asStateFlow()
-    fun updateRepeatPassword(repeatPassword: String) {
-        _repeatPassword.value = repeatPassword
-    }
-
-
-    private val _checked = MutableStateFlow(ToggleableState.Off)
-    val checked = _checked.asStateFlow()
-    fun updateChecked(checked: ToggleableState) {
-        _checked.value = checked
-    }
-
-
-    private val _isPasswordVisible = MutableStateFlow(false)
-    val isPasswordVisible = _isPasswordVisible.asStateFlow()
-    fun togglePasswordVisibility() {
-        _isPasswordVisible.value = !_isPasswordVisible.value
-    }
-
-    private val _resultData = MutableStateFlow<ResultData?>(null)
-    val resultData = _resultData.asStateFlow()
-
-    suspend fun signUp() {
+    fun signUp() {
         viewModelScope.launch(Dispatchers.IO) {
-            _resultData.value = authRepository.signUpUser(
-                email = _login.value,
-                password = _password.value,
-            )
+            val result = authRepository.signUpUser(email = _state.value.login, password = _state.value.password)
+            _state.value = _state.value.copy(resultData = result)
         }
-
     }
 }

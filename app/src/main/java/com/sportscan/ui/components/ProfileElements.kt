@@ -68,13 +68,11 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sportscan.R
-import com.sportscan.ui.screens.ProfilePortrait
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.borderOutlinedTextField
 import com.sportscan.ui.theme.darkYellow
@@ -88,7 +86,7 @@ import com.sportscan.ui.theme.transparent
 fun LogoElements(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(80.dp),
+        horizontalArrangement = Arrangement.spacedBy(110.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
@@ -99,16 +97,13 @@ fun LogoElements(modifier: Modifier = Modifier) {
                 fontSize = 24.sp,
                 style = TextStyle(brush = if (isSystemInDarkTheme()) gradLogoDark else gradLogoLight)
             )
-            Text(
+            SimpleText(
                 text = stringResource(R.string.profile_logo_small_text),
-                fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onSurface
             )
         }
-        Text(
+        SimpleText(
             text = stringResource(R.string.contact_with_us),
-            fontSize = 16.sp,
-            color = authTextColor(),
+            textColor = authTextColor(),
             modifier = Modifier.clickable { }
         )
     }
@@ -171,9 +166,8 @@ fun SectionPhoto(
             )
 
         ) {
-            Text(
-                text = stringResource(R.string.button_pick_images),
-                color = MaterialTheme.colorScheme.onSurface
+            SimpleText(
+                text = stringResource(R.string.button_pick_images)
             )
         }
     }
@@ -216,10 +210,10 @@ fun InputProfileField(
         },
         textStyle = TextStyle(fontSize = 18.sp),
         placeholder = {
-            Text(
+            SimpleText(
                 text = placeholder,
-                fontSize = 12.sp,
-                color = Color(0.5f, 0.5f, 0.5f, 0.8f)
+                textSize = 12.sp,
+                textColor = Color(0.5f, 0.5f, 0.5f, 0.8f)
             )
         },
         shape = MaterialTheme.shapes.extraLarge,
@@ -351,10 +345,8 @@ fun CostOfLesson(
             )
         },
         suffix = {
-            Text(
+            SimpleText(
                 text = costPeriod,
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSurface
             )
         },
         trailingIcon = {
@@ -405,7 +397,7 @@ fun CostOfLesson(
                 onCostPeriodChange(context.getString(R.string.hour))
                 isExpanded = false
             },
-            text = { Text(stringResource(R.string.hour)) }
+            text = { SimpleText(text = stringResource(R.string.hour)) }
         )
         HorizontalDivider()
         DropdownMenuItem(
@@ -413,7 +405,7 @@ fun CostOfLesson(
                 onCostPeriodChange(context.getString(R.string.day))
                 isExpanded = false
             },
-            text = { Text(stringResource(R.string.day)) }
+            text = { SimpleText(text = stringResource(R.string.day)) }
         )
         HorizontalDivider()
         DropdownMenuItem(
@@ -421,7 +413,7 @@ fun CostOfLesson(
                 onCostPeriodChange(context.getString(R.string.week))
                 isExpanded = false
             },
-            text = { Text(stringResource(R.string.week)) }
+            text = { SimpleText(text = stringResource(R.string.week)) }
         )
         HorizontalDivider()
         DropdownMenuItem(
@@ -429,7 +421,7 @@ fun CostOfLesson(
                 onCostPeriodChange(context.getString(R.string.month))
                 isExpanded = false
             },
-            text = { Text(stringResource(R.string.month)) }
+            text = { SimpleText(text = stringResource(R.string.month)) }
         )
         HorizontalDivider()
         DropdownMenuItem(
@@ -437,7 +429,7 @@ fun CostOfLesson(
                 onCostPeriodChange(context.getString(R.string.year))
                 isExpanded = false
             },
-            text = { Text(stringResource(R.string.year)) }
+            text = { SimpleText(text = stringResource(R.string.year)) }
         )
     }
 }
@@ -456,9 +448,8 @@ fun RadioButtonsSelection(
             .selectableGroup(),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
+        SimpleText(
             text = text,
-            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.padding(start = 12.dp)
         )
 
@@ -472,10 +463,7 @@ fun RadioButtonsSelection(
                     onSelectionChange(true)
                 }
             )
-            Text(
-                text = stringResource(R.string.yes),
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            SimpleText(text = stringResource(R.string.yes))
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -487,13 +475,8 @@ fun RadioButtonsSelection(
                     onSelectionChange(false)
                 }
             )
-            Text(
-                text = stringResource(R.string.no),
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            SimpleText(text = stringResource(R.string.no))
         }
-
-
     }
 }
 
@@ -517,9 +500,8 @@ fun PaymentMethodItem(
                 uncheckedColor = authElements,
             )
         )
-        Text(
+        SimpleText(
             text = text,
-            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -535,16 +517,9 @@ fun SocialMediaField(
 ) {
     val focusManager = LocalFocusManager.current
     var isPlaying by remember { mutableStateOf(false) }
-    val configuration = LocalConfiguration.current
 
     OutlinedTextField(
-        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        } else {
-            modifier
-        },
+        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
         value = value,
         onValueChange = { if (it.length <= 300) onValueChange(it) },
         keyboardOptions = KeyboardOptions(
@@ -565,10 +540,10 @@ fun SocialMediaField(
         },
         textStyle = TextStyle(fontSize = 18.sp),
         placeholder = {
-            Text(
+            SimpleText(
                 text = placeholder,
-                fontSize = 12.sp,
-                color = Color(0.5f, 0.5f, 0.5f, 0.8f)
+                textSize = 16.sp,
+                textColor = Color(0.5f, 0.5f, 0.5f, 0.8f)
             )
         },
         shape = MaterialTheme.shapes.extraLarge,
@@ -597,16 +572,9 @@ fun PhoneField(
 ) {
     val focusManager = LocalFocusManager.current
     var isPlaying by remember { mutableStateOf(false) }
-    val configuration = LocalConfiguration.current
 
     OutlinedTextField(
-        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        } else {
-            modifier
-        },
+        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
         value = phoneNumber,
         onValueChange = { it ->
             if (it.length <= 10) {
@@ -614,10 +582,10 @@ fun PhoneField(
             }
         },
         placeholder = {
-            Text(
+            SimpleText(
                 text = stringResource(R.string.placeholder_cont_phone_number),
-                fontSize = 12.sp,
-                color = Color(0.5f, 0.5f, 0.5f, 0.8f),
+                textSize = 12.sp,
+                textColor = Color(0.5f, 0.5f, 0.5f, 0.8f),
                 textAlign = TextAlign.End
             )
         },
@@ -700,10 +668,4 @@ private class PhoneOffsetMapper(val mask: String, val maskNumber: Char) : Offset
 
     override fun transformedToOriginal(offset: Int): Int =
         offset - mask.take(offset).count { it != maskNumber }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    ProfilePortrait()
 }

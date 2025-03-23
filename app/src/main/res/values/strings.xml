@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">SportScan</string>
-    <string name="logo_small_text">sports</string>
     <string name="placeholder_login_field">Enter email</string>
     <string name="placeholder_password_field">Enter password</string>
     <string name="password_recovery">Forgot password?</string>

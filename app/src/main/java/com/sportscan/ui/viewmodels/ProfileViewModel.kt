@@ -6,12 +6,41 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+data class ProfileState(
+    val uriList: List<Uri> = emptyList(),
+    val sectionName: String = "",
+    val selectedSport: String = "",
+    val address: String = "",
+    val ageOfClient: String = "Возраст клиента",
+    val costOfLesson: String = "",
+    val costPeriod: String = "в/",
+    val workGraphic: String = "Рабочий график",
+    val about: String = "",
+    val isSelectedDoc: Boolean = false,
+    val isSelectedDorCertReq: Boolean = false,
+    val isSelectedAbilityMedCert: Boolean = false,
+    val isSelectedCerfFromOtherDocs: Boolean = false,
+    val checkedCash: ToggleableState = ToggleableState.Off,
+    val checkedCard: ToggleableState = ToggleableState.Off,
+    val checkedOnlinePayment: ToggleableState = ToggleableState.Off,
+    val checkedQR: ToggleableState = ToggleableState.Off,
+    val siteAddress: String = "",
+    val email: String = "",
+    val phone: String = "",
+    val vk: String = "",
+    val telegram: String = "",
+    val ok: String = "",
+    val youtube: String = "",
+    val ruTube: String = "",
+    val dzen: String = ""
+)
+
 class ProfileViewModel : ViewModel() {
 
-    private val _uriList = MutableStateFlow<List<Uri>>(emptyList())
-    val uriList = _uriList.asStateFlow()
+    private val _state = MutableStateFlow<List<Uri>>(emptyList())
+    val state = _state.asStateFlow()
     fun updateUriList(uris: List<Uri>) {
-        _uriList.value = uris
+        _state.value = uris
     }
 
     private val _sectionName = MutableStateFlow("")
@@ -197,7 +226,7 @@ class ProfileViewModel : ViewModel() {
         isSelected: Boolean = false,
         checked: ToggleableState = ToggleableState.Off
     ) {
-        _uriList.value = uriList
+        _state.value = uriList
         _sectionName.value = resetValue
         _selectedSport.value = resetValue
         _address.value = resetValue

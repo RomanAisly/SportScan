@@ -1,6 +1,5 @@
 package com.sportscan.ui.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -36,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -80,11 +78,10 @@ fun Logo(modifier: Modifier = Modifier, gradient: Brush) {
             ),
             fontWeight = FontWeight.SemiBold
         )
-        Text(
+        SimpleText(
             text = stringResource(R.string.profile_logo_small_text),
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onSurface
+            textSize = 16.sp,
+            textWeight = FontWeight.Bold,
         )
     }
 }
@@ -99,16 +96,11 @@ fun LoginTextField(
     isError: Boolean = false
 ) {
     val focusManager = LocalFocusManager.current
-    val configuration = LocalConfiguration.current
 
     OutlinedTextField(
-        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        } else {
-            modifier
-        },
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
@@ -149,18 +141,12 @@ fun PasswordTextField(
     supportingText: @Composable () -> Unit = {},
     isError: Boolean = false
 ) {
-
     val focusManager = LocalFocusManager.current
-    val configuration = LocalConfiguration.current
 
     OutlinedTextField(
-        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        } else {
-            modifier
-        },
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
@@ -219,7 +205,6 @@ fun GradientButton(
     enabled: Boolean = true,
     gradient: Brush,
 ) {
-    val configuration = LocalConfiguration.current
     val coroutineScope = rememberCoroutineScope()
     var isLoading by remember { mutableStateOf(false) }
 
@@ -233,13 +218,9 @@ fun GradientButton(
             }
         },
         enabled = enabled,
-        modifier = if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        } else {
-            modifier.fillMaxWidth(0.5f)
-        },
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent)
     ) {
@@ -259,11 +240,11 @@ fun GradientButton(
                     strokeCap = StrokeCap.Round
                 )
             } else {
-                Text(
+                SimpleText(
                     text = text,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = darkBlue,
+                    textSize = 18.sp,
+                    textWeight = FontWeight.SemiBold,
+                    textColor = darkBlue
                 )
             }
         }
