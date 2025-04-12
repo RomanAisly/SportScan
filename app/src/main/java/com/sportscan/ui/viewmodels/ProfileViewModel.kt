@@ -1,43 +1,14 @@
 package com.sportscan.ui.viewmodels
 
-import android.net.Uri
-import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sportscan.ui.events.ProfileEvents
+import com.sportscan.ui.states.ProfileState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-data class ProfileState(
-    val isLoading: Boolean = false,
-    val uriList: List<Uri> = emptyList(),
-    val sectionName: String = "",
-    val selectedSport: String = "",
-    val address: String = "",
-    val ageOfClient: String = "",
-    val costOfLesson: String = "",
-    val costPeriod: String = "в/",
-    val workGraphic: String = "",
-    val about: String = "",
-    val isSelectedDoc: Boolean = false,
-    val isSelectedDorCertReq: Boolean = false,
-    val isSelectedAbilityMedCert: Boolean = false,
-    val isSelectedCerfFromOtherDocs: Boolean = false,
-    val checkedCash: ToggleableState = ToggleableState.Off,
-    val checkedCard: ToggleableState = ToggleableState.Off,
-    val checkedOnlinePayment: ToggleableState = ToggleableState.Off,
-    val checkedQR: ToggleableState = ToggleableState.Off,
-    val siteAddress: String = "",
-    val email: String = "",
-    val phone: String = "",
-    val vk: String = "",
-    val telegram: String = "",
-    val ok: String = "",
-    val youtube: String = "",
-    val ruTube: String = "",
-    val dzen: String = ""
-)
 
 class ProfileViewModel : ViewModel() {
 
@@ -48,145 +19,105 @@ class ProfileViewModel : ViewModel() {
         initialValue = ProfileState()
     )
 
-    fun updateUriList(uris: List<Uri>) {
-        _state.value = _state.value.copy(uriList = uris)
-    }
-
-    fun updateSectionName(sectionName: String) {
-        _state.value = _state.value.copy(sectionName = sectionName)
-    }
-
-    fun updateSelectedSport(selectedSport: String) {
-        _state.value = _state.value.copy(selectedSport = selectedSport)
-    }
-
-    fun updateAddress(address: String) {
-        _state.value = _state.value.copy(address = address)
-    }
-
-    fun updateAgeOfClient(ageOfClient: String) {
-        _state.value = _state.value.copy(ageOfClient = ageOfClient)
-    }
-
-    fun updateCostOfLesson(costOfLesson: String) {
-        _state.value = _state.value.copy(costOfLesson = costOfLesson)
-    }
-
-    fun updateCostPeriod(costPeriod: String) {
-        _state.value = _state.value.copy(costPeriod = costPeriod)
-    }
-
-    fun updateWorkGraphic(workGraphic: String) {
-        _state.value = _state.value.copy(workGraphic = workGraphic)
-    }
-
-    fun updateAbout(about: String) {
-        _state.value = _state.value.copy(about = about)
-    }
-
-    fun updateIsSelectedDoc(isSelectedDoc: Boolean) {
-        _state.value = _state.value.copy(isSelectedDoc = isSelectedDoc)
-    }
-
-    fun updateIsSelectedDorCertReq(isSelectedDorCertReq: Boolean) {
-        _state.value = _state.value.copy(isSelectedDorCertReq = isSelectedDorCertReq)
-    }
-
-    fun updateIsSelectedAbilityMedCert(isSelectedAbilityMedCert: Boolean) {
-        _state.value = _state.value.copy(isSelectedAbilityMedCert = isSelectedAbilityMedCert)
-    }
-
-    fun updateIsSelectedCerfFromOtherDocs(isSelectedCerfFromOtherDocs: Boolean) {
-        _state.value = _state.value.copy(isSelectedCerfFromOtherDocs = isSelectedCerfFromOtherDocs)
-    }
-
-    fun updateCheckedCash(checkedCash: ToggleableState) {
-        _state.value = _state.value.copy(checkedCash = checkedCash)
-    }
-
-    fun updateCheckedCard(checkedCard: ToggleableState) {
-        _state.value = _state.value.copy(checkedCard = checkedCard)
-    }
-
-    fun updateCheckedOnlinePayment(checkedOnlinePayment: ToggleableState) {
-        _state.value = _state.value.copy(checkedOnlinePayment = checkedOnlinePayment)
-    }
-
-    fun updateCheckedQR(checkedQR: ToggleableState) {
-        _state.value = _state.value.copy(checkedQR = checkedQR)
-    }
-
-    fun updateSiteAddress(siteAddress: String) {
-        _state.value = _state.value.copy(siteAddress = siteAddress)
-    }
-
-    fun updateEmail(email: String) {
-        _state.value = _state.value.copy(email = email)
-    }
-
-    fun updatePhone(phone: String) {
-        _state.value = _state.value.copy(phone = phone)
-    }
-
-    fun updateVk(vk: String) {
-        _state.value = _state.value.copy(vk = vk)
-    }
-
-    fun updateTelegram(telegram: String) {
-        _state.value = _state.value.copy(telegram = telegram)
-    }
-
-    fun updateOk(ok: String) {
-        _state.value = _state.value.copy(ok = ok)
-    }
-
-    fun updateYoutube(youtube: String) {
-        _state.value = _state.value.copy(youtube = youtube)
-    }
-
-    fun updateRuTube(ruTube: String) {
-        _state.value = _state.value.copy(ruTube = ruTube)
-    }
-
-    fun updateDzen(dzen: String) {
-        _state.value = _state.value.copy(dzen = dzen)
-    }
+    fun onEvent(event: ProfileEvents) {
+        when (event) {
 
 
-    fun updateAllFields(
-        resetValue: String = "",
-        uriList: List<Uri> = emptyList(),
-        costPeriod: String = "в/",
-        isSelected: Boolean = false,
-        checked: ToggleableState = ToggleableState.Off
-    ) {
-        _state.value = _state.value.copy(
-            sectionName = resetValue,
-            uriList = uriList,
-            selectedSport = resetValue,
-            address = resetValue,
-            ageOfClient = resetValue,
-            costOfLesson = resetValue,
-            costPeriod = costPeriod,
-            workGraphic = resetValue,
-            about = resetValue,
-            isSelectedDoc = isSelected,
-            isSelectedDorCertReq = isSelected,
-            isSelectedAbilityMedCert = isSelected,
-            isSelectedCerfFromOtherDocs = isSelected,
-            checkedCash = checked,
-            checkedCard = checked,
-            checkedOnlinePayment = checked,
-            checkedQR = checked,
-            siteAddress = resetValue,
-            email = resetValue,
-            phone = resetValue,
-            vk = resetValue,
-            telegram = resetValue,
-            ok = resetValue,
-            youtube = resetValue,
-            ruTube = resetValue,
-            dzen = resetValue
-        )
+            is ProfileEvents.UpdateUriList ->
+                _state.value = _state.value.copy(uriList = event.uris)
+
+
+            is ProfileEvents.UpdateSectionName ->
+                _state.value = _state.value.copy(sectionName = event.sectionName)
+
+            is ProfileEvents.UpdateSelectedSport -> _state.value =
+                _state.value.copy(selectedSport = event.selectedSport)
+
+            is ProfileEvents.UpdateAddress -> _state.value =
+                _state.value.copy(address = event.address)
+
+            is ProfileEvents.UpdateAgeOfClient -> _state.value =
+                _state.value.copy(ageOfClient = event.ageOfClient)
+
+            is ProfileEvents.UpdateCostOfLesson -> _state.value =
+                _state.value.copy(costOfLesson = event.costOfLesson)
+
+            is ProfileEvents.UpdateCostPeriod -> _state.value =
+                _state.value.copy(costPeriod = event.costPeriod)
+
+            is ProfileEvents.UpdateWorkGraphic -> _state.value =
+                _state.value.copy(workGraphic = event.workGraphic)
+
+            is ProfileEvents.UpdateAbout -> _state.value = _state.value.copy(about = event.about)
+            is ProfileEvents.UpdateCheckedCard -> _state.value =
+                _state.value.copy(checkedCard = event.checkedCard)
+
+            is ProfileEvents.UpdateCheckedCash -> _state.value =
+                _state.value.copy(checkedCash = event.checkedCash)
+
+            is ProfileEvents.UpdateCheckedOnlinePayment -> _state.value =
+                _state.value.copy(checkedOnlinePayment = event.checkedOnlinePayment)
+
+            is ProfileEvents.UpdateCheckedQR -> _state.value =
+                _state.value.copy(checkedQR = event.checkedQR)
+
+            is ProfileEvents.UpdateDzen -> _state.value = _state.value.copy(dzen = event.dzen)
+            is ProfileEvents.UpdateEmail -> _state.value = _state.value.copy(email = event.email)
+            is ProfileEvents.UpdateIsSelectedAbilityMedCert -> _state.value =
+                _state.value.copy(isSelectedAbilityMedCert = event.isSelectedAbilityMedCert)
+
+            is ProfileEvents.UpdateIsSelectedCerfFromOtherDocs -> _state.value =
+                _state.value.copy(isSelectedCerfFromOtherDocs = event.isSelectedCerfFromOtherDocs)
+
+            is ProfileEvents.UpdateIsSelectedDoc -> _state.value =
+                _state.value.copy(isSelectedDoc = event.isSelectedDoc)
+
+            is ProfileEvents.UpdateIsSelectedDorCertReq -> _state.value =
+                _state.value.copy(isSelectedDorCertReq = event.isSelectedDorCertReq)
+
+            is ProfileEvents.UpdateOk -> _state.value = _state.value.copy(ok = event.ok)
+            is ProfileEvents.UpdatePhone -> _state.value = _state.value.copy(phone = event.phone)
+            is ProfileEvents.UpdateRuTube -> _state.value = _state.value.copy(ruTube = event.ruTube)
+            is ProfileEvents.UpdateSiteAddress -> _state.value =
+                _state.value.copy(siteAddress = event.siteAddress)
+
+            is ProfileEvents.UpdateTelegram -> _state.value =
+                _state.value.copy(telegram = event.telegram)
+
+            is ProfileEvents.UpdateVk -> _state.value = _state.value.copy(vk = event.vk)
+            is ProfileEvents.UpdateYoutube -> _state.value =
+                _state.value.copy(youtube = event.youtube)
+
+            is ProfileEvents.ResetAllFields -> {
+                _state.value = _state.value.copy(
+                    sectionName = event.resetValue,
+                    uriList = event.uriList,
+                    selectedSport = event.resetValue,
+                    address = event.resetValue,
+                    ageOfClient = event.resetValue,
+                    costOfLesson = event.resetValue,
+                    costPeriod = event.costPeriod,
+                    workGraphic = event.resetValue,
+                    about = event.resetValue,
+                    isSelectedDoc = event.isSelected,
+                    isSelectedDorCertReq = event.isSelected,
+                    isSelectedAbilityMedCert = event.isSelected,
+                    isSelectedCerfFromOtherDocs = event.isSelected,
+                    checkedCash = event.checked,
+                    checkedCard = event.checked,
+                    checkedOnlinePayment = event.checked,
+                    checkedQR = event.checked,
+                    siteAddress = event.resetValue,
+                    email = event.resetValue,
+                    phone = event.resetValue,
+                    vk = event.resetValue,
+                    telegram = event.resetValue,
+                    ok = event.resetValue,
+                    youtube = event.resetValue,
+                    ruTube = event.resetValue,
+                    dzen = event.resetValue
+                )
+            }
+        }
     }
 }

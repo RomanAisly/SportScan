@@ -26,6 +26,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +42,7 @@ import com.sportscan.ui.components.SectionPhoto
 import com.sportscan.ui.components.SimpleText
 import com.sportscan.ui.components.SocialMediaField
 import com.sportscan.ui.components.screenBackground
+import com.sportscan.ui.events.ProfileEvents
 import com.sportscan.ui.theme.lightBlue
 import com.sportscan.ui.theme.orange
 import com.sportscan.ui.viewmodels.ProfileViewModel
@@ -49,10 +51,10 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    profileViewModel: ProfileViewModel = koinViewModel()
+    viewModel: ProfileViewModel = koinViewModel()
 ) {
 
-    val state by profileViewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     Column(
         modifier = modifier
@@ -68,12 +70,14 @@ fun ProfileScreen(
             textSize = 20.sp,
             textWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center,
-            modifier = modifier.fillMaxWidth().padding(vertical = 14.dp)
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 14.dp)
         )
         InputProfileField(
             modifier = modifier,
             value = state.sectionName,
-            onValueChange = profileViewModel::updateSectionName,
+            onValueChange = { viewModel.onEvent(ProfileEvents.UpdateSectionName(it)) },
             placeholder = stringResource(R.string.placeholder_section_name),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -83,7 +87,7 @@ fun ProfileScreen(
         InputProfileField(
             modifier = modifier,
             value = state.selectedSport,
-            onValueChange = profileViewModel::updateSelectedSport,
+            onValueChange = { viewModel.onEvent(ProfileEvents.UpdateSelectedSport(it)) },
             placeholder = stringResource(R.string.placeholder_type_of_sport),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -93,7 +97,7 @@ fun ProfileScreen(
         InputProfileField(
             modifier = modifier,
             value = state.address,
-            onValueChange = profileViewModel::updateAddress,
+            onValueChange = { viewModel.onEvent(ProfileEvents.UpdateAddress(it)) },
             placeholder = stringResource(R.string.placeholder_address),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -105,16 +109,16 @@ fun ProfileScreen(
             options = listOf("0-6", "6-12", "12-16", "18+"),
             selectedOption = state.ageOfClient,
             onSelectionChange = {
-                profileViewModel.updateAgeOfClient(it)
+                viewModel.onEvent(ProfileEvents.UpdateAgeOfClient(it))
             }, placeholder = stringResource(R.string.placeholder_age_of_client)
         )
         CostOfLesson(
             modifier = modifier,
             value = state.costOfLesson,
-            onValueChange = profileViewModel::updateCostOfLesson,
+            onValueChange = { viewModel.onEvent(ProfileEvents.UpdateCostOfLesson(it)) },
             placeholder = stringResource(R.string.placeholder_cost_of_lesson),
             costPeriod = state.costPeriod,
-            onCostPeriodChange = profileViewModel::updateCostPeriod
+            onCostPeriodChange = { viewModel.onEvent(ProfileEvents.UpdateCostPeriod(it)) }
         )
         ExposedField(
             modifier = modifier,
@@ -124,14 +128,14 @@ fun ProfileScreen(
             ),
             selectedOption = state.workGraphic,
             onSelectionChange = {
-                profileViewModel.updateWorkGraphic(it)
+                viewModel.onEvent(ProfileEvents.UpdateWorkGraphic(it))
             },
             placeholder = stringResource(R.string.placeholder_workgraphic)
         )
         InputProfileField(
             modifier = modifier,
             value = state.about,
-            onValueChange = profileViewModel::updateAbout,
+            onValueChange = { viewModel.onEvent(ProfileEvents.UpdateAbout(it)) },
             placeholder = stringResource(R.string.placeholder_about),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -141,29 +145,47 @@ fun ProfileScreen(
         SectionPhoto(
             modifier = modifier.padding(bottom = 8.dp),
             uriList = state.uriList,
-            onImagesSelected = profileViewModel::updateUriList
+            onImagesSelected = {
+                viewModel.onEvent(
+                    event = ProfileEvents.UpdateUriList(
+                        uris = state.uriList + it
+                    )
+                )
+            }
         )
         Column(
             modifier = modifier.padding(start = 8.dp),
         ) {
             RadioButtonsSelection(
                 isSelected = state.isSelectedDoc,
-                onSelectionChange = profileViewModel::updateIsSelectedDoc,
+                onSelectionChange = { viewModel.onEvent(ProfileEvents.UpdateIsSelectedDoc(it)) },
                 text = stringResource(R.string.med_worker)
             )
             RadioButtonsSelection(
                 isSelected = state.isSelectedDorCertReq,
-                onSelectionChange = profileViewModel::updateIsSelectedDorCertReq,
+                onSelectionChange = { viewModel.onEvent(ProfileEvents.UpdateIsSelectedDorCertReq(it)) },
                 text = stringResource(R.string.doc_cart_req)
             )
             RadioButtonsSelection(
                 isSelected = state.isSelectedAbilityMedCert,
-                onSelectionChange = profileViewModel::updateIsSelectedAbilityMedCert,
+                onSelectionChange = {
+                    viewModel.onEvent(
+                        ProfileEvents.UpdateIsSelectedAbilityMedCert(
+                            it
+                        )
+                    )
+                },
                 text = stringResource(R.string.reg_doc_cart)
             )
             RadioButtonsSelection(
                 isSelected = state.isSelectedCerfFromOtherDocs,
-                onSelectionChange = profileViewModel::updateIsSelectedCerfFromOtherDocs,
+                onSelectionChange = {
+                    viewModel.onEvent(
+                        ProfileEvents.UpdateIsSelectedCerfFromOtherDocs(
+                            it
+                        )
+                    )
+                },
                 text = stringResource(R.string.other_dor_cart_from)
             )
         }
@@ -186,22 +208,22 @@ fun ProfileScreen(
             PaymentMethodItem(
                 text = stringResource(R.string.cash),
                 checked = state.checkedCash,
-                onCheckedChange = profileViewModel::updateCheckedCash
+                onCheckedChange = { viewModel.onEvent(ProfileEvents.UpdateCheckedCash(it)) }
             )
             PaymentMethodItem(
                 text = stringResource(R.string.card),
                 checked = state.checkedCard,
-                onCheckedChange = profileViewModel::updateCheckedCard
+                onCheckedChange = { viewModel.onEvent(ProfileEvents.UpdateCheckedCard(it)) }
             )
             PaymentMethodItem(
                 text = stringResource(R.string.online_payment),
                 checked = state.checkedOnlinePayment,
-                onCheckedChange = profileViewModel::updateCheckedOnlinePayment
+                onCheckedChange = { viewModel.onEvent(ProfileEvents.UpdateCheckedOnlinePayment(it)) }
             )
             PaymentMethodItem(
                 text = stringResource(R.string.qr_code),
                 checked = state.checkedQR,
-                onCheckedChange = profileViewModel::updateCheckedQR
+                onCheckedChange = { viewModel.onEvent(ProfileEvents.UpdateCheckedQR(it)) }
             )
         }
         Column(
@@ -219,24 +241,24 @@ fun ProfileScreen(
             PhoneField(
                 modifier = modifier,
                 phoneNumber = state.phone,
-                onPhoneNumberChanged = profileViewModel::updatePhone,
+                onPhoneNumberChanged = { viewModel.onEvent(ProfileEvents.UpdatePhone(it)) },
                 mask = "(000) 000-00-00",
                 maskNumber = '0'
             )
             InputProfileField(
                 modifier = modifier,
                 value = state.siteAddress,
-                onValueChange = profileViewModel::updateSiteAddress,
+                onValueChange = { viewModel.onEvent(ProfileEvents.UpdateSiteAddress(it)) },
                 placeholder = stringResource(R.string.placeholder_site_address),
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Uri,
+                    keyboardType = Uri,
                     imeAction = ImeAction.Done
                 )
             )
             InputProfileField(
                 modifier = modifier,
                 value = state.email,
-                onValueChange = profileViewModel::updateEmail,
+                onValueChange = { viewModel.onEvent(ProfileEvents.UpdateEmail(it)) },
                 placeholder = stringResource(R.string.placeholder_login_field),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
@@ -252,7 +274,7 @@ fun ProfileScreen(
             SocialMediaField(
                 modifier = modifier,
                 value = state.vk,
-                onValueChange = profileViewModel::updateVk,
+                onValueChange = { viewModel.onEvent(ProfileEvents.UpdateVk(it)) },
                 placeholder = stringResource(R.string.placeholder_vk),
                 leadingIcon = {
                     Image(
@@ -264,7 +286,7 @@ fun ProfileScreen(
             SocialMediaField(
                 modifier = modifier,
                 value = state.telegram,
-                onValueChange = profileViewModel::updateTelegram,
+                onValueChange = { viewModel.onEvent(ProfileEvents.UpdateTelegram(it)) },
                 placeholder = stringResource(R.string.placeholder_telegram),
                 leadingIcon = {
                     Image(
@@ -276,7 +298,7 @@ fun ProfileScreen(
             SocialMediaField(
                 modifier = modifier,
                 value = state.ok,
-                onValueChange = profileViewModel::updateOk,
+                onValueChange = { viewModel.onEvent(ProfileEvents.UpdateOk(it)) },
                 placeholder = stringResource(R.string.placeholder_ok),
                 leadingIcon = {
                     Image(
@@ -288,7 +310,7 @@ fun ProfileScreen(
             SocialMediaField(
                 modifier = modifier,
                 value = state.youtube,
-                onValueChange = profileViewModel::updateYoutube,
+                onValueChange = { viewModel.onEvent(ProfileEvents.UpdateYoutube(it)) },
                 placeholder = stringResource(R.string.placeholder_youtube),
                 leadingIcon = {
                     Image(
@@ -300,7 +322,7 @@ fun ProfileScreen(
             SocialMediaField(
                 modifier = modifier,
                 value = state.ruTube,
-                onValueChange = profileViewModel::updateRuTube,
+                onValueChange = { viewModel.onEvent(ProfileEvents.UpdateRuTube(it)) },
                 placeholder = stringResource(R.string.placeholder_rutube),
                 leadingIcon = {
                     Image(
@@ -312,7 +334,7 @@ fun ProfileScreen(
             SocialMediaField(
                 modifier = modifier,
                 value = state.dzen,
-                onValueChange = profileViewModel::updateDzen,
+                onValueChange = { viewModel.onEvent(ProfileEvents.UpdateDzen(it)) },
                 placeholder = stringResource(R.string.placeholder_dzen),
                 leadingIcon = {
                     Image(
@@ -329,7 +351,7 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Button(
-                onClick = profileViewModel::updateAllFields,
+                onClick = { viewModel.onEvent(ProfileEvents.ResetAllFields()) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = screenBackground()
                 ),

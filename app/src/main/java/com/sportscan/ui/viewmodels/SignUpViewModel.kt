@@ -1,10 +1,10 @@
 package com.sportscan.ui.viewmodels
 
-import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sportscan.data.repositories.AuthRepository
-import com.sportscan.utils.ResultData
+import com.sportscan.ui.events.SignUpEvents
+import com.sportscan.ui.states.SignUpState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -12,15 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-data class SignUpState(
-    val isLoading: Boolean = false,
-    val login: String = "",
-    val password: String = "",
-    val repeatPassword: String = "",
-    val checked: ToggleableState = ToggleableState.Off,
-    val isPasswordVisible: Boolean = false,
-    val resultData: ResultData? = null
-)
 
 class SignUpViewModel(private val authRepository: AuthRepository) :
     ViewModel() {
@@ -32,33 +23,31 @@ class SignUpViewModel(private val authRepository: AuthRepository) :
         initialValue = SignUpState()
     )
 
-    fun updateLogin(newLogin: String) {
-        _state.value = _state.value.copy(login = newLogin)
-    }
+    fun onEvent(event: SignUpEvents) {
+        when (event) {
+            is SignUpEvents.UpdateLogin -> _state.value = _state.value.copy(login = event.newLogin)
+            is SignUpEvents.UpdatePassword -> _state.value =
+                _state.value.copy(password = event.newPassword)
 
-    fun updatePassword(newPassword: String) {
-        _state.value = _state.value.copy(password = newPassword)
-    }
+            is SignUpEvents.UpdateRepeatPassword -> _state.value =
+                _state.value.copy(repeatPassword = event.newRepeatPassword)
 
-    fun updateRepeatPassword(newRepeatPassword: String) {
-        _state.value = _state.value.copy(repeatPassword = newRepeatPassword)
-    }
+            is SignUpEvents.UpdatePasswordVisibility -> _state.value =
+                _state.value.copy(isPasswordVisible = !event.newPasswordVisibility)
 
-    fun updateChecked(newChecked: ToggleableState) {
-        _state.value = _state.value.copy(checked = newChecked)
-    }
+            is SignUpEvents.UpdateChecked -> _state.value =
+                _state.value.copy(checked = event.newChecked)
 
-    fun updatePasswordVisibility(newPasswordVisibility: Boolean) {
-        _state.value = _state.value.copy(isPasswordVisible = !newPasswordVisibility)
-    }
-
-    fun signUp() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = authRepository.signUpUser(
-                email = _state.value.login,
-                password = _state.value.password
-            )
-            _state.value = _state.value.copy(resultData = result)
+            is SignUpEvents.SignUp -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    val result = authRepository.signUpUser(
+                        email = _state.value.login,
+                        password = _state.value.password
+                    )
+                    _state.value = _state.value.copy(resultData = result)
+                }
+            }
         }
+
     }
 }

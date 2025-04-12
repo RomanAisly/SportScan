@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TriStateCheckbox
@@ -44,6 +46,7 @@ import com.sportscan.ui.components.authTextColor
 import com.sportscan.ui.components.gradButtDisable
 import com.sportscan.ui.components.gradLogo
 import com.sportscan.ui.components.screenBackground
+import com.sportscan.ui.events.SignUpEvents
 import com.sportscan.ui.theme.authElements
 import com.sportscan.ui.theme.gradButtAutEnable
 import com.sportscan.ui.viewmodels.SignUpViewModel
@@ -84,6 +87,7 @@ fun SignUpScreen(
     Column(
         modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(screenBackground()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(14.dp, Alignment.CenterVertically)
@@ -96,26 +100,38 @@ fun SignUpScreen(
             modifier = modifier
                 .fillMaxWidth(),
             value = state.login,
-            onValueChange = viewModel::updateLogin,
+            onValueChange = { viewModel.onEvent(SignUpEvents.UpdateLogin(it)) },
             placeholder = stringResource(R.string.placeholder_login_field)
         )
         PasswordTextField(
             modifier = modifier
                 .fillMaxWidth(),
             value = state.password,
-            onValueChange = viewModel::updatePassword,
+            onValueChange = { viewModel.onEvent(SignUpEvents.UpdatePassword(it)) },
             placeholder = stringResource(R.string.placeholder_password_field),
             passwordVisible = state.isPasswordVisible,
-            onPasswordVisibilityToggle = { viewModel.updatePasswordVisibility(state.isPasswordVisible) }
+            onPasswordVisibilityToggle = {
+                viewModel.onEvent(
+                    SignUpEvents.UpdatePasswordVisibility(
+                        state.isPasswordVisible
+                    )
+                )
+            }
         )
         PasswordTextField(
             modifier = modifier
                 .fillMaxWidth(),
             value = state.repeatPassword,
-            onValueChange = viewModel::updateRepeatPassword,
+            onValueChange = { viewModel.onEvent(SignUpEvents.UpdateRepeatPassword(it)) },
             placeholder = stringResource(R.string.placeholder_repeat_password_field),
             passwordVisible = state.isPasswordVisible,
-            onPasswordVisibilityToggle = { viewModel.updatePasswordVisibility(state.isPasswordVisible) }
+            onPasswordVisibilityToggle = {
+                viewModel.onEvent(
+                    SignUpEvents.UpdatePasswordVisibility(
+                        state.isPasswordVisible
+                    )
+                )
+            }
         )
         Row(
             modifier
@@ -126,11 +142,14 @@ fun SignUpScreen(
             TriStateCheckbox(
                 state = state.checked,
                 onClick = {
-                    viewModel.updateChecked(
-                        when (state.checked) {
-                            ToggleableState.On -> ToggleableState.Off
-                            else -> ToggleableState.On
-                        }
+                    viewModel.onEvent(
+                        SignUpEvents.UpdateChecked(
+                            when (state.checked) {
+                                ToggleableState.On -> ToggleableState.Off
+                                ToggleableState.Off -> ToggleableState.On
+                                else -> ToggleableState.Indeterminate
+                            }
+                        )
                     )
                 },
                 colors = CheckboxDefaults.colors(
@@ -168,7 +187,7 @@ fun SignUpScreen(
         GradientButton(
             modifier.padding(10.dp),
             onClick = {
-                viewModel.signUp()
+                viewModel.onEvent(SignUpEvents.SignUp)
             },
             text = stringResource(R.string.sign_up_button),
             gradient = if (isButtonEnabled) gradButtAutEnable else gradButtDisable(),

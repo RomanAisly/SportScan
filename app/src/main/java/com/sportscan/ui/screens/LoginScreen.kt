@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +34,7 @@ import com.sportscan.ui.components.authTextColor
 import com.sportscan.ui.components.forePassTextColor
 import com.sportscan.ui.components.gradButtDisable
 import com.sportscan.ui.components.screenBackground
+import com.sportscan.ui.events.LoginEvents
 import com.sportscan.ui.theme.gradButtAutEnable
 import com.sportscan.ui.theme.gradLogoDark
 import com.sportscan.ui.theme.gradLogoLight
@@ -69,6 +72,7 @@ fun LoginScreen(
     Column(
         modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(screenBackground()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterVertically)
@@ -80,7 +84,7 @@ fun LoginScreen(
         LoginTextField(
             modifier = modifier,
             value = state.login,
-            onValueChange = viewModel::updateLogin,
+            onValueChange = { viewModel.onEvent(LoginEvents.UpdateLogin(it)) },
             placeholder = stringResource(R.string.placeholder_login_field),
             supportingText = {
                 SimpleText(
@@ -94,10 +98,16 @@ fun LoginScreen(
         PasswordTextField(
             modifier = modifier,
             value = state.password,
-            onValueChange = viewModel::updatePassword,
+            onValueChange = { viewModel.onEvent(LoginEvents.UpdatePassword(it)) },
             placeholder = stringResource(R.string.placeholder_password_field),
             passwordVisible = state.isPasswordVisible,
-            onPasswordVisibilityToggle = { viewModel.updatePasswordVisibility(state.isPasswordVisible) },
+            onPasswordVisibilityToggle = {
+                viewModel.onEvent(
+                    LoginEvents.UpdatePasswordVisibility(
+                        state.isPasswordVisible
+                    )
+                )
+            },
             supportingText = {
                 SimpleText(
                     text = stringResource(R.string.sub_text_password_invalid),
@@ -118,7 +128,7 @@ fun LoginScreen(
         )
         GradientButton(
             onClick = {
-                viewModel.login()
+                viewModel.onEvent(LoginEvents.LoginIn)
             },
             text = stringResource(R.string.login_button),
             enabled = state.login.isNotEmpty() && state.password.isNotEmpty(),
