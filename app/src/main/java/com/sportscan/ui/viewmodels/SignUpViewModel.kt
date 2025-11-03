@@ -40,7 +40,7 @@ class SignUpViewModel(private val authRepository: AuthRepository) :
 
             is SignUpEvents.SignUp -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val result = authRepository.signUpUser(
+                    val result = authRepository.signUp(
                         email = _state.value.login,
                         password = _state.value.password
                     )

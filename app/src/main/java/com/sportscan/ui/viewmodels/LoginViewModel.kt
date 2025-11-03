@@ -33,7 +33,7 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
             is LoginEvents.LoginIn -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val result = authRepository.authUser(
+                    val result = authRepository.login(
                         email = _state.value.login,
                         password = _state.value.password
                     )

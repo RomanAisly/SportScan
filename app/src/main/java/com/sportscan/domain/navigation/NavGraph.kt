@@ -18,14 +18,14 @@ import com.sportscan.ui.screens.ProfileScreen
 import com.sportscan.ui.screens.SignUpScreen
 
 @Composable
-fun NavGraph(modifier: Modifier = Modifier, navHostController: NavHostController) {
+fun NavGraph(navHostController: NavHostController, islogedIn: Boolean) {
     Scaffold(containerColor = screenBackground()) { innerPadding ->
         NavHost(
-            modifier = modifier
+            modifier = Modifier
                 .padding(innerPadding)
                 .background(screenBackground()),
             navController = navHostController,
-            startDestination = NavScreens.LoginScreen,
+            startDestination = if (islogedIn) NavScreens.ProfileScreen else NavScreens.LoginScreen,
             enterTransition = {
                 slideInHorizontally(
                     initialOffsetX = { 900 },
