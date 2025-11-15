@@ -1,12 +1,13 @@
 package com.sportscan.domain.di
 
 import androidx.room.Room
-import com.sportscan.data.local.LocalAuthManager
+import com.sportscan.data.local.DataStoreManager
 import com.sportscan.data.local.UsersDB
 import com.sportscan.data.repositories.AuthRepository
 import com.sportscan.ui.viewmodels.LoginViewModel
 import com.sportscan.ui.viewmodels.ProfileViewModel
 import com.sportscan.ui.viewmodels.SignUpViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
@@ -23,7 +24,7 @@ val appModule = module {
     single {
         get<UsersDB>().getUsersDao()
     }
-    singleOf(::LocalAuthManager)
+    single { DataStoreManager(androidContext()) }
     singleOf(::AuthRepository)
     viewModelOf( ::LoginViewModel)
     viewModelOf(::SignUpViewModel)

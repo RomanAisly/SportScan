@@ -16,16 +16,20 @@ import com.sportscan.ui.components.screenBackground
 import com.sportscan.ui.screens.LoginScreen
 import com.sportscan.ui.screens.ProfileScreen
 import com.sportscan.ui.screens.SignUpScreen
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 @Composable
-fun NavGraph(navHostController: NavHostController, islogedIn: Boolean) {
+fun NavGraph(navHostController: NavHostController, isloggedIn: Flow<Boolean>) {
+
     Scaffold(containerColor = screenBackground()) { innerPadding ->
         NavHost(
             modifier = Modifier
                 .padding(innerPadding)
                 .background(screenBackground()),
             navController = navHostController,
-            startDestination = if (islogedIn) NavScreens.ProfileScreen else NavScreens.LoginScreen,
+            startDestination = if (runBlocking { isloggedIn.first() }) NavScreens.ProfileScreen else NavScreens.LoginScreen,
             enterTransition = {
                 slideInHorizontally(
                     initialOffsetX = { 900 },
